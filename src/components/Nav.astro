@@ -1,0 +1,97 @@
+---
+interface Props {
+  minimal?: boolean;
+}
+const { minimal = false } = Astro.props;
+
+const navLinks = [
+  { href: '/how-we-work', label: 'How We Work' },
+  { href: '/services',    label: 'Services' },
+  { href: '/about',       label: 'About' },
+  { href: '/speaking',    label: 'Speaking' },
+];
+
+const path = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 bg-ivory/95 backdrop-blur-sm border-b border-warm-grey/20">
+  <nav class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+
+    <!-- Brand -->
+    <a href="/" class="font-serif text-charcoal text-lg font-light tracking-tight hover:text-brass transition-colors duration-200">
+      The Clarity Practice
+    </a>
+
+    {!minimal && (
+      <>
+        <!-- Desktop links -->
+        <div class="hidden md:flex items-center gap-8">
+          {navLinks.map(link => (
+            <a
+              href={link.href}
+              class={`text-sm font-sans transition-colors duration-200 ${
+                path.startsWith(link.href)
+                  ? 'text-charcoal font-medium'
+                  : 'text-slate hover:text-charcoal'
+              }`}
+            >
+              {link.label}
+            </a>
+          ))}
+          <a href="/book" class="btn-primary">
+            Book a Clarity Call
+          </a>
+        </div>
+
+        <!-- Mobile toggle -->
+        <button
+          id="mobile-toggle"
+          class="md:hidden p-2 -mr-2 text-charcoal hover:text-brass transition-colors"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+        >
+          <svg id="icon-open" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+          <svg id="icon-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </>
+    )}
+  </nav>
+
+  {!minimal && (
+    <!-- Mobile drawer -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-warm-grey/20 bg-ivory">
+      <div class="max-w-6xl mx-auto px-6 py-6 flex flex-col gap-5">
+        {navLinks.map(link => (
+          <a
+            href={link.href}
+            class="text-base font-sans text-charcoal hover:text-brass transition-colors duration-200"
+          >
+            {link.label}
+          </a>
+        ))}
+        <a href="/book" class="btn-primary self-start mt-1">
+          Book a Clarity Call
+        </a>
+      </div>
+    </div>
+  )}
+</header>
+
+<script>
+  const toggle = document.getElementById('mobile-toggle');
+  const menu   = document.getElementById('mobile-menu');
+  const open   = document.getElementById('icon-open');
+  const close  = document.getElementById('icon-close');
+
+  toggle?.addEventListener('click', () => {
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!expanded));
+    menu?.classList.toggle('hidden');
+    open?.classList.toggle('hidden');
+    close?.classList.toggle('hidden');
+  });
+</script>

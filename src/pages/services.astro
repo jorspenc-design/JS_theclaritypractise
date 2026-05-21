@@ -1,0 +1,161 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const services = [
+  {
+    num:         '01',
+    name:        'Clarity Call',
+    description: "A free, 30-minute conversation to talk about where you are, what you're working on, and whether we'd be a good fit. No pitch, no pressure.",
+    investment:  'Free',
+    format:      '30 minutes, video call',
+    bestFor:     'First-time conversations',
+    cta:         { label: 'Book a Clarity Call →', href: '/book' },
+  },
+  {
+    num:         '02',
+    name:        'The Clarity Conversation',
+    description: 'A 90-minute paid diagnostic built around the four-phase framework. Includes a written summary of pain points, priorities, and recommended next steps.',
+    investment:  'Starts at $750 (typically $750–$1,250)',
+    format:      '90-minute video call + written summary',
+    bestFor:     'Leaders who need a clear-eyed assessment before committing to a larger engagement',
+    cta:         { label: 'Start with a Clarity Call →', href: '/book' },
+  },
+  {
+    num:         '03',
+    name:        'Project Work',
+    description: 'Defined-scope engagements — building systems, implementing AI workflows, drafting communications strategy, documenting operations, structuring donor systems, designing onboarding, and more.',
+    investment:  'Starts at $3,500 (typical range $3,500–$7,500 depending on scope)',
+    format:      'Defined deliverables over 4–12 weeks',
+    bestFor:     'Ministries with a specific problem they need solved well',
+    cta:         { label: 'Start with a Clarity Call →', href: '/book' },
+  },
+  {
+    num:         '04',
+    name:        'Steward Retainer',
+    description: "Ongoing monthly partnership for ministries that want a thought partner, not just a project. Includes regular check-ins, strategic counsel, and priority access for questions and quick projects.",
+    investment:  'Starts at $1,500/month (typical range $1,500–$2,500/mo)',
+    format:      'Monthly retainer, 3-month minimum',
+    bestFor:     'Leaders who want sustained, relational counsel as they grow',
+    cta:         { label: 'Inquire about a retainer →', href: '/book' },
+  },
+  {
+    num:         '05',
+    name:        'Speaking',
+    description: 'Keynotes, workshops, and teaching sessions for conferences, denominational gatherings, leadership retreats, and church staff trainings.',
+    investment:  'Starts at $1,500 (typical range $1,500–$3,500 plus travel)',
+    format:      'Custom — keynote, workshop, or multi-session',
+    bestFor:     'Events seeking a thoughtful voice on AI and ministry',
+    cta:         { label: 'See speaking topics →', href: '/speaking' },
+  },
+  {
+    num:         '06',
+    name:        'Coaching',
+    description: 'One-on-one monthly coaching for pastors, executive directors, and ministry founders navigating leadership, systems, and personal sustainability.',
+    investment:  '$300–$500/month',
+    format:      'Monthly 1-hour video call, 6-month minimum',
+    bestFor:     'Leaders who need a steady, trusted thinking partner',
+    cta:         { label: 'Inquire about coaching →', href: '/book' },
+  },
+];
+---
+
+<Layout
+  title="Services & Investment"
+  description="Every offer with honest, transparent pricing. Because clarity should start before the engagement does."
+>
+
+  <!-- ── PAGE HEADER ───────────────────────────────────────────────── -->
+  <section class="bg-ivory pt-24 pb-16">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="prose-cap">
+        <span class="section-label mb-4">Offerings</span>
+        <h1 class="mt-4 text-5xl md:text-6xl font-serif font-light text-charcoal leading-[1.05] tracking-tight mb-6">
+          Services &amp;<br />investment.
+        </h1>
+        <p class="text-xl text-slate font-light leading-relaxed max-w-[560px]">
+          Everything we offer, with honest pricing. Because clarity should start before the engagement does.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── INTRO ─────────────────────────────────────────────────────── -->
+  <section class="bg-white py-12">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="prose-cap space-y-4 text-lg text-slate leading-relaxed">
+        <p>
+          Most consulting websites bury their pricing. We don't. If you're a ministry leader trying to figure out if this fits your budget, you should be able to find out in 30 seconds — not after three discovery calls.
+        </p>
+        <p>
+          All engagements begin with a free 30-minute Clarity Call to make sure we're a good fit. From there, here's what working together looks like.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SERVICE CARDS ─────────────────────────────────────────────── -->
+  <section class="bg-ivory py-16">
+    <div class="max-w-6xl mx-auto px-6 space-y-6">
+      {services.map(s => (
+        <div class="bg-white border border-warm-grey/20 rounded-lg p-8 md:p-10">
+          <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8">
+
+            <!-- Left: description -->
+            <div class="flex-1 max-w-[560px]">
+              <span class="font-mono text-brass text-xs">{s.num}</span>
+              <h2 class="mt-2 text-2xl font-serif text-charcoal mb-4">{s.name}</h2>
+              <p class="text-slate leading-relaxed mb-6">{s.description}</p>
+              <a href={s.cta.href} class="btn-primary">{s.cta.label}</a>
+            </div>
+
+            <!-- Right: meta -->
+            <div class="lg:min-w-[240px] space-y-4 lg:pt-7">
+              <div>
+                <p class="text-xs uppercase tracking-widest text-warm-grey mb-1">Investment</p>
+                <p class="text-charcoal font-medium text-sm">{s.investment}</p>
+              </div>
+              <div>
+                <p class="text-xs uppercase tracking-widest text-warm-grey mb-1">Format</p>
+                <p class="text-slate text-sm">{s.format}</p>
+              </div>
+              <div>
+                <p class="text-xs uppercase tracking-widest text-warm-grey mb-1">Best For</p>
+                <p class="text-slate text-sm">{s.bestFor}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ── SCHOLARSHIP ───────────────────────────────────────────────── -->
+  <section class="bg-white py-16">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="prose-cap">
+        <div class="border-l-4 border-clay pl-7 py-1">
+          <h2 class="text-xl font-serif text-charcoal mb-3">A note on access.</h2>
+          <p class="text-slate leading-relaxed">
+            One to two scholarship slots per quarter are reserved at 50% off — or, where the need is significant, pro bono — for under-resourced ministries. If that's you, please say so when you book a Clarity Call. There's no shame in asking, and no extra forms to fill out.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CLOSING CTA ───────────────────────────────────────────────── -->
+  <section class="bg-charcoal py-24">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <h2 class="text-3xl md:text-4xl font-serif font-light text-ivory leading-snug mb-5">
+        Every engagement starts the same way.
+      </h2>
+      <p class="text-lg text-ivory/70 leading-relaxed mb-10 max-w-[460px] mx-auto">
+        With a free 30-minute conversation about where you are and what you're working on.
+      </p>
+      <a href="/book" class="inline-flex items-center gap-1 px-8 py-4 bg-brass text-ivory font-sans font-medium rounded transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg">
+        Book a free Clarity Call →
+      </a>
+    </div>
+  </section>
+
+</Layout>

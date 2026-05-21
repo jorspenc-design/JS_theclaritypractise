@@ -1,0 +1,215 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Home"
+  description="The Clarity Practice helps pastors and ministry leaders build sustainable systems, steward technology wisely, and lead without burning out."
+>
+
+  <!-- ── HERO ─────────────────────────────────────────────────────── -->
+  <section class="relative overflow-hidden bg-ivory">
+
+    <!-- Background photo — full bleed, Joshua anchored right -->
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <img
+        src="/images/js-hero.png"
+        alt=""
+        class="absolute inset-0 w-full h-full object-cover object-[center_15%]"
+      />
+      <!-- Mobile: heavy ivory overlay so stacked text stays readable -->
+      <div
+        class="absolute inset-0 md:hidden"
+        style="background: rgba(247,244,238,0.88);"
+      ></div>
+      <!-- Desktop: gradient — fully ivory on left, fades out by ~55% -->
+      <div
+        class="absolute inset-0 hidden md:block"
+        style="background: linear-gradient(to right,
+          rgba(247,244,238,1.00)  0%,
+          rgba(247,244,238,1.00) 20%,
+          rgba(247,244,238,0.60) 32%,
+          rgba(247,244,238,0.05) 46%,
+          rgba(247,244,238,0.00) 100%);"
+      ></div>
+    </div>
+
+    <!-- Text — sits above the photo -->
+    <div class="relative z-10 max-w-6xl mx-auto px-6 pt-24 pb-28 md:pt-32 md:pb-36">
+      <div class="max-w-[600px]">
+        <span class="section-label mb-6">The Clarity Practice</span>
+        <h1 class="mt-4 text-5xl md:text-6xl lg:text-7xl font-serif font-light text-charcoal leading-[1.05] tracking-tight mb-7 max-w-[360px] md:max-w-[400px]">
+          Clarity for<br />
+          churches<br />
+          navigating AI,<br />
+          systems,<br />
+          and growth.
+        </h1>
+        <p class="text-xl text-slate font-light leading-relaxed mb-10 max-w-[520px]">
+          The Clarity Practice helps pastors and ministry leaders build sustainable systems, steward technology wisely, and lead without burning out — without losing the soul of the work.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+          <a href="/book" class="btn-primary-lg">
+            Book a free Clarity Call →
+          </a>
+          <a href="/how-we-work" class="btn-ghost">
+            Or: see how we work →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PROBLEM ───────────────────────────────────────────────────── -->
+  <section class="bg-white py-24">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="prose-cap">
+        <h2 class="text-3xl md:text-4xl font-serif font-light text-charcoal leading-snug mb-8">
+          Most pastors I talk to<br class="hidden sm:block" /> are carrying too much.
+        </h2>
+        <div class="space-y-5 text-lg text-slate leading-relaxed">
+          <p>
+            Their volunteers are unclear. Their inbox is heavy. Their tools are scattered across six platforms that don't talk to each other. AI showed up and made the noise louder, not quieter. And every conference, podcast, and consultant seems to be selling something that doesn't quite fit a 200-person church with a part-time admin.
+          </p>
+          <p class="font-medium text-charcoal">
+            If that's the room you're in — welcome. You're not behind. You're just under-resourced and over-asked. That's a system problem, not a leadership failure.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FRAMEWORK PREVIEW ─────────────────────────────────────────── -->
+  <section class="bg-ivory py-24">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="prose-cap mb-12">
+        <span class="section-label mb-4">The Framework</span>
+        <h2 class="mt-4 text-3xl md:text-4xl font-serif font-light text-charcoal leading-snug mb-5">
+          The Clarity Conversation:<br class="hidden sm:block" /> how we begin.
+        </h2>
+        <p class="text-lg text-slate leading-relaxed">
+          Every engagement starts the same way — with a 90-minute conversation built around four questions. It's diagnostic, not pitch-driven. By the end, you'll have a clearer picture of what's actually going on, what AI can (and shouldn't) do for you, and what a faithful next step looks like.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {[
+          { num: '01', title: 'Name the Pain',        body: 'Where is the friction actually living?' },
+          { num: '02', title: 'Demystify AI',          body: 'The practical face and the ethical face.' },
+          { num: '03', title: 'Ask the Big Questions', body: 'What does faithful growth look like for your ministry?' },
+          { num: '04', title: 'Lay Out the Path',      body: 'A concrete, sustainable next step.' },
+        ].map(card => (
+          <div class="bg-white border border-warm-grey/20 rounded-lg p-7 flex flex-col gap-3">
+            <span class="font-mono text-brass text-xs">{card.num}</span>
+            <h3 class="font-serif text-lg text-charcoal leading-snug">{card.title}</h3>
+            <p class="text-sm text-slate leading-relaxed">{card.body}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-10">
+        <a href="/how-we-work" class="btn-ghost">
+          Read the full framework →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── WHO THIS IS FOR ───────────────────────────────────────────── -->
+  <section class="bg-white py-24">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="prose-cap mb-12">
+        <span class="section-label mb-4">Audience</span>
+        <h2 class="mt-4 text-3xl md:text-4xl font-serif font-light text-charcoal leading-snug">
+          Who we work with.
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        {[
+          {
+            title: 'Churches',
+            body:  '100–500 attendance churches looking to grow with wisdom, not just velocity.',
+          },
+          {
+            title: 'Nonprofits',
+            body:  'Small Christian nonprofits ($250K–$2M) ready to build infrastructure that scales sustainably.',
+          },
+          {
+            title: 'Leaders',
+            body:  'Pastors, executive directors, and founders who want a trusted thought partner — not another platform to learn.',
+          },
+        ].map(col => (
+          <div class="border-t-2 border-brass pt-7">
+            <h3 class="font-serif text-xl text-charcoal mb-3">{col.title}</h3>
+            <p class="text-slate leading-relaxed">{col.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAITH POSITIONING ─────────────────────────────────────────── -->
+  <section class="bg-charcoal py-24">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row md:items-center md:gap-16">
+        <div class="max-w-[560px]">
+          <span class="section-label text-brass mb-4">Our Conviction</span>
+          <h2 class="mt-4 text-3xl md:text-4xl font-serif font-light text-ivory leading-snug mb-6">
+            Christ-centered,<br class="hidden sm:block" /> not Christ-branded.
+          </h2>
+          <p class="text-lg text-ivory/70 leading-relaxed">
+            The Clarity Practice exists because I believe the local church is worth building well. Every recommendation we make is shaped by historic Christian theology, by years of pastoral work, and by a deep conviction that technology should serve the mission of the church — never the other way around.
+          </p>
+        </div>
+        <div class="mt-10 md:mt-0 md:flex-shrink-0">
+          <img
+            src="/images/js-outdoor.jpg"
+            alt="Joshua Spence"
+            class="rounded-lg w-full md:w-[260px] object-cover grayscale opacity-80"
+            style="max-height: 200px; object-position: center 20%;"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ROMAN ROAD ────────────────────────────────────────────────── -->
+  <section class="bg-ivory py-24">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="prose-cap">
+        <span class="section-label mb-4">On AI &amp; the Church</span>
+        <h2 class="mt-4 text-3xl md:text-4xl font-serif font-light text-charcoal leading-snug mb-6">
+          A note on AI and the church.
+        </h2>
+        <p class="text-lg text-slate leading-relaxed mb-8">
+          Every generation receives an infrastructure. Rome had roads. The Reformation had the printing press. We have AI. The question isn't whether the church will use it — the question is whether we'll steward it with wisdom, or be shaped by it without noticing.
+        </p>
+        <a
+          href="https://joshuaspence.com"
+          target="_blank"
+          rel="noopener"
+          class="btn-ghost"
+        >
+          Read the full essay on joshuaspence.com →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FINAL CTA ─────────────────────────────────────────────────── -->
+  <section class="bg-brass py-24">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <h2 class="text-3xl md:text-4xl font-serif font-light text-ivory leading-snug mb-5">
+        Ready to begin?
+      </h2>
+      <p class="text-lg text-ivory/80 leading-relaxed mb-10 max-w-[500px] mx-auto">
+        Start with a free 30-minute Clarity Call. No pitch, no pressure — just a conversation about where you are and whether we'd be a good fit to work together.
+      </p>
+      <a href="/book" class="inline-flex items-center gap-1 px-8 py-4 bg-ivory text-charcoal font-sans font-medium rounded transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg">
+        Book a free Clarity Call →
+      </a>
+    </div>
+  </section>
+
+</Layout>

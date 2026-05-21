@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-ivory:          #F7F4EE;
+  --color-charcoal:       #1C1917;
+  --color-slate:          #57534E;
+  --color-brass:          #A07840;
+  --color-clay:           #96543F;
+  --color-deep-warm-grey: #78716C;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-ivory text-slate font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif text-charcoal;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center gap-1 px-6 py-3 bg-brass text-ivory font-sans font-medium text-sm rounded
+           transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-brass focus:ring-offset-2;
+  }
+
+  .btn-primary-lg {
+    @apply inline-flex items-center gap-1 px-8 py-4 bg-brass text-ivory font-sans font-medium rounded
+           transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-brass focus:ring-offset-2;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-1 text-charcoal font-sans font-medium text-sm
+           underline underline-offset-4 decoration-charcoal/30 hover:decoration-brass hover:text-brass
+           transition-colors duration-200;
+  }
+
+  .btn-outline-light {
+    @apply inline-flex items-center gap-1 px-6 py-3 border border-ivory/40 text-ivory font-sans font-medium text-sm rounded
+           transition-all duration-200 hover:border-ivory/70 hover:bg-ivory/10;
+  }
+
+  .section-label {
+    @apply block text-xs font-sans font-medium tracking-widest uppercase text-brass;
+  }
+
+  .prose-cap {
+    @apply max-w-[720px];
+  }
+
+  .phase-rule {
+    @apply flex items-center gap-4 mb-8;
+  }
+}

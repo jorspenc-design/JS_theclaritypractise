@@ -1,0 +1,170 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const topics = [
+  {
+    num:         '01',
+    title:       'The Roman Road',
+    description: 'Why AI might be the providential infrastructure of our generation — and why that should make us careful, not excited.',
+    format:      '45–60 min keynote',
+    bestFor:     'Conferences, denominational gatherings, leadership summits',
+  },
+  {
+    num:         '02',
+    title:       'The Quiet Pastor and the Loud Machine',
+    description: 'Resisting the formation pressure of AI without rejecting its usefulness — a pastoral approach to technology adoption.',
+    format:      '45 min keynote or 90 min workshop',
+    bestFor:     'Pastor cohorts, staff retreats',
+  },
+  {
+    num:         '03',
+    title:       'Stewardship in a Digital Age',
+    description: 'Reframing how the local church thinks about adopting new tools — from anxiety and FOMO to wisdom and intentionality.',
+    format:      'Keynote or 2-session teaching',
+    bestFor:     'Church leadership teams, board retreats',
+  },
+  {
+    num:         '04',
+    title:       'Building Systems That Hold',
+    description: 'Practical operational wisdom for small ministry teams — how to build infrastructure that scales sustainably without losing the human heart of the work.',
+    format:      'Workshop or half-day intensive',
+    bestFor:     'Staff trainings, executive team development',
+  },
+  {
+    num:         '05',
+    title:       'AI for Ministry Teams: A Working Introduction',
+    description: 'A practical, hands-on session for pastors and ministry staff who want to use AI well without being overwhelmed by it.',
+    format:      '2–3 hour workshop',
+    bestFor:     'Church staff trainings, denominational training events',
+  },
+];
+---
+
+<Layout
+  title="Speaking"
+  description="Bringing clarity to conferences, denominations, leadership retreats, and church teams navigating AI and ministry systems."
+>
+
+  <!-- ── PAGE HEADER ───────────────────────────────────────────────── -->
+  <section class="bg-ivory pt-24 pb-0 overflow-hidden">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex flex-col lg:flex-row lg:items-end lg:gap-16">
+
+        <!-- Text -->
+        <div class="flex-1 pb-16">
+          <span class="section-label mb-4">Speaking</span>
+          <h1 class="mt-4 text-5xl md:text-6xl font-serif font-light text-charcoal leading-[1.05] tracking-tight mb-6">
+            Speaking.
+          </h1>
+          <p class="text-xl text-slate font-light leading-relaxed max-w-[480px]">
+            Bringing clarity to conferences, denominations, leadership retreats, and church teams navigating AI and ministry systems.
+          </p>
+        </div>
+
+        <!-- Speaking photo -->
+        <div class="lg:w-[300px] lg:flex-shrink-0 -mx-6 lg:mx-0">
+          <img
+            src="/images/js-speaking.jpg"
+            alt="Joshua Spence speaking"
+            class="w-full lg:w-[300px] lg:rounded-t-lg object-cover object-top"
+            style="max-height: 420px;"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── INTRO ─────────────────────────────────────────────────────── -->
+  <section class="bg-white py-12">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="prose-cap space-y-4 text-lg text-slate leading-relaxed">
+        <p>
+          I speak regularly at gatherings of pastors, ministry leaders, and Christian nonprofit teams — usually on the same set of questions: How do we steward this technology well? What does faithful growth look like? How do we lead without burning out? Where does AI belong in the life of the church, and where does it not?
+        </p>
+        <p>
+          Sessions can be shaped as keynotes, workshops, multi-session teachings, or staff trainings — whatever serves your gathering best.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── KEYNOTE TOPICS ────────────────────────────────────────────── -->
+  <section class="bg-ivory py-16">
+    <div class="max-w-6xl mx-auto px-6">
+      <span class="section-label mb-8 block">Keynote Topics</span>
+      <div class="space-y-5">
+        {topics.map(t => (
+          <div class="bg-white border border-warm-grey/20 rounded-lg p-8 md:p-10">
+            <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8">
+              <div class="flex-1">
+                <span class="font-mono text-brass text-xs">{t.num}</span>
+                <h2 class="mt-2 text-2xl font-serif text-charcoal mb-3">{t.title}</h2>
+                <p class="text-slate leading-relaxed">{t.description}</p>
+              </div>
+              <div class="lg:min-w-[220px] space-y-4 lg:pt-7">
+                <div>
+                  <p class="text-xs uppercase tracking-widest text-warm-grey mb-1">Format</p>
+                  <p class="text-slate text-sm">{t.format}</p>
+                </div>
+                <div>
+                  <p class="text-xs uppercase tracking-widest text-warm-grey mb-1">Best For</p>
+                  <p class="text-slate text-sm">{t.bestFor}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PAST VENUES ───────────────────────────────────────────────── -->
+  <section class="bg-white py-16 border-t border-warm-grey/20">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="prose-cap">
+        <h2 class="text-2xl font-serif text-charcoal mb-4">Past venues.</h2>
+        <p class="text-slate leading-relaxed italic text-warm-grey">
+          A growing list of churches, conferences, and ministries. Coming soon.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── INVESTMENT ────────────────────────────────────────────────── -->
+  <section class="bg-ivory py-16 border-t border-warm-grey/20">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="prose-cap">
+        <h2 class="text-2xl font-serif text-charcoal mb-4">Investment.</h2>
+        <p class="text-lg text-slate leading-relaxed">
+          Speaking investment starts at $1,500 (typical range $1,500–$3,500) plus travel. Discounts and pro bono availability for under-resourced ministries and denominations — please ask.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ───────────────────────────────────────────────────────── -->
+  <section class="bg-charcoal py-24">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="max-w-[560px]">
+        <h2 class="text-3xl md:text-4xl font-serif font-light text-ivory leading-snug mb-5">
+          Bring this to your gathering.
+        </h2>
+        <p class="text-lg text-ivory/70 leading-relaxed mb-10">
+          Tell us about your event — date, audience, format, and budget — and we'll let you know if we'd be a good fit.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a
+            href="mailto:hello@theclaritypractice.com?subject=Speaking%20Inquiry"
+            class="inline-flex items-center gap-1 px-8 py-4 bg-brass text-ivory font-sans font-medium rounded transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            Inquire about speaking →
+          </a>
+          <a href="/book" class="btn-outline-light">
+            Or book a Clarity Call →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Layout>
