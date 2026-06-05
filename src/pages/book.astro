@@ -50,24 +50,12 @@ import Layout from '../layouts/Layout.astro';
   <!-- ── CALENDAR EMBED ────────────────────────────────────────────── -->
   <section class="bg-white py-16">
     <div class="max-w-4xl mx-auto px-6">
-      <!--
-        Cal.com embed — configure by replacing YOUR_USERNAME/clarity-call
-        with your actual Cal.com booking link before going live.
-      -->
+      <!-- Calendly inline widget -->
       <div
-        id="cal-embed"
-        class="min-h-[640px] rounded-lg border border-warm-grey/20 overflow-hidden flex items-center justify-center"
-      >
-        <div class="text-center py-20">
-          <p class="text-slate mb-2">Calendar loading…</p>
-          <p class="text-sm text-warm-grey">
-            If this doesn't load, email{' '}
-            <a href="mailto:joshuaspence@joshuaspence.org" class="underline underline-offset-2 hover:text-brass transition-colors">
-              joshuaspence@joshuaspence.org
-            </a>
-          </p>
-        </div>
-      </div>
+        class="calendly-inline-widget rounded-lg overflow-hidden"
+        data-url="https://calendly.com/joshuaspence-joshuaspence/30min?hide_landing_page_details=1&hide_gdpr_banner=1&primary_color=a07840"
+        style="min-width:320px;height:700px;"
+      ></div>
 
       <p class="mt-6 text-sm text-warm-grey text-center">
         Prefer to email first? Reach out at{' '}
@@ -116,52 +104,5 @@ import Layout from '../layouts/Layout.astro';
 
 </Layout>
 
-<!--
-  Cal.com embed script.
-  Replace YOUR_USERNAME/clarity-call with your actual Cal.com booking slug.
-  See https://cal.com/docs/core-features/embed for configuration options.
--->
-<script is:inline>
-  (function (C, A, L) {
-    var p = function (a, ar) { a.q.push(ar); };
-    var d = C.document;
-    C.Cal = C.Cal || function () {
-      var cal = C.Cal;
-      var ar = arguments;
-      if (!cal.loaded) {
-        cal.ns = {};
-        cal.q = cal.q || [];
-        d.head.appendChild(d.createElement('script')).src = A;
-        cal.loaded = true;
-      }
-      if (ar[0] === L) {
-        var api = function () { p(api, arguments); };
-        var namespace = ar[1];
-        api.q = api.q || [];
-        if (typeof namespace === 'string') {
-          cal.ns[namespace] = cal.ns[namespace] || api;
-          p(cal.ns[namespace], ar);
-          p(cal, ['-QUEUE', namespace, ar]);
-        } else {
-          p(cal, ar);
-        }
-        return;
-      }
-      p(cal, ar);
-    };
-  })(window, 'https://app.cal.com/embed/embed.js', 'init');
-
-  Cal('init', { origin: 'https://app.cal.com' });
-
-  Cal('inline', {
-    elementOrSelector: '#cal-embed',
-    config: { layout: 'month_view' },
-    calLink: 'YOUR_USERNAME/clarity-call', // TODO: replace before going live
-  });
-
-  Cal('ui', {
-    styles: { branding: { brandColor: '#A07840' } },
-    hideEventTypeDetails: false,
-    layout: 'month_view',
-  });
-</script>
+<!-- Calendly widget script -->
+<script is:inline src="https://assets.calendly.com/assets/external/widget.js" async></script>
