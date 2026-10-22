@@ -138,29 +138,27 @@ const builds = [
       <h2 class="mt-4 text-3xl md:text-4xl font-serif font-light text-charcoal leading-snug max-w-[640px]">
         Help that stays with you, month after month.
       </h2>
-      <!-- Church size slider -->
-      <div class="mt-10 max-w-[640px] rounded-lg border border-warm-grey/20 bg-ivory px-6 py-5">
-        <div class="flex flex-wrap items-baseline justify-between gap-2">
-          <label for="church-size" class="text-xs uppercase tracking-widest text-warm-grey">Your church's annual budget</label>
-          <p class="text-charcoal font-medium">
-            <span id="band-name">Under $500K</span>
-            <span id="band-badge" class="ml-2 inline-block rounded-full bg-clay px-2.5 py-0.5 text-xs font-medium text-ivory align-middle">20% off</span>
-          </p>
-        </div>
-        <input
-          id="church-size"
-          type="range"
-          min="0"
-          max="2"
-          step="1"
-          value="0"
-          aria-valuetext="Under $500K, 20% off"
-          class="mt-4 w-full cursor-pointer accent-brass"
-        />
-        <div class="mt-2 grid grid-cols-3 text-xs text-warm-grey">
-          <span>Under $500K</span>
-          <span class="text-center">$500K to $1.5M</span>
-          <span class="text-right">Over $1.5M</span>
+      <!-- Church size selector -->
+      <div class="mt-10">
+        <p id="church-size-label" class="text-xs uppercase tracking-widest text-warm-grey mb-3">Your church's annual budget</p>
+        <div
+          role="radiogroup"
+          aria-labelledby="church-size-label"
+          class="inline-flex flex-wrap rounded-lg border border-warm-grey/30 bg-ivory p-1 gap-1"
+        >
+          <button type="button" role="radio" aria-checked="true" data-band="0"
+            class="band-option rounded-md px-4 py-2 text-sm font-medium transition-colors bg-charcoal text-ivory">
+            Under $500K
+            <span class="ml-1.5 inline-block rounded-full bg-clay px-2 py-0.5 text-xs font-medium text-ivory align-middle">20% off</span>
+          </button>
+          <button type="button" role="radio" aria-checked="false" data-band="1"
+            class="band-option rounded-md px-4 py-2 text-sm font-medium transition-colors text-slate hover:bg-white">
+            $500K to $1.5M
+          </button>
+          <button type="button" role="radio" aria-checked="false" data-band="2"
+            class="band-option rounded-md px-4 py-2 text-sm font-medium transition-colors text-slate hover:bg-white">
+            Over $1.5M
+          </button>
         </div>
       </div>
 
@@ -291,19 +289,24 @@ const builds = [
 
 <script>
   const bands = [
-    { key: 'small',       name: 'Under $500K',     label: 'Small church rate', badge: true },
-    { key: 'standard',    name: '$500K to $1.5M',  label: 'Standard rate',     badge: false },
-    { key: 'established', name: 'Over $1.5M',      label: 'Established church rate', badge: false },
+    { key: 'small',       label: 'Small church rate' },
+    { key: 'standard',    label: 'Standard rate' },
+    { key: 'established', label: 'Established church rate' },
   ];
-  const slider = document.getElementById('church-size') as HTMLInputElement | null;
-  const bandName = document.getElementById('band-name');
-  const badge = document.getElementById('band-badge');
+  const options = Array.from(document.querySelectorAll<HTMLButtonElement>('.band-option'));
+  const selected = ['bg-charcoal', 'text-ivory'];
+  const unselected = ['text-slate', 'hover:bg-white'];
 
   function render(index: number) {
     const band = bands[index];
-    if (bandName) bandName.textContent = band.name;
-    if (badge) badge.classList.toggle('hidden', !band.badge);
-    slider?.setAttribute('aria-valuetext', band.badge ? `${band.name}, 20% off` : band.name);
+
+    options.forEach((option, i) => {
+      const on = i === index;
+      option.setAttribute('aria-checked', String(on));
+      option.tabIndex = on ? 0 : -1;
+      selected.forEach(c => option.classList.toggle(c, on));
+      unselected.forEach(c => option.classList.toggle(c, !on));
+    });
 
     document.querySelectorAll<HTMLElement>('[data-price]').forEach(card => {
       const price = card.dataset[band.key] ?? '';
@@ -319,5 +322,15 @@ const builds = [
     });
   }
 
-  slider?.addEventListener('input', () => render(Number(slider.value)));
+  options.forEach((option, i) => {
+    option.addEventListener('click', () => render(i));
+    option.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      e.preventDefault();
+      const next = (i + (e.key === 'ArrowRight' ? 1 : options.length - 1)) % options.length;
+      render(next);
+      options[next].focus();
+    });
+  });
+  options.forEach((option, i) => { option.tabIndex = i === 0 ? 0 : -1; });
 </script>
