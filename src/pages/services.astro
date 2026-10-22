@@ -1,60 +1,36 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-const firstSteps = [
-  {
-    name:  'Clarity Call',
-    price: 'Free',
-    body:  "A 30 minute video call about where you are and what you're carrying. We'll see together whether working with me makes sense. No pitch.",
-  },
-  {
-    name:  'Clarity Conversation',
-    price: '$1,000 small church · $1,250 standard',
-    body:  'A 90 minute working session built on my four-phase framework, followed by a written summary within 48 hours that lays out a clear recommended path.',
-  },
-  {
-    name:  'Clarity Circle',
-    price: 'Free, monthly',
-    body:  "A live teaching and Q&A for pastors and church staff, open to any church. Mention it when you book a call and I'll make sure you're invited.",
-  },
-];
-
+// Prices by budget band. An empty string means the item isn't offered at that size.
 const plans = [
   {
     name:        'Counsel',
     tagline:     'A steady thinking partner for the lead pastor.',
-    small:       '$600',
-    standard:    '$750',
-    established: '$950',
+    prices:      { small: '$600', standard: '$750', established: '$950' },
     includes: [
       'One session each month, up to 90 minutes',
       'Messages between sessions in your client portal',
       'A quarterly look at your systems and priorities',
     ],
-    term:        'Six month term.',
+    term:        'Six month term',
     recommended: false,
   },
   {
     name:        'Steward',
     tagline:     "Hands-on help for a church that's stretched thin.",
-    small:       '$2,000',
-    standard:    '$2,500',
-    established: '$3,500',
+    prices:      { small: '$2,000', standard: '$2,500', established: '$3,500' },
     includes: [
-      'Two 90 minute working sessions a month with you and key staff',
+      'Two 90 minute working sessions a month',
       'Build work I do between sessions, one system at a time',
-      'Quarterly AI training for your staff, plus governance and financial reviews',
-      'Your custom AI policy in the first 90 days',
+      'Your custom AI policy in the first 90 days, plus quarterly staff training and reviews',
     ],
-    term:        'Six month minimum. A twelve month term includes every foundation and a new website.',
+    term:        'Six month minimum. A twelve month term adds every foundation and a new website.',
     recommended: true,
   },
   {
     name:        'Partner',
     tagline:     'Operations leadership for a growing church.',
-    small:       null,
-    standard:    '$5,000',
-    established: '$6,500',
+    prices:      { small: '', standard: '$5,000', established: '$6,500' },
     includes: [
       'A weekly meeting and ownership of your operating rhythm',
       'Staff coaching and help with team structure',
@@ -65,122 +41,113 @@ const plans = [
   },
 ];
 
-const builds = [
-  { name: 'Custom AI policy',             note: 'Written for your church, with a training session for your staff',  small: '$1,200',  standard: '$1,500' },
-  { name: 'New church website',           note: 'Built to be found on Google and in AI search tools',               small: '$3,500',  standard: '$4,500' },
-  { name: 'Website care plan',            note: 'Hosting, updates, and ongoing search upkeep',                       small: '$150/mo', standard: '$200/mo' },
-  { name: 'Governance Review',            note: 'Checks that your church runs the way your bylaws say it does',      small: '$950',    standard: '$1,200' },
-  { name: 'Financial Stewardship Review', note: 'Readies your books and finance team so outside accounting costs less', small: '$1,200', standard: '$1,500' },
-  { name: 'Both reviews, every quarter',  note: 'Ongoing peace of mind for your board',                              small: '$300/mo', standard: '$350/mo' },
+const addOns = [
+  { name: 'Custom AI policy',             note: 'Written for your church, with a training session for your staff', prices: { small: '$1,200',  standard: '$1,500',  established: '$1,500' } },
+  { name: 'New church website',           note: 'Built to be found on Google and in AI search tools',              prices: { small: '$3,500',  standard: '$4,500',  established: '$4,500' } },
+  { name: 'Website care plan',            note: 'Hosting, updates, and ongoing search upkeep',                      prices: { small: '$150/mo', standard: '$200/mo', established: '$250/mo' } },
+  { name: 'Governance Review',            note: 'Checks that your church runs the way your bylaws say it does',     prices: { small: '$950',    standard: '$1,200',  established: '$1,200' } },
+  { name: 'Financial Stewardship Review', note: 'Readies your books so outside accounting costs less',              prices: { small: '$1,200',  standard: '$1,500',  established: '$1,500' } },
+  { name: 'Both reviews, every quarter',  note: 'Ongoing peace of mind for your board',                             prices: { small: '$300/mo', standard: '$350/mo', established: '$350/mo' } },
+];
+
+const conversationPrices = { small: '$1,000', standard: '$1,250', established: '$1,250' };
+
+const questions = [
+  {
+    q: 'How do I know which size my church is?',
+    a: "Use last year's total operating budget. If you're not sure, pick your best guess and we'll confirm it together on the Clarity Call.",
+  },
+  {
+    q: 'Can we pay for the whole year?',
+    a: 'Yes. Pay twelve months up front and save 10%.',
+  },
+  {
+    q: 'Who owns what you build?',
+    a: 'Your church does. Your website, domains, accounts, and documents belong to you, always.',
+  },
+  {
+    q: "What if we can't afford this right now?",
+    a: "I hold a couple of scholarship spots each quarter at half the usual rate for churches in real need. Just say so when you book a call. There's no shame in asking and no extra forms.",
+  },
+  {
+    q: 'Are the reviews an audit?',
+    a: "No. They aren't a CPA audit or legal advice. They prepare your church so that outside help, if you need it, is simpler and less expensive.",
+  },
+  {
+    q: 'Is there a way to learn alongside other churches?',
+    a: "Yes. The Clarity Circle is a free monthly session of teaching and Q&A for pastors and church staff. Mention it when you book a call and I'll make sure you're invited.",
+  },
+  {
+    q: 'Do you speak at events?',
+    a: 'I do. Keynotes and workshops start at $1,500 plus travel. You can see my topics on the <a href="/speaking" class="text-brass underline underline-offset-4">speaking page</a>.',
+  },
 ];
 ---
 
 <Layout
   title="Services & Investment"
-  description="Every plan and price, published openly, with a small church rate for churches under $500,000."
+  description="Every plan and price, published openly. Churches with a budget under $500,000 get 20% off."
 >
 
-  <!-- ── PAGE HEADER ───────────────────────────────────────────────── -->
-  <section class="bg-ivory pt-24 pb-16">
+  <!-- ── HEADER ────────────────────────────────────────────────────── -->
+  <section class="bg-ivory pt-24 pb-12">
     <div class="max-w-6xl mx-auto px-6">
-      <div class="prose-cap">
-        <span class="section-label mb-4">Offerings</span>
-        <h1 class="mt-4 text-5xl md:text-6xl font-serif font-light text-charcoal leading-[1.05] tracking-tight mb-6">
-          Services &amp;<br />investment.
-        </h1>
-        <p class="text-xl text-slate font-light leading-relaxed max-w-[560px]">
-          Most of the churches I work with aren't short on vision. They're short on hands. These plans are built to carry some of that weight with you over time.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── INTRO ─────────────────────────────────────────────────────── -->
-  <section class="bg-white py-12">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="prose-cap space-y-4 text-lg text-slate leading-relaxed">
-        <p>
-          Every price is on this page. If you're a pastor trying to figure out whether this fits your budget, you should be able to tell in a minute, not after three calls.
-        </p>
-        <p>
-          Most churches have an annual budget under $500,000, so I keep a small church rate that's about 20% below standard. It isn't a favor or a negotiation. It's how I keep this work within reach of the churches that need it most.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── WHERE WE BEGIN ────────────────────────────────────────────── -->
-  <section class="bg-ivory py-16">
-    <div class="max-w-6xl mx-auto px-6">
-      <span class="section-label">Where we begin</span>
-      <div class="mt-8 grid gap-6 md:grid-cols-3">
-        {firstSteps.map(s => (
-          <div class="border-t border-warm-grey/30 pt-5">
-            <h2 class="text-xl font-serif text-charcoal">{s.name}</h2>
-            <p class="mt-1 text-brass font-medium text-sm">{s.price}</p>
-            <p class="mt-3 text-slate leading-relaxed">{s.body}</p>
-          </div>
-        ))}
-      </div>
-      <p class="mt-8 text-slate leading-relaxed max-w-[640px]">
-        If you begin a plan within 30 days of your Clarity Conversation, the full fee comes off your first month.
+      <span class="section-label">Services &amp; pricing</span>
+      <h1 class="mt-4 text-5xl md:text-6xl font-serif font-light text-charcoal leading-[1.05] tracking-tight">
+        Plans and pricing.
+      </h1>
+      <p class="mt-6 text-xl text-slate font-light leading-relaxed max-w-[560px]">
+        Every price is on this page. Churches with a budget under $500,000 get 20% off.
       </p>
-      <div class="mt-6">
-        <a href="/book" class="btn-primary">Book a free Clarity Call →</a>
-      </div>
     </div>
   </section>
 
   <!-- ── PLANS ─────────────────────────────────────────────────────── -->
-  <section class="bg-white py-16">
+  <section class="bg-ivory pb-20">
     <div class="max-w-6xl mx-auto px-6">
-      <span class="section-label">Ongoing plans</span>
-      <h2 class="mt-4 text-3xl md:text-4xl font-serif font-light text-charcoal leading-snug max-w-[640px]">
-        Help that stays with you, month after month.
-      </h2>
+
       <!-- Church size selector -->
-      <div class="mt-10">
-        <p id="church-size-label" class="text-xs uppercase tracking-widest text-warm-grey mb-3">Your church's annual budget</p>
-        <div
-          role="radiogroup"
-          aria-labelledby="church-size-label"
-          class="inline-flex flex-wrap rounded-lg border border-warm-grey/30 bg-ivory p-1 gap-1"
-        >
-          <button type="button" role="radio" aria-checked="true" data-band="0"
-            class="band-option rounded-md px-4 py-2 text-sm font-medium transition-colors bg-charcoal text-ivory">
-            Under $500K
-            <span class="ml-1.5 inline-block rounded-full bg-clay px-2 py-0.5 text-xs font-medium text-ivory align-middle">20% off</span>
-          </button>
-          <button type="button" role="radio" aria-checked="false" data-band="1"
-            class="band-option rounded-md px-4 py-2 text-sm font-medium transition-colors text-slate hover:bg-white">
-            $500K to $1.5M
-          </button>
-          <button type="button" role="radio" aria-checked="false" data-band="2"
-            class="band-option rounded-md px-4 py-2 text-sm font-medium transition-colors text-slate hover:bg-white">
-            Over $1.5M
-          </button>
-        </div>
+      <p id="church-size-label" class="text-xs uppercase tracking-widest text-warm-grey mb-3">Your church's annual budget</p>
+      <div
+        role="radiogroup"
+        aria-labelledby="church-size-label"
+        class="inline-flex flex-wrap rounded-lg border border-warm-grey/30 bg-white p-1 gap-1"
+      >
+        <button type="button" role="radio" aria-checked="true" data-band="0"
+          class="band-option rounded-md px-4 py-2 text-sm font-medium transition-colors bg-charcoal text-ivory">
+          Under $500K
+          <span class="ml-1.5 inline-block rounded-full bg-clay px-2 py-0.5 text-xs font-medium text-ivory align-middle">20% off</span>
+        </button>
+        <button type="button" role="radio" aria-checked="false" data-band="1"
+          class="band-option rounded-md px-4 py-2 text-sm font-medium transition-colors text-slate hover:bg-ivory">
+          $500K to $1.5M
+        </button>
+        <button type="button" role="radio" aria-checked="false" data-band="2"
+          class="band-option rounded-md px-4 py-2 text-sm font-medium transition-colors text-slate hover:bg-ivory">
+          Over $1.5M
+        </button>
       </div>
 
+      <!-- Plan cards -->
       <div class="mt-8 grid gap-6 lg:grid-cols-3 items-stretch">
         {plans.map(p => (
-          <div class={`flex flex-col rounded-lg p-8 ${p.recommended ? 'border-2 border-brass bg-ivory' : 'border border-warm-grey/20 bg-white'}`}>
+          <div class={`flex flex-col rounded-lg p-8 bg-white ${p.recommended ? 'border-2 border-brass shadow-sm' : 'border border-warm-grey/20'}`}>
             <p class="text-xs uppercase tracking-widest text-brass h-4">{p.recommended ? 'Recommended' : ''}</p>
-            <h3 class="mt-2 text-3xl font-serif text-charcoal">{p.name}</h3>
+            <h2 class="mt-2 text-3xl font-serif text-charcoal">{p.name}</h2>
             <p class="mt-2 font-serif italic text-slate">{p.tagline}</p>
 
             <div
               class="mt-6 border-b border-warm-grey/20 pb-6 min-h-[84px]"
               data-price
-              data-small={p.small ?? ''}
-              data-standard={p.standard}
-              data-established={p.established}
+              data-small={p.prices.small}
+              data-standard={p.prices.standard}
+              data-established={p.prices.established}
             >
-              <p class={`text-4xl font-serif text-charcoal ${p.small ? '' : 'hidden'}`} data-amount-row>
-                <span data-amount>{p.small ?? p.standard}</span><span class="text-sm font-sans text-warm-grey">/mo</span>
+              <p class={`text-4xl font-serif text-charcoal ${p.prices.small ? '' : 'hidden'}`} data-amount-row>
+                <span data-amount>{p.prices.small || p.prices.standard}</span><span class="text-sm font-sans text-warm-grey">/mo</span>
               </p>
-              <p class={`font-serif text-lg text-slate ${p.small ? 'hidden' : ''}`} data-unavailable>For churches over $500K</p>
-              <p class="text-xs text-warm-grey mt-1" data-rate-label>{p.small ? 'Small church rate' : 'Not offered at this size'}</p>
+              <p class={`font-serif text-lg text-slate ${p.prices.small ? 'hidden' : ''}`} data-unavailable>For churches over $500K</p>
+              <p class="text-xs text-warm-grey mt-1" data-rate-label>{p.prices.small ? 'Small church rate' : 'Not offered at this size'}</p>
             </div>
 
             <ul class="mt-6 space-y-3 flex-1">
@@ -192,80 +159,97 @@ const builds = [
               ))}
             </ul>
 
-            <p class="mt-6 pt-4 border-t border-warm-grey/20 text-sm text-warm-grey">{p.term}</p>
+            <p class="mt-6 text-sm text-warm-grey">{p.term}</p>
+
+            <a
+              href="/book"
+              class={p.recommended
+                ? 'btn-primary mt-6 justify-center'
+                : 'mt-6 inline-flex justify-center items-center gap-1 px-6 py-3 border border-charcoal/20 rounded text-charcoal font-sans font-medium text-sm transition-colors duration-200 hover:border-brass hover:text-brass'}
+            >
+              Start with a free call →
+            </a>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- ── BUILT FOR YOUR CHURCH ─────────────────────────────────────── -->
+  <!-- ── HOW IT STARTS ─────────────────────────────────────────────── -->
+  <section class="bg-white py-16">
+    <div class="max-w-6xl mx-auto px-6">
+      <span class="section-label">How it starts</span>
+      <ol class="mt-8 grid gap-8 md:grid-cols-3">
+        <li class="border-t border-warm-grey/30 pt-5">
+          <span class="font-mono text-brass text-xs">01</span>
+          <h3 class="mt-1 text-xl font-serif text-charcoal">Free Clarity Call</h3>
+          <p class="mt-2 text-slate leading-relaxed">A 30 minute video call about where you are and what you're carrying. No pitch.</p>
+        </li>
+        <li class="border-t border-warm-grey/30 pt-5">
+          <span class="font-mono text-brass text-xs">02</span>
+          <h3 class="mt-1 text-xl font-serif text-charcoal">
+            Clarity Conversation
+            <span
+              class="ml-1 font-sans text-base text-brass font-medium"
+              data-swap
+              data-small={conversationPrices.small}
+              data-standard={conversationPrices.standard}
+              data-established={conversationPrices.established}
+            >{conversationPrices.small}</span>
+          </h3>
+          <p class="mt-2 text-slate leading-relaxed">A 90 minute working session, then a written summary within 48 hours with a clear recommended path.</p>
+        </li>
+        <li class="border-t border-warm-grey/30 pt-5">
+          <span class="font-mono text-brass text-xs">03</span>
+          <h3 class="mt-1 text-xl font-serif text-charcoal">Choose a plan</h3>
+          <p class="mt-2 text-slate leading-relaxed">Begin within 30 days and the full Conversation fee comes off your first month.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ── ADD-ONS ───────────────────────────────────────────────────── -->
   <section class="bg-ivory py-16">
     <div class="max-w-6xl mx-auto px-6">
       <span class="section-label">Built for your church</span>
-      <h2 class="mt-4 text-3xl md:text-4xl font-serif font-light text-charcoal leading-snug max-w-[640px]">
+      <h2 class="mt-4 text-3xl font-serif font-light text-charcoal leading-snug">
         On its own, or inside a plan.
       </h2>
 
-      <div class="mt-10 bg-white border border-warm-grey/20 rounded-lg overflow-hidden">
-        <div class="hidden md:grid grid-cols-[1fr_140px_140px] gap-4 px-8 py-4 border-b border-brass/40 text-xs uppercase tracking-widest text-warm-grey">
-          <span>What it is</span>
-          <span class="text-right">Small church</span>
-          <span class="text-right">Standard</span>
-        </div>
-        {builds.map(b => (
-          <div class="grid md:grid-cols-[1fr_140px_140px] gap-1 md:gap-4 px-8 py-5 border-b border-warm-grey/15 last:border-b-0">
+      <div class="mt-8 bg-white border border-warm-grey/20 rounded-lg divide-y divide-warm-grey/15">
+        {addOns.map(item => (
+          <div class="flex items-start justify-between gap-6 px-6 md:px-8 py-5">
             <div>
-              <p class="text-charcoal font-medium">{b.name}</p>
-              <p class="text-sm text-slate mt-1">{b.note}</p>
+              <p class="text-charcoal font-medium">{item.name}</p>
+              <p class="text-sm text-slate mt-1">{item.note}</p>
             </div>
-            <p class="md:text-right text-charcoal font-medium text-sm md:text-base"><span class="md:hidden text-warm-grey font-normal">Small church: </span>{b.small}</p>
-            <p class="md:text-right text-charcoal font-medium text-sm md:text-base"><span class="md:hidden text-warm-grey font-normal">Standard: </span>{b.standard}</p>
+            <p
+              class="shrink-0 text-charcoal font-medium"
+              data-swap
+              data-small={item.prices.small}
+              data-standard={item.prices.standard}
+              data-established={item.prices.established}
+            >{item.prices.small}</p>
           </div>
         ))}
       </div>
-
-      <p class="mt-6 text-sm text-warm-grey max-w-[640px] leading-relaxed">
-        The reviews aren't a CPA audit or legal advice. They prepare your church so that outside help, if you need it, is simpler and less expensive.
-      </p>
     </div>
   </section>
 
-  <!-- ── GOOD TO KNOW ──────────────────────────────────────────────── -->
+  <!-- ── QUESTIONS ─────────────────────────────────────────────────── -->
   <section class="bg-white py-16">
     <div class="max-w-6xl mx-auto px-6">
-      <span class="section-label">Good to know</span>
-      <div class="mt-8 grid gap-8 md:grid-cols-2 max-w-[880px]">
-        <div>
-          <h3 class="text-lg font-serif text-charcoal mb-2">Paying for the year</h3>
-          <p class="text-slate leading-relaxed">Pay twelve months up front and save 10%.</p>
-        </div>
-        <div>
-          <h3 class="text-lg font-serif text-charcoal mb-2">Yours to keep</h3>
-          <p class="text-slate leading-relaxed">Your website, domains, accounts, and documents belong to your church, always.</p>
-        </div>
-        <div>
-          <h3 class="text-lg font-serif text-charcoal mb-2">Your client portal</h3>
-          <p class="text-slate leading-relaxed">Every plan includes a private portal where our files, notes, and messages live, so nothing gets lost in an inbox.</p>
-        </div>
-        <div>
-          <h3 class="text-lg font-serif text-charcoal mb-2">Speaking</h3>
-          <p class="text-slate leading-relaxed">Keynotes and workshops start at $1,500 plus travel. <a href="/speaking" class="text-brass underline underline-offset-4">See speaking topics →</a></p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── SCHOLARSHIP ───────────────────────────────────────────────── -->
-  <section class="bg-ivory py-16">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="prose-cap">
-        <div class="border-l-4 border-clay pl-7 py-1">
-          <h2 class="text-xl font-serif text-charcoal mb-3">When money is tight.</h2>
-          <p class="text-slate leading-relaxed">
-            I hold a couple of scholarship spots each quarter at half the usual rate for churches in real need. If that's you, just say so when you book a Clarity Call. There's no shame in asking and no extra forms to fill out.
-          </p>
-        </div>
+      <span class="section-label">Questions</span>
+      <div class="mt-8 max-w-[720px] divide-y divide-warm-grey/20 border-y border-warm-grey/20">
+        {questions.map(item => (
+          <details class="group py-5">
+            <summary class="flex cursor-pointer list-none [&::-webkit-details-marker]:hidden items-center justify-between gap-4 text-lg font-serif text-charcoal">
+              {item.q}
+              <span class="text-brass text-2xl leading-none transition-transform duration-200 group-open:rotate-45">+</span>
+            </summary>
+            <p class="mt-3 text-slate leading-relaxed" set:html={item.a} />
+          </details>
+        ))}
       </div>
     </div>
   </section>
@@ -279,7 +263,7 @@ const builds = [
       <p class="text-lg text-ivory/70 leading-relaxed mb-10 max-w-[460px] mx-auto">
         With a free 30 minute conversation about where you are and what you're working on.
       </p>
-      <a href="/book" class="inline-flex items-center gap-1 px-8 py-4 bg-brass text-ivory font-sans font-medium rounded transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg">
+      <a href="/book" class="btn-primary-lg">
         Book a free Clarity Call →
       </a>
     </div>
@@ -295,7 +279,7 @@ const builds = [
   ];
   const options = Array.from(document.querySelectorAll<HTMLButtonElement>('.band-option'));
   const selected = ['bg-charcoal', 'text-ivory'];
-  const unselected = ['text-slate', 'hover:bg-white'];
+  const unselected = ['text-slate', 'hover:bg-ivory'];
 
   function render(index: number) {
     const band = bands[index];
@@ -308,21 +292,26 @@ const builds = [
       unselected.forEach(c => option.classList.toggle(c, !on));
     });
 
+    // Plan cards: price, label, or "not offered" note
     document.querySelectorAll<HTMLElement>('[data-price]').forEach(card => {
       const price = card.dataset[band.key] ?? '';
-      const amountRow = card.querySelector('[data-amount-row]');
-      const amount = card.querySelector('[data-amount]');
-      const unavailable = card.querySelector('[data-unavailable]');
-      const label = card.querySelector('[data-rate-label]');
       const available = price !== '';
-      amountRow?.classList.toggle('hidden', !available);
-      unavailable?.classList.toggle('hidden', available);
+      card.querySelector('[data-amount-row]')?.classList.toggle('hidden', !available);
+      card.querySelector('[data-unavailable]')?.classList.toggle('hidden', available);
+      const amount = card.querySelector('[data-amount]');
       if (amount && available) amount.textContent = price;
+      const label = card.querySelector('[data-rate-label]');
       if (label) label.textContent = available ? band.label : 'Not offered at this size';
+    });
+
+    // Simple prices elsewhere on the page
+    document.querySelectorAll<HTMLElement>('[data-swap]').forEach(el => {
+      el.textContent = el.dataset[band.key] ?? '';
     });
   }
 
   options.forEach((option, i) => {
+    option.tabIndex = i === 0 ? 0 : -1;
     option.addEventListener('click', () => render(i));
     option.addEventListener('keydown', (e) => {
       if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
@@ -332,5 +321,4 @@ const builds = [
       options[next].focus();
     });
   });
-  options.forEach((option, i) => { option.tabIndex = i === 0 ? 0 : -1; });
 </script>
