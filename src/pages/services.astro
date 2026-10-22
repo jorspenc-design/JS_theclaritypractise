@@ -25,6 +25,7 @@ const plans = [
     tagline:     'A steady thinking partner for the lead pastor.',
     small:       '$600',
     standard:    '$750',
+    established: '$950',
     includes: [
       'One session each month, up to 90 minutes',
       'Messages between sessions in your client portal',
@@ -38,6 +39,7 @@ const plans = [
     tagline:     "Hands-on help for a church that's stretched thin.",
     small:       '$2,000',
     standard:    '$2,500',
+    established: '$3,500',
     includes: [
       'Two 90 minute working sessions a month with you and key staff',
       'Build work I do between sessions, one system at a time',
@@ -52,12 +54,13 @@ const plans = [
     tagline:     'Operations leadership for a growing church.',
     small:       null,
     standard:    '$5,000',
+    established: '$6,500',
     includes: [
       'A weekly meeting and ownership of your operating rhythm',
       'Staff coaching and help with team structure',
       'Everything in Steward, including your website',
     ],
-    term:        'Twelve month term. For churches over $500K, and limited to a few at a time.',
+    term:        'Twelve month term. Limited to a few churches at a time.',
     recommended: false,
   },
 ];
@@ -135,24 +138,51 @@ const builds = [
       <h2 class="mt-4 text-3xl md:text-4xl font-serif font-light text-charcoal leading-snug max-w-[640px]">
         Help that stays with you, month after month.
       </h2>
-      <div class="mt-10 grid gap-6 lg:grid-cols-3 items-stretch">
+      <!-- Church size slider -->
+      <div class="mt-10 max-w-[640px] rounded-lg border border-warm-grey/20 bg-ivory px-6 py-5">
+        <div class="flex flex-wrap items-baseline justify-between gap-2">
+          <label for="church-size" class="text-xs uppercase tracking-widest text-warm-grey">Your church's annual budget</label>
+          <p class="text-charcoal font-medium">
+            <span id="band-name">Under $500K</span>
+            <span id="band-badge" class="ml-2 inline-block rounded-full bg-clay px-2.5 py-0.5 text-xs font-medium text-ivory align-middle">20% off</span>
+          </p>
+        </div>
+        <input
+          id="church-size"
+          type="range"
+          min="0"
+          max="2"
+          step="1"
+          value="0"
+          aria-valuetext="Under $500K, 20% off"
+          class="mt-4 w-full cursor-pointer accent-brass"
+        />
+        <div class="mt-2 grid grid-cols-3 text-xs text-warm-grey">
+          <span>Under $500K</span>
+          <span class="text-center">$500K to $1.5M</span>
+          <span class="text-right">Over $1.5M</span>
+        </div>
+      </div>
+
+      <div class="mt-8 grid gap-6 lg:grid-cols-3 items-stretch">
         {plans.map(p => (
           <div class={`flex flex-col rounded-lg p-8 ${p.recommended ? 'border-2 border-brass bg-ivory' : 'border border-warm-grey/20 bg-white'}`}>
             <p class="text-xs uppercase tracking-widest text-brass h-4">{p.recommended ? 'Recommended' : ''}</p>
             <h3 class="mt-2 text-3xl font-serif text-charcoal">{p.name}</h3>
             <p class="mt-2 font-serif italic text-slate">{p.tagline}</p>
 
-            <div class="mt-6 flex gap-8 border-b border-warm-grey/20 pb-6">
-              {p.small && (
-                <div>
-                  <p class="text-3xl font-serif text-charcoal">{p.small}<span class="text-sm font-sans text-warm-grey">/mo</span></p>
-                  <p class="text-xs text-warm-grey mt-1">Small church rate</p>
-                </div>
-              )}
-              <div>
-                <p class="text-3xl font-serif text-charcoal">{p.standard}<span class="text-sm font-sans text-warm-grey">/mo</span></p>
-                <p class="text-xs text-warm-grey mt-1">{p.small ? 'Standard' : 'Starting rate'}</p>
-              </div>
+            <div
+              class="mt-6 border-b border-warm-grey/20 pb-6 min-h-[84px]"
+              data-price
+              data-small={p.small ?? ''}
+              data-standard={p.standard}
+              data-established={p.established}
+            >
+              <p class={`text-4xl font-serif text-charcoal ${p.small ? '' : 'hidden'}`} data-amount-row>
+                <span data-amount>{p.small ?? p.standard}</span><span class="text-sm font-sans text-warm-grey">/mo</span>
+              </p>
+              <p class={`font-serif text-lg text-slate ${p.small ? 'hidden' : ''}`} data-unavailable>For churches over $500K</p>
+              <p class="text-xs text-warm-grey mt-1" data-rate-label>{p.small ? 'Small church rate' : 'Not offered at this size'}</p>
             </div>
 
             <ul class="mt-6 space-y-3 flex-1">
@@ -217,8 +247,8 @@ const builds = [
           <p class="text-slate leading-relaxed">Your website, domains, accounts, and documents belong to your church, always.</p>
         </div>
         <div>
-          <h3 class="text-lg font-serif text-charcoal mb-2">Larger churches</h3>
-          <p class="text-slate leading-relaxed">If your budget is over $1.5 million, we'll set your rate together on the Clarity Call.</p>
+          <h3 class="text-lg font-serif text-charcoal mb-2">Your client portal</h3>
+          <p class="text-slate leading-relaxed">Every plan includes a private portal where our files, notes, and messages live, so nothing gets lost in an inbox.</p>
         </div>
         <div>
           <h3 class="text-lg font-serif text-charcoal mb-2">Speaking</h3>
@@ -258,3 +288,36 @@ const builds = [
   </section>
 
 </Layout>
+
+<script>
+  const bands = [
+    { key: 'small',       name: 'Under $500K',     label: 'Small church rate', badge: true },
+    { key: 'standard',    name: '$500K to $1.5M',  label: 'Standard rate',     badge: false },
+    { key: 'established', name: 'Over $1.5M',      label: 'Established church rate', badge: false },
+  ];
+  const slider = document.getElementById('church-size') as HTMLInputElement | null;
+  const bandName = document.getElementById('band-name');
+  const badge = document.getElementById('band-badge');
+
+  function render(index: number) {
+    const band = bands[index];
+    if (bandName) bandName.textContent = band.name;
+    if (badge) badge.classList.toggle('hidden', !band.badge);
+    slider?.setAttribute('aria-valuetext', band.badge ? `${band.name}, 20% off` : band.name);
+
+    document.querySelectorAll<HTMLElement>('[data-price]').forEach(card => {
+      const price = card.dataset[band.key] ?? '';
+      const amountRow = card.querySelector('[data-amount-row]');
+      const amount = card.querySelector('[data-amount]');
+      const unavailable = card.querySelector('[data-unavailable]');
+      const label = card.querySelector('[data-rate-label]');
+      const available = price !== '';
+      amountRow?.classList.toggle('hidden', !available);
+      unavailable?.classList.toggle('hidden', available);
+      if (amount && available) amount.textContent = price;
+      if (label) label.textContent = available ? band.label : 'Not offered at this size';
+    });
+  }
+
+  slider?.addEventListener('input', () => render(Number(slider.value)));
+</script>
