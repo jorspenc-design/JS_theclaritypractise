@@ -1,4 +1,5 @@
 ---
+import ImageBand from '../components/ImageBand.astro';
 import Layout from '../layouts/Layout.astro';
 import ArchLine from '../components/ArchLine.astro';
 import CtaBand from '../components/CtaBand.astro';
@@ -79,8 +80,15 @@ const topics = [
     </div>
   </section>
 
+  <ImageBand
+    src="/images/church-audience.jpg"
+    position="center 45%"
+    eyebrow="The question underneath every talk"
+    quote="Where does AI belong in the life of the church, and where doesn’t it?"
+  />
+
   <!-- ── KEYNOTE TOPICS ────────────────────────────────────────────── -->
-  <section class="bg-ivory py-16">
+  <section class="bg-ivory bg-ashlar py-20">
     <div class="max-w-6xl mx-auto px-6">
       <span class="section-label mb-10" data-reveal>Keynote topics</span>
       <div class="mt-10 space-y-5">

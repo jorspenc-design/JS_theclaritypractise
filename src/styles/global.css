@@ -122,3 +122,18 @@
   }
   .will-reveal.is-visible .draw-arch path { stroke-dashoffset: 0; }
 }
+
+/* Stone texture: a quiet ashlar masonry pattern behind long sections.
+   Faded at the edges so it never competes with the content. */
+.bg-ashlar { position: relative; isolation: isolate; }
+.bg-ashlar::before {
+  content: '';
+  position: absolute; inset: 0; z-index: -1;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22240%22%20height%3D%2296%22%20viewBox%3D%220%200%20240%2096%22%3E%3Cpath%20d%3D%22M0%200H240%20M70%200V32%20M150%200V32%20M0%2032H240%20M35%2032V64%20M120%2032V64%20M190%2032V64%20M0%2064H240%20M95%2064V96%20M165%2064V96%22%20stroke%3D%22%23A89C88%22%20stroke-width%3D%221%22%20fill%3D%22none%22/%3E%3C/svg%3E");
+  background-size: 240px 96px;
+  opacity: 0.35;
+  -webkit-mask-image: radial-gradient(ellipse at 50% 40%, #000 30%, transparent 85%);
+          mask-image: radial-gradient(ellipse at 50% 40%, #000 30%, transparent 85%);
+  pointer-events: none;
+}
+.bg-ashlar-dark::before { filter: invert(1); opacity: 0.08; }
