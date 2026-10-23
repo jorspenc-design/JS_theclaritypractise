@@ -1,5 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ArchLine from '../../components/ArchLine.astro';
+import CtaBand from '../../components/CtaBand.astro';
 ---
 
 <Layout
@@ -7,19 +9,16 @@ import Layout from '../../layouts/Layout.astro';
   description="AI is the next road. A reflection on providence, infrastructure, and the call of the church in the age of artificial intelligence."
 >
 
-  <!-- ── ESSAY HEADER ──────────────────────────────────────────────── -->
-  <section class="bg-ivory pt-24 pb-0">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="max-w-[680px]">
-        <span class="section-label mb-4">Essay</span>
-        <h1 class="mt-4 text-5xl md:text-6xl font-serif font-light text-charcoal leading-[1.05] tracking-tight mb-6">
-          The Roman Road
-        </h1>
-        <p class="text-xl text-slate font-light leading-relaxed mb-8 max-w-[560px]">
-          On providence, infrastructure, and what it means for the church to steward AI faithfully.
-        </p>
-        <div class="flex items-center gap-3 text-sm text-warm-grey pb-10 border-b border-warm-grey/20">
-          <span>Joshua Spence</span>
+  <!-- ESSAY HEADER -->
+  <section class="relative overflow-hidden bg-gradient-to-b from-ivory to-[#F1EBE1] border-b border-stone/70">
+    <ArchLine class="pointer-events-none absolute right-[3%] -bottom-10 hidden md:block w-[360px] text-slate/[0.10]" width={1.4} />
+    <div class="relative max-w-6xl mx-auto px-6 pt-20 md:pt-28 pb-14">
+      <div class="max-w-[720px]">
+        <span class="section-label">The founding essay</span>
+        <h1 class="h-display mt-6 text-5xl md:text-[4.5rem]">The Roman <span class="accent">Road</span></h1>
+        <p class="lede mt-6 max-w-[560px]">On AI, the church, and the infrastructure of mission.</p>
+        <div class="mt-10 flex items-center gap-3 text-sm text-warm-grey">
+          <span class="font-medium text-slate">Joshua Spence</span>
           <span aria-hidden="true">·</span>
           <span>The Clarity Practice</span>
         </div>
@@ -28,7 +27,7 @@ import Layout from '../../layouts/Layout.astro';
   </section>
 
   <!-- ── ESSAY BODY ────────────────────────────────────────────────── -->
-  <section class="bg-ivory py-16">
+  <section class="bg-paper py-16 md:py-20">
     <div class="max-w-6xl mx-auto px-6">
       <div class="max-w-[680px] essay-body">
 
@@ -155,34 +154,15 @@ import Layout from '../../layouts/Layout.astro';
 
         <p>The road in front of us is different. The cost is different. The opportunity, in some ways, is greater than anything Paul could have imagined from a prison cell in Caesarea. But the call is the same.</p>
 
-        <p class="font-medium text-charcoal">Carry the message of Jesus as far and as fast as you can, with the tools you have been given, until he comes back.</p>
+        <p class="font-serif italic text-2xl leading-snug text-slate">Carry the message of Jesus as far and as fast as you can, with the tools you have been given, until he comes back.</p>
 
       </div>
     </div>
   </section>
 
-  <!-- ── ESSAY FOOTER CTA ───────────────────────────────────────────── -->
-  <section class="bg-charcoal py-20">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="max-w-[560px]">
-        <p class="section-label text-brass mb-4">The Clarity Practice</p>
-        <h2 class="mt-4 text-3xl font-serif font-light text-ivory leading-snug mb-5">
-          If this resonates, let's talk.
-        </h2>
-        <p class="text-lg text-ivory/70 leading-relaxed mb-8">
-          The Clarity Practice exists to help pastors and ministry leaders think through exactly these questions — and then build systems that reflect the answers.
-        </p>
-        <div class="flex flex-col sm:flex-row gap-4">
-          <a href="/book" class="inline-flex items-center gap-1 px-8 py-4 bg-brass text-ivory font-sans font-medium rounded transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg">
-            Book a free Clarity Call →
-          </a>
-          <a href="/how-we-work" class="btn-outline-light">
-            See how we work →
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
+  <CtaBand title="If this resonates," accent="let’s talk." body="The Clarity Practice exists to help pastors and ministry leaders think through exactly these questions, and then build systems that reflect the answers.">
+    <a href="/how-we-work" class="btn-outline-light">See how I work <span class="btn-arrow">→</span></a>
+  </CtaBand>
 
 </Layout>
 
@@ -190,27 +170,42 @@ import Layout from '../../layouts/Layout.astro';
   .essay-body {
     font-size: 1.125rem;
     line-height: 1.85;
-    color: #57534E;
+    color: #2B2B2B;
   }
 
   .essay-body p {
     margin-bottom: 1.6em;
   }
 
+  .essay-body > p:first-of-type::first-letter {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+    float: left;
+    font-size: 4.2em;
+    line-height: 0.82;
+    padding: 0.08em 0.1em 0 0;
+    color: #2B4C6F;
+  }
+
+  .essay-body > p:first-of-type {
+    font-size: 1.25rem;
+  }
+
   .essay-body h2 {
     font-family: 'Fraunces', Georgia, serif;
-    font-size: 1.6rem;
-    font-weight: 400;
-    color: #1C1917;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #2B4C6F;
     line-height: 1.2;
     margin-top: 3rem;
     margin-bottom: 1.2rem;
     padding-top: 2rem;
-    border-top: 1px solid rgba(120, 113, 108, 0.2);
+    border-top: 1px solid #D9D2C5;
   }
 
   .essay-body em {
+    font-family: 'Fraunces', Georgia, serif;
     font-style: italic;
-    color: #1C1917;
+    color: #2B4C6F;
   }
 </style>

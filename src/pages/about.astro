@@ -1,126 +1,95 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import ArchLine from '../components/ArchLine.astro';
+import CtaBand from '../components/CtaBand.astro';
 
 const credentials = [
-  '14+ years in business and ministry administration',
-  '5+ years of collective pastoral experience',
-  'M.A. Theological Studies, Asbury Theological Seminary',
-  'CEO & Board, Excellence of Christ Ministries',
-  'Two small businesses built and run',
-  'Based in Lexington, Kentucky',
+  { big: '14+ years', small: 'in business and ministry administration' },
+  { big: '5+ years', small: 'of collective pastoral experience' },
+  { big: 'M.A.', small: 'Theological Studies, Asbury Theological Seminary' },
+  { big: 'COO and CEO', small: 'in both for-profit and nonprofit organizations' },
+  { big: 'Two', small: 'small businesses built and run' },
+  { big: 'Lexington', small: 'Kentucky, serving churches anywhere' },
 ];
 ---
 
 <Layout
   title="About"
-  description="The consulting work of Joshua Spence — a pastor, strategist, and operator helping mission-driven leaders build well."
+  description="The consulting work of Joshua Spence, a pastor, strategist, and operator helping mission-driven leaders build well."
 >
 
-  <!-- ── PAGE HEADER + PORTRAIT ──────────────────────────────────── -->
-  <section class="bg-ivory pt-24 pb-0">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="flex flex-col lg:flex-row lg:items-start lg:gap-16">
+  <!-- HEADER + PORTRAIT -->
+  <section class="relative overflow-hidden bg-gradient-to-b from-ivory to-[#F1EBE1] border-b border-stone/70">
+    <ArchLine class="pointer-events-none absolute -left-24 -bottom-28 w-[420px] text-slate/[0.07]" width={1.4} />
+    <div class="relative max-w-6xl mx-auto px-6 pt-20 md:pt-28 pb-16 grid gap-12 lg:grid-cols-[1.2fr_0.8fr] items-center">
+      <div>
+        <span class="section-label">About</span>
+        <h1 class="h-display mt-6 text-5xl md:text-[4.25rem]">A pastor who <span class="accent">builds systems.</span></h1>
+        <p class="lede mt-7 max-w-[520px]">
+          The Clarity Practice is the consulting work of Joshua Spence, a pastor, strategist, and operator helping mission-driven leaders build well.
+        </p>
+      </div>
+      <div class="relative mx-auto w-full max-w-[360px]">
+        <div class="absolute -inset-3 rounded-2xl border border-brass/50 translate-x-4 translate-y-4" aria-hidden="true"></div>
+        <img
+          src="/images/js-portrait.jpg"
+          alt="Joshua Spence"
+          class="relative w-full aspect-[4/5] rounded-xl object-cover object-top shadow-[0_24px_50px_-30px_rgba(43,76,111,0.8)]"
+        />
+      </div>
+    </div>
+  </section>
 
-        <!-- Text -->
-        <div class="flex-1 pb-16">
-          <span class="section-label mb-4">About</span>
-          <h1 class="mt-4 text-5xl md:text-6xl font-serif font-light text-charcoal leading-[1.05] tracking-tight mb-6">
-            About The Clarity Practice.
-          </h1>
-          <p class="text-xl text-slate font-light leading-relaxed max-w-[480px]">
-            The consulting work of Joshua Spence — a pastor, strategist, and operator helping mission-driven leaders build well.
+  <!-- STORY -->
+  <section class="bg-paper py-20 md:py-24">
+    <div class="max-w-6xl mx-auto px-6 grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+      <div data-reveal>
+        <div class="lg:sticky lg:top-28">
+          <p class="font-serif italic text-3xl leading-snug text-slate">
+            Technology should serve people, not consume them.
           </p>
-        </div>
-
-        <!-- Portrait -->
-        <div class="lg:w-[340px] lg:flex-shrink-0 pb-0 lg:pb-0 -mx-6 lg:mx-0 lg:mt-8">
-          <img
-            src="/images/js-portrait.jpg"
-            alt="Joshua Spence"
-            class="w-full lg:w-[340px] lg:rounded-lg object-cover object-top"
-            style="max-height: 460px; object-position: top center;"
-          />
+          <span class="brass-rule mt-6"></span>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- ── BODY ──────────────────────────────────────────────────────── -->
-  <section class="bg-white py-16">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="prose-cap space-y-6 text-lg text-slate leading-relaxed">
+      <div class="space-y-6 text-lg leading-relaxed text-ink/85" data-reveal style="--reveal-delay:120ms">
         <p>
-          The Clarity Practice is the consulting and advisory work of Joshua Spence.
+          Joshua brings more than fourteen years of experience in business and ministry administration, including C-suite leadership as a COO and CEO in both for-profit and nonprofit organizations. He has more than five years of collective pastoral experience across multiple congregations, a Master of Arts in Theological Studies from Asbury Theological Seminary, and two small businesses of his own that he built and ran.
         </p>
         <p>
-          Joshua brings more than fourteen years of experience in business and ministry administration, including C-suite leadership in both for-profit and nonprofit organizations, more than five years of collective pastoral experience across multiple congregations, and a Master of Arts in Theological Studies from Asbury Theological Seminary. He has built and run two of his own small businesses, and currently serves as CEO and board member of Excellence of Christ Ministries.
+          His work spans business growth and development, systems and operations, budgeting and accounting, AI for ministry and business, preaching and teaching, and donor development. What ties it together is one conviction. Systems should create peace, not pressure, and AI should sharpen discernment rather than bypass it.
         </p>
         <p>
-          His areas of focus include business growth and development, systems and operations, budgeting and accounting, AI applications for ministry and business, preaching and teaching, and donor development. But the work that ties all of it together is the same conviction: technology should serve people, not consume them. Systems should create peace, not pressure. AI should enhance discernment, not bypass it.
+          The Clarity Practice exists for the leaders who feel the weight of all of this: the pastors, executive directors, and ministry founders who are wearing too many hats, learning tools they never signed up to learn, and trying to lead faithfully in a season where every week brings another platform to evaluate.
         </p>
         <p>
-          The Clarity Practice exists for the leaders who feel the weight of all of this — the pastors, executive directors, and ministry founders who are wearing too many hats, navigating tools they didn't sign up to learn, and trying to lead faithfully in a season where every week brings a new platform or technology to evaluate.
+          The work itself is practical. Building systems, putting AI to work thoughtfully, clarifying communications, documenting operations, structuring donor and member care, designing onboarding, and helping leaders make sense of a digital world that keeps moving the goalposts.
         </p>
-        <p>
-          The work itself is practical: building systems, implementing AI thoughtfully, clarifying communications, documenting operations, structuring donor and member care, designing onboarding, and helping leaders make sense of a digital world that keeps moving the goalposts.
-        </p>
-        <p class="font-medium text-charcoal">
-          But the heart of it is pastoral. Healthy organizations are built the same way healthy people are: through clarity, trust, rhythm, and a refusal to mistake activity for fruitfulness.
-        </p>
-        <p>
-          If that resonates, we'd love to talk.
+        <p class="font-serif text-2xl leading-snug text-slate">
+          But the heart of it is pastoral. Healthy organizations are built the same way healthy people are, through clarity, trust, rhythm, and a refusal to mistake activity for fruitfulness.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- ── CREDENTIALS ───────────────────────────────────────────────── -->
-  <section class="bg-ivory py-16">
+  <!-- CREDENTIALS -->
+  <section class="bg-ivory py-20 md:py-24">
     <div class="max-w-6xl mx-auto px-6">
-      <div class="prose-cap">
-        <h2 class="text-2xl font-serif text-charcoal mb-8">Credentials &amp; background.</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-10">
-          {credentials.map(cred => (
-            <div class="flex items-start gap-3">
-              <span class="mt-2 w-1.5 h-1.5 rounded-full bg-brass flex-shrink-0"></span>
-              <p class="text-slate">{cred}</p>
-            </div>
-          ))}
-        </div>
+      <span class="section-label" data-reveal>Credentials and background</span>
+      <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {credentials.map((c, i) => (
+          <div class="card card-lift p-7" data-reveal style={`--reveal-delay:${(i % 3) * 100}ms`}>
+            <p class="font-serif font-semibold text-2xl text-slate">{c.big}</p>
+            <p class="mt-1.5 text-ink/80">{c.small}</p>
+          </div>
+        ))}
       </div>
+      <p class="mt-12 text-ink/80" data-reveal>
+        For Joshua’s personal writing, sermons, and ministry resources, visit
+        <a href="https://joshuaspence.org" target="_blank" rel="noopener noreferrer" class="btn-ghost">joshuaspence.org ↗</a>
+      </p>
     </div>
   </section>
 
-  <!-- ── BRIDGE LINK ───────────────────────────────────────────────── -->
-  <section class="bg-white py-12 border-t border-warm-grey/20">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="prose-cap">
-        <p class="text-slate leading-relaxed">
-          For Joshua's personal writing, sermons, and ministry resources, visit{' '}
-          <a
-            href="https://joshuaspence.org"
-            target="_blank"
-            rel="noopener"
-            class="text-charcoal underline underline-offset-4 decoration-charcoal/30 hover:text-brass hover:decoration-brass transition-colors duration-200"
-          >
-            joshuaspence.org ↗
-          </a>
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── CTA ───────────────────────────────────────────────────────── -->
-  <section class="bg-brass py-24">
-    <div class="max-w-6xl mx-auto px-6 text-center">
-      <h2 class="text-3xl font-serif font-light text-ivory mb-8">Ready to talk?</h2>
-      <a
-        href="/book"
-        class="inline-flex items-center gap-1 px-8 py-4 bg-ivory text-charcoal font-sans font-medium rounded transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
-      >
-        Book a free Clarity Call →
-      </a>
-    </div>
-  </section>
+  <CtaBand title="If that resonates," accent="let’s talk." />
 
 </Layout>

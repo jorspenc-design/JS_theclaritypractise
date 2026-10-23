@@ -1,152 +1,114 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+const phases = [
+  {
+    num: '01',
+    title: 'Name the pain',
+    paras: [
+      "Before we talk about tools, platforms, or AI, we talk about where the friction actually lives. What's heavy right now? What used to work and doesn't anymore? Where are you spending energy that should be going somewhere else?",
+      "Most leaders already know the answers. They just haven't had a quiet room to say them out loud. This phase is that room.",
+    ],
+  },
+  {
+    num: '02',
+    title: 'Demystify AI',
+    paras: [
+      "AI has two faces, a practical one and an ethical one. The practical face is what it can actually do for a small ministry team: draft, summarize, organize, research, and lighten the administrative load. The ethical face is what it can't do, what it shouldn't do, and what it costs us when we ask it to do too much.",
+      "We talk about both, plainly. No hype and no fear, just an honest look at what this technology is and isn't, and how a thoughtful ministry leader should think about it.",
+    ],
+  },
+  {
+    num: '03',
+    title: 'Ask the big questions',
+    paras: [
+      "What does faithful growth look like for your ministry? Not the church down the road, not the megachurch model, not the latest conference framework. What are you actually called to? What would health look like in three years?",
+      "This is where strategy and theology meet. It's usually where leaders realize their operational problems are really clarity problems.",
+    ],
+  },
+  {
+    num: '04',
+    title: 'Lay out the path',
+    paras: [
+      "Finally, we name a concrete next step. Sometimes that's a project we'd do together. Sometimes it's a recommendation you can take to your team and carry out yourself. Sometimes it's a referral to someone better suited to the work.",
+      "You leave with a written summary of the conversation, covering the pain, the priorities, and the path, that you can share with your team or sit with on your own.",
+    ],
+  },
+];
 ---
 
 <Layout
-  title="How We Work"
-  description="Every engagement begins with a single conversation — built around four questions that have helped ministry leaders see their situation clearly."
+  title="How we work"
+  description="Every engagement begins with a single conversation, built around four questions that help ministry leaders see their situation clearly."
 >
 
-  <!-- ── PAGE HEADER ───────────────────────────────────────────────── -->
-  <section class="bg-ivory pt-24 pb-16">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="prose-cap">
-        <span class="section-label mb-4">The Framework</span>
-        <h1 class="mt-4 text-5xl md:text-6xl font-serif font-light text-charcoal leading-[1.05] tracking-tight mb-6">
-          The Clarity<br />Conversation.
-        </h1>
-        <p class="text-xl text-slate font-light leading-relaxed max-w-[560px]">
-          Every engagement begins with a single conversation — built around four questions that have, over and over, helped ministry leaders see their situation clearly.
-        </p>
-      </div>
-    </div>
-  </section>
+  <PageHeader
+    eyebrow="The framework"
+    title="The Clarity"
+    accent="Conversation."
+    lede="Every engagement begins with a single conversation, built around four questions that have helped ministry leaders see their situation clearly, over and over again."
+  />
 
-  <!-- ── INTRO ─────────────────────────────────────────────────────── -->
-  <section class="bg-white py-16">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="prose-cap space-y-5 text-lg text-slate leading-relaxed">
+  <!-- INTRO -->
+  <section class="bg-paper py-20">
+    <div class="max-w-6xl mx-auto px-6 grid gap-10 md:grid-cols-[1fr_1.4fr] items-start">
+      <p class="font-serif italic text-3xl leading-snug text-slate" data-reveal>
+        Most consulting starts by selling you something. This starts by listening.
+      </p>
+      <div class="space-y-5 text-lg leading-relaxed text-ink/85" data-reveal style="--reveal-delay:120ms">
         <p>
-          Most consulting engagements start by selling you something. The Clarity Conversation starts by listening.
+          It's a 90 minute paid diagnostic, not a sales call dressed up as a strategy session. By the end, you'll have a written summary that names what's actually going on in your ministry, what AI and systems can realistically do for you, and what a faithful next step looks like. That might mean working together, working with someone else, or simply doing the next right thing on your own.
         </p>
-        <p>
-          It's a 90-minute paid diagnostic — not a sales call dressed up as a strategy session. By the end, you'll have a written summary that names what's actually going on in your ministry, what AI and systems can realistically do for you, and what a faithful next step looks like — whether that's working together, working with someone else, or simply doing the next right thing on your own.
-        </p>
-        <p class="font-medium text-charcoal">
-          The conversation moves through four phases.
-        </p>
+        <p class="font-medium text-slate">The conversation moves through four phases.</p>
       </div>
     </div>
   </section>
 
-  <!-- ── PHASE 01 ──────────────────────────────────────────────────── -->
-  <section class="bg-ivory py-16 border-t border-warm-grey/20">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="prose-cap">
-        <div class="phase-rule">
-          <span class="font-mono text-brass text-xs whitespace-nowrap">Phase 01</span>
-          <div class="h-px flex-1 bg-warm-grey/25"></div>
-        </div>
-        <h2 class="text-3xl md:text-4xl font-serif font-light text-charcoal leading-snug mb-7">
-          Name the Pain
-        </h2>
-        <div class="space-y-5 text-lg text-slate leading-relaxed">
-          <p>
-            Before we talk about tools, platforms, or AI, we talk about where the friction actually lives. What's heavy right now? What used to work and doesn't anymore? Where are you spending energy that should be going somewhere else?
-          </p>
-          <p>
-            Most leaders already know the answers. They just haven't had a quiet room to say them out loud. This phase is that room.
-          </p>
-        </div>
-      </div>
+  <!-- PHASES AS A PATH -->
+  <section class="bg-ivory py-20 md:py-24">
+    <div class="max-w-5xl mx-auto px-6">
+      <ol class="relative">
+        <div class="absolute left-[27px] md:left-[35px] top-4 bottom-4 w-px bg-gradient-to-b from-brass/70 via-brass/40 to-brass/0" aria-hidden="true"></div>
+        {phases.map((p, i) => (
+          <li class="relative grid grid-cols-[56px_1fr] md:grid-cols-[72px_1fr] gap-6 md:gap-10 pb-14 last:pb-0" data-reveal style={`--reveal-delay:${i * 80}ms`}>
+            <span class="relative z-10 flex h-14 w-14 md:h-[72px] md:w-[72px] items-center justify-center rounded-full bg-slate text-ivory font-serif italic text-xl md:text-2xl shadow-[0_8px_20px_-12px_rgba(43,76,111,0.8)]">
+              {p.num}
+            </span>
+            <div class="card p-7 md:p-10">
+              <p class="text-xs font-medium uppercase tracking-[0.14em] text-brass-ink">Phase {p.num}</p>
+              <h2 class="mt-3 font-serif font-semibold text-3xl md:text-[2.2rem] text-slate leading-tight">{p.title}</h2>
+              <div class="mt-5 space-y-4 text-lg leading-relaxed text-ink/85">
+                {p.paras.map(t => <p>{t}</p>)}
+              </div>
+            </div>
+          </li>
+        ))}
+      </ol>
     </div>
   </section>
 
-  <!-- ── PHASE 02 ──────────────────────────────────────────────────── -->
-  <section class="bg-white py-16 border-t border-warm-grey/20">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="prose-cap">
-        <div class="phase-rule">
-          <span class="font-mono text-brass text-xs whitespace-nowrap">Phase 02</span>
-          <div class="h-px flex-1 bg-warm-grey/25"></div>
+  <!-- COST -->
+  <section class="bg-paper py-20 border-t border-stone/60">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="card p-8 md:p-12 grid gap-10 md:grid-cols-[1.3fr_1fr] items-center" data-reveal>
+        <div>
+          <span class="section-label">What it costs</span>
+          <p class="mt-5 text-lg leading-relaxed text-ink/85">
+            The Clarity Conversation is $1,000 for churches with a budget under $500,000 and $1,250 for everyone else. If you begin a plan within 30 days, the full fee comes off your first month. I also hold a couple of scholarship spots each quarter for churches in real need.
+          </p>
+          <a href="/services" class="btn-ghost mt-6">See all plans and pricing <span class="btn-arrow">→</span></a>
         </div>
-        <h2 class="text-3xl md:text-4xl font-serif font-light text-charcoal leading-snug mb-7">
-          Demystify AI
-        </h2>
-        <div class="space-y-5 text-lg text-slate leading-relaxed">
-          <p>
-            AI has two faces — a practical one and an ethical one. The practical face is what it can actually do for a small ministry team: draft, summarize, organize, research, reduce administrative load. The ethical face is what it can't do, shouldn't do, and what it costs us when we ask it to do too much.
-          </p>
-          <p>
-            We talk about both, plainly. No hype. No fear. Just honest assessment of what this technology is and isn't, and how a thoughtful ministry leader should think about it.
-          </p>
+        <div class="rounded-xl bg-slate text-ivory p-7">
+          <p class="font-serif font-semibold text-2xl">It starts free.</p>
+          <p class="mt-2 text-ivory/80 leading-relaxed">A 30 minute Clarity Call comes first, to make sure we're a good fit before any money changes hands.</p>
+          <a href="/book" class="btn-light mt-6 !px-6 !py-3">Book the free call <span class="btn-arrow">→</span></a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ── PHASE 03 ──────────────────────────────────────────────────── -->
-  <section class="bg-ivory py-16 border-t border-warm-grey/20">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="prose-cap">
-        <div class="phase-rule">
-          <span class="font-mono text-brass text-xs whitespace-nowrap">Phase 03</span>
-          <div class="h-px flex-1 bg-warm-grey/25"></div>
-        </div>
-        <h2 class="text-3xl md:text-4xl font-serif font-light text-charcoal leading-snug mb-7">
-          Ask the Big Questions
-        </h2>
-        <div class="space-y-5 text-lg text-slate leading-relaxed">
-          <p>
-            What does faithful growth look like for your ministry — not the church down the road, not the megachurch model, not the latest conference framework? What are you actually called to? What would health look like in three years?
-          </p>
-          <p>
-            This is the phase where strategy and theology meet. It's where most leaders realize their operational problems are actually clarity problems.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── PHASE 04 ──────────────────────────────────────────────────── -->
-  <section class="bg-white py-16 border-t border-warm-grey/20">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="prose-cap">
-        <div class="phase-rule">
-          <span class="font-mono text-brass text-xs whitespace-nowrap">Phase 04</span>
-          <div class="h-px flex-1 bg-warm-grey/25"></div>
-        </div>
-        <h2 class="text-3xl md:text-4xl font-serif font-light text-charcoal leading-snug mb-7">
-          Lay Out the Path
-        </h2>
-        <div class="space-y-5 text-lg text-slate leading-relaxed">
-          <p>
-            Finally, we name a concrete next step. Sometimes that's a project we'd do together. Sometimes it's a recommendation you can take to your team and implement yourself. Sometimes it's a referral to someone better suited to the work.
-          </p>
-          <p>
-            You leave with a written summary of the conversation — the pain, the priorities, the path — that you can share with your team or sit with on your own.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── COST + CTA ────────────────────────────────────────────────── -->
-  <section class="bg-ivory py-16 border-t border-warm-grey/20">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="prose-cap">
-        <h2 class="text-2xl font-serif text-charcoal mb-5">What it costs.</h2>
-        <p class="text-lg text-slate leading-relaxed mb-8">
-          The Clarity Conversation is $1,000 for churches with a budget under $500,000 and $1,250 for everyone else. If you begin a plan within 30 days, the full fee comes off your first month. I also hold a couple of scholarship spots each quarter for churches in real need. <a href="/services" class="text-brass underline underline-offset-4">See all plans and pricing →</a>
-        </p>
-        <a href="/book" class="btn-primary-lg">
-          Book a free Clarity Call to get started →
-        </a>
-        <p class="mt-4 text-sm text-warm-grey">
-          The free 30-minute Clarity Call comes first — to make sure we're a good fit before any money changes hands.
-        </p>
-      </div>
-    </div>
-  </section>
+  <CtaBand title="Let’s find the" accent="first stone." body="Every good structure starts with one stone set well. A free 30 minute call is where we find yours." />
 
 </Layout>

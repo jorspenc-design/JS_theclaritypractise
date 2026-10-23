@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import CtaBand from '../components/CtaBand.astro';
 
 // Prices by budget band. An empty string means the item isn't offered at that size.
 const plans = [
@@ -80,7 +81,7 @@ const questions = [
   },
   {
     q: 'Do you speak at events?',
-    a: 'I do. Keynotes and workshops start at $1,500 plus travel. You can see my topics on the <a href="/speaking" class="text-brass underline underline-offset-4">speaking page</a>.',
+    a: 'I do. Keynotes and workshops start at $1,500 plus travel. You can see my topics on the <a href="/speaking" class="text-brass-ink underline underline-offset-4">speaking page</a>.',
   },
 ];
 ---
@@ -91,21 +92,21 @@ const questions = [
 >
 
   <!-- ── HEADER ────────────────────────────────────────────────────── -->
-  <section class="relative overflow-hidden bg-ivory pt-24 pb-12">
+  <section class="relative overflow-hidden bg-ivory pt-24 pb-14 md:pt-32">
     <!-- Faded background photo: a small group around a table with coffee and an open Bible -->
     <img
       src="/images/services-table.jpg"
       alt=""
       aria-hidden="true"
-      class="pointer-events-none absolute inset-0 h-full w-full object-cover object-center opacity-[0.42] sepia-[0.25]"
+      class="pointer-events-none absolute inset-0 h-full w-full object-cover object-center opacity-[0.5] saturate-[0.85]"
     />
-    <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-ivory/30 via-ivory/20 to-ivory" aria-hidden="true"></div>
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-ivory/40 via-ivory/55 to-ivory" aria-hidden="true"></div>
     <div class="relative max-w-6xl mx-auto px-6">
-      <span class="section-label">Services &amp; pricing</span>
-      <h1 class="mt-4 text-5xl md:text-6xl font-serif font-light text-charcoal leading-[1.05] tracking-tight">
-        Plans and pricing.
+      <span class="section-label">Services and pricing</span>
+      <h1 class="mt-4 text-5xl md:text-6xl font-serif font-semibold text-slate leading-[1.04] tracking-[-0.015em]">
+        Plans and <span class="accent">pricing.</span>
       </h1>
-      <p class="mt-6 text-xl text-slate font-light leading-relaxed max-w-[560px]">
+      <p class="mt-6 text-xl text-ink/85 leading-relaxed max-w-[560px]">
         Every price is on this page. Churches with a budget under $500,000 get 20% off.
       </p>
     </div>
@@ -120,19 +121,19 @@ const questions = [
       <div
         role="radiogroup"
         aria-labelledby="church-size-label"
-        class="inline-flex flex-wrap rounded-lg border border-warm-grey/30 bg-white p-1 gap-1"
+        class="inline-flex flex-wrap rounded-xl border border-stone bg-paper p-1.5 gap-1 shadow-sm"
       >
         <button type="button" role="radio" aria-checked="true" data-band="0"
-          class="band-option rounded-md px-4 py-2 text-sm font-medium transition-colors bg-charcoal text-ivory">
+          class="band-option rounded-md px-4 py-2 text-sm font-medium transition-colors bg-slate text-ivory">
           Under $500K
           <span class="ml-1.5 inline-block rounded-full bg-clay px-2 py-0.5 text-xs font-medium text-ivory align-middle">20% off</span>
         </button>
         <button type="button" role="radio" aria-checked="false" data-band="1"
-          class="band-option rounded-md px-4 py-2 text-sm font-medium transition-colors text-slate hover:bg-ivory">
+          class="band-option rounded-md px-4 py-2 text-sm font-medium transition-colors text-ink/85 hover:bg-ivory">
           $500K to $1.5M
         </button>
         <button type="button" role="radio" aria-checked="false" data-band="2"
-          class="band-option rounded-md px-4 py-2 text-sm font-medium transition-colors text-slate hover:bg-ivory">
+          class="band-option rounded-md px-4 py-2 text-sm font-medium transition-colors text-ink/85 hover:bg-ivory">
           Over $1.5M
         </button>
       </div>
@@ -140,41 +141,41 @@ const questions = [
       <!-- Plan cards -->
       <div class="mt-8 grid gap-6 lg:grid-cols-3 items-stretch">
         {plans.map(p => (
-          <div class={`flex flex-col rounded-lg p-8 bg-white ${p.recommended ? 'border-2 border-brass shadow-sm' : 'border border-warm-grey/20'}`}>
-            <p class="text-xs uppercase tracking-widest text-brass h-4">{p.recommended ? 'Recommended' : ''}</p>
-            <h2 class="mt-2 text-3xl font-serif text-charcoal">{p.name}</h2>
-            <p class="mt-2 font-serif italic text-slate">{p.tagline}</p>
+          <div data-reveal class={`relative flex flex-col rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 ${p.recommended ? 'bg-slate text-ivory shadow-[0_24px_50px_-28px_rgba(43,76,111,0.9)] on-dark' : 'bg-paper border border-stone hover:border-brass/60 hover:shadow-[0_18px_40px_-24px_rgba(43,76,111,0.45)]'}`}>
+            <p class="text-xs uppercase tracking-[0.14em] h-4 text-brass">{p.recommended ? 'Recommended' : ''}</p>
+            <h2 class={`mt-2 text-3xl font-serif font-semibold ${p.recommended ? 'text-ivory' : 'text-slate'}`}>{p.name}</h2>
+            <p class={`mt-2 font-serif italic ${p.recommended ? 'text-ivory/80' : 'text-ink/80'}`}>{p.tagline}</p>
 
             <div
-              class="mt-6 border-b border-warm-grey/20 pb-6 min-h-[84px]"
+              class={`mt-6 border-b pb-6 min-h-[84px] ${p.recommended ? 'border-ivory/15' : 'border-stone'}`}
               data-price
               data-small={p.prices.small}
               data-standard={p.prices.standard}
               data-established={p.prices.established}
             >
-              <p class={`text-4xl font-serif text-charcoal ${p.prices.small ? '' : 'hidden'}`} data-amount-row>
-                <span data-amount>{p.prices.small || p.prices.standard}</span><span class="text-sm font-sans text-warm-grey">/mo</span>
+              <p class={`text-4xl font-serif font-semibold ${p.recommended ? 'text-ivory' : 'text-slate'} ${p.prices.small ? '' : 'hidden'}`} data-amount-row>
+                <span data-amount>{p.prices.small || p.prices.standard}</span><span class={`text-sm font-sans font-normal ${p.recommended ? 'text-ivory/60' : 'text-warm-grey'}`}>/mo</span>
               </p>
-              <p class={`font-serif text-lg text-slate ${p.prices.small ? 'hidden' : ''}`} data-unavailable>For churches over $500K</p>
-              <p class="text-xs text-warm-grey mt-1" data-rate-label>{p.prices.small ? 'Small church rate' : 'Not offered at this size'}</p>
+              <p class={`font-serif text-lg ${p.recommended ? 'text-ivory/80' : 'text-ink/80'} ${p.prices.small ? 'hidden' : ''}`} data-unavailable>For churches over $500K</p>
+              <p class={`text-xs mt-1 ${p.recommended ? 'text-ivory/60' : 'text-warm-grey'}`} data-rate-label>{p.prices.small ? 'Small church rate' : 'Not offered at this size'}</p>
             </div>
 
             <ul class="mt-6 space-y-3 flex-1">
               {p.includes.map(item => (
-                <li class="flex gap-3 text-slate leading-relaxed">
+                <li class={`flex gap-3 leading-relaxed ${p.recommended ? 'text-ivory/85' : 'text-ink/85'}`}>
                   <span class="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brass"></span>
                   <span>{item}</span>
                 </li>
               ))}
             </ul>
 
-            <p class="mt-6 text-sm text-warm-grey">{p.term}</p>
+            <p class={`mt-6 text-sm ${p.recommended ? 'text-ivory/60' : 'text-warm-grey'}`}>{p.term}</p>
 
             <a
               href="/book"
               class={p.recommended
-                ? 'btn-primary mt-6 justify-center'
-                : 'mt-6 inline-flex justify-center items-center gap-1 px-6 py-3 border border-charcoal/20 rounded text-charcoal font-sans font-medium text-sm transition-colors duration-200 hover:border-brass hover:text-brass'}
+                ? 'btn-light mt-6 justify-center !py-3'
+                : 'btn-primary mt-6 justify-center'}
             >
               Start with a free call →
             </a>
@@ -185,33 +186,33 @@ const questions = [
   </section>
 
   <!-- ── HOW IT STARTS ─────────────────────────────────────────────── -->
-  <section class="bg-white py-16">
+  <section class="bg-paper py-16">
     <div class="max-w-6xl mx-auto px-6">
       <span class="section-label">How it starts</span>
-      <ol class="mt-8 grid gap-8 md:grid-cols-3">
-        <li class="border-t border-warm-grey/30 pt-5">
-          <span class="font-mono text-brass text-xs">01</span>
-          <h3 class="mt-1 text-xl font-serif text-charcoal">Free Clarity Call</h3>
-          <p class="mt-2 text-slate leading-relaxed">A 30 minute video call about where you are and what you're carrying. No pitch.</p>
+      <ol class="mt-8 grid gap-6 md:grid-cols-3">
+        <li class="card card-lift p-7" data-reveal>
+          <span class="font-serif italic text-brass-ink text-sm">01</span>
+          <h3 class="mt-2 text-xl font-serif font-semibold text-slate">Free Clarity Call</h3>
+          <p class="mt-2 text-ink/85 leading-relaxed">A 30 minute video call about where you are and what you're carrying. No pitch.</p>
         </li>
-        <li class="border-t border-warm-grey/30 pt-5">
-          <span class="font-mono text-brass text-xs">02</span>
-          <h3 class="mt-1 text-xl font-serif text-charcoal">
+        <li class="card card-lift p-7" data-reveal>
+          <span class="font-serif italic text-brass-ink text-sm">02</span>
+          <h3 class="mt-2 text-xl font-serif font-semibold text-slate">
             Clarity Conversation
             <span
-              class="ml-1 font-sans text-base text-brass font-medium"
+              class="ml-1 font-sans text-base text-brass-ink font-medium"
               data-swap
               data-small={conversationPrices.small}
               data-standard={conversationPrices.standard}
               data-established={conversationPrices.established}
             >{conversationPrices.small}</span>
           </h3>
-          <p class="mt-2 text-slate leading-relaxed">A 90 minute working session, then a written summary within 48 hours with a clear recommended path.</p>
+          <p class="mt-2 text-ink/85 leading-relaxed">A 90 minute working session, then a written summary within 48 hours with a clear recommended path.</p>
         </li>
-        <li class="border-t border-warm-grey/30 pt-5">
-          <span class="font-mono text-brass text-xs">03</span>
-          <h3 class="mt-1 text-xl font-serif text-charcoal">Choose a plan</h3>
-          <p class="mt-2 text-slate leading-relaxed">Begin within 30 days and the full Conversation fee comes off your first month.</p>
+        <li class="card card-lift p-7" data-reveal>
+          <span class="font-serif italic text-brass-ink text-sm">03</span>
+          <h3 class="mt-2 text-xl font-serif font-semibold text-slate">Choose a plan</h3>
+          <p class="mt-2 text-ink/85 leading-relaxed">Begin within 30 days and the full Conversation fee comes off your first month.</p>
         </li>
       </ol>
     </div>
@@ -221,19 +222,19 @@ const questions = [
   <section class="bg-ivory py-16">
     <div class="max-w-6xl mx-auto px-6">
       <span class="section-label">Built for your church</span>
-      <h2 class="mt-4 text-3xl font-serif font-light text-charcoal leading-snug">
+      <h2 class="mt-4 text-3xl font-serif font-semibold text-slate leading-snug">
         On its own, or inside a plan.
       </h2>
 
-      <div class="mt-8 bg-white border border-warm-grey/20 rounded-lg divide-y divide-warm-grey/15">
+      <div class="mt-8 card divide-y divide-stone overflow-hidden" data-reveal>
         {addOns.map(item => (
-          <div class="flex items-start justify-between gap-6 px-6 md:px-8 py-5">
+          <div class="flex items-start justify-between gap-6 px-6 md:px-8 py-5 transition-colors hover:bg-ivory/70">
             <div>
-              <p class="text-charcoal font-medium">{item.name}</p>
-              <p class="text-sm text-slate mt-1">{item.note}</p>
+              <p class="text-slate font-medium">{item.name}</p>
+              <p class="text-sm text-ink/85 mt-1">{item.note}</p>
             </div>
             <p
-              class="shrink-0 text-charcoal font-medium"
+              class="shrink-0 font-serif font-semibold text-lg text-slate"
               data-swap
               data-small={item.prices.small}
               data-standard={item.prices.standard}
@@ -246,37 +247,24 @@ const questions = [
   </section>
 
   <!-- ── QUESTIONS ─────────────────────────────────────────────────── -->
-  <section class="bg-white py-16">
+  <section class="bg-paper py-16">
     <div class="max-w-6xl mx-auto px-6">
       <span class="section-label">Questions</span>
-      <div class="mt-8 max-w-[720px] divide-y divide-warm-grey/20 border-y border-warm-grey/20">
+      <div class="mt-8 max-w-[720px] divide-y divide-stone border-y border-stone">
         {questions.map(item => (
           <details class="group py-5">
-            <summary class="flex cursor-pointer list-none [&::-webkit-details-marker]:hidden items-center justify-between gap-4 text-lg font-serif text-charcoal">
+            <summary class="flex cursor-pointer list-none [&::-webkit-details-marker]:hidden items-center justify-between gap-4 text-lg font-serif text-slate">
               {item.q}
-              <span class="text-brass text-2xl leading-none transition-transform duration-200 group-open:rotate-45">+</span>
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-stone text-brass-ink text-xl leading-none transition-all duration-300 group-open:rotate-45 group-open:bg-slate group-open:text-ivory group-open:border-slate">+</span>
             </summary>
-            <p class="mt-3 text-slate leading-relaxed" set:html={item.a} />
+            <p class="mt-3 text-ink/85 leading-relaxed" set:html={item.a} />
           </details>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- ── CLOSING CTA ───────────────────────────────────────────────── -->
-  <section class="bg-charcoal py-24">
-    <div class="max-w-6xl mx-auto px-6 text-center">
-      <h2 class="text-3xl md:text-4xl font-serif font-light text-ivory leading-snug mb-5">
-        Every engagement starts the same way.
-      </h2>
-      <p class="text-lg text-ivory/70 leading-relaxed mb-10 max-w-[460px] mx-auto">
-        With a free 30 minute conversation about where you are and what you're working on.
-      </p>
-      <a href="/book" class="btn-primary-lg">
-        Book a free Clarity Call →
-      </a>
-    </div>
-  </section>
+  <CtaBand title="Every engagement starts" accent="the same way." body="With a free 30 minute conversation about where you are and what you’re working on." />
 
 </Layout>
 
@@ -287,8 +275,8 @@ const questions = [
     { key: 'established', label: 'Established church rate' },
   ];
   const options = Array.from(document.querySelectorAll<HTMLButtonElement>('.band-option'));
-  const selected = ['bg-charcoal', 'text-ivory'];
-  const unselected = ['text-slate', 'hover:bg-ivory'];
+  const selected = ['bg-slate', 'text-ivory'];
+  const unselected = ['text-ink/85', 'hover:bg-ivory'];
 
   function render(index: number) {
     const band = bands[index];

@@ -2,60 +2,123 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Brand tokens, mirrored from tailwind.config.mjs (Visual Identity Guide v2) */
 :root {
-  --color-ivory:          #F7F4EE;
-  --color-charcoal:       #1C1917;
-  --color-slate:          #57534E;
-  --color-brass:          #A07840;
-  --color-clay:           #96543F;
-  --color-deep-warm-grey: #78716C;
+  --color-slate:     #2B4C6F;
+  --color-charcoal:  #2B2B2B;
+  --color-ivory:     #F7F3ED;
+  --color-paper:     #FBF9F5;
+  --color-stone:     #D9D2C5;
+  --color-brass:     #B08D57;
+  --color-brass-ink: #8A6A3B;
+  --color-clay:      #B5654A;
+  --color-warm-grey: #6B6660;
+  --color-olive:     #3A3D2E;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
-    @apply bg-ivory text-slate font-sans antialiased;
+    @apply bg-ivory text-ink font-sans antialiased;
+    font-size: 17px;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif text-charcoal;
+    @apply font-serif text-slate;
+    font-optical-sizing: auto;
+  }
+
+  ::selection {
+    background: rgba(176, 141, 87, 0.3);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brass);
+    outline-offset: 3px;
   }
 }
 
 @layer components {
+  /* Buttons: Deep Slate is the primary action color */
   .btn-primary {
-    @apply inline-flex items-center gap-1 px-6 py-3 bg-brass text-ivory font-sans font-medium text-sm rounded
-           transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-brass focus:ring-offset-2;
+    @apply inline-flex items-center gap-2 px-6 py-3 bg-slate text-ivory font-sans font-medium text-[15px] rounded-md
+           transition-all duration-200 hover:bg-slate-deep hover:-translate-y-0.5 hover:shadow-[0_10px_24px_-12px_rgba(43,76,111,0.6)];
   }
-
   .btn-primary-lg {
-    @apply inline-flex items-center gap-1 px-8 py-4 bg-brass text-ivory font-sans font-medium rounded
-           transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-brass focus:ring-offset-2;
+    @apply btn-primary px-8 py-4 text-base;
   }
-
+  .btn-light {
+    @apply inline-flex items-center gap-2 px-8 py-4 bg-ivory text-slate font-sans font-medium rounded-md
+           transition-all duration-200 hover:bg-paper hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-14px_rgba(0,0,0,0.6)];
+  }
   .btn-ghost {
-    @apply inline-flex items-center gap-1 text-charcoal font-sans font-medium text-sm
-           underline underline-offset-4 decoration-charcoal/30 hover:decoration-brass hover:text-brass
-           transition-colors duration-200;
+    @apply inline-flex items-center gap-1.5 text-slate font-sans font-medium text-[15px]
+           underline underline-offset-[6px] decoration-brass/60 decoration-[1.5px]
+           hover:decoration-slate transition-colors duration-200;
   }
-
   .btn-outline-light {
-    @apply inline-flex items-center gap-1 px-6 py-3 border border-ivory/40 text-ivory font-sans font-medium text-sm rounded
-           transition-all duration-200 hover:border-ivory/70 hover:bg-ivory/10;
+    @apply inline-flex items-center gap-2 px-6 py-3 border border-ivory/40 text-ivory font-sans font-medium text-[15px] rounded-md
+           transition-all duration-200 hover:border-ivory hover:bg-ivory/10;
   }
+  .btn-arrow {
+    @apply inline-block transition-transform duration-200;
+  }
+  a:hover > .btn-arrow { transform: translateX(3px); }
 
+  /* Eyebrow: Inter Medium, caps, letter-spaced */
   .section-label {
-    @apply block text-xs font-sans font-medium tracking-widest uppercase text-brass;
+    @apply inline-flex items-center gap-3 text-xs font-sans font-medium tracking-[0.14em] uppercase text-brass-ink;
+  }
+  .section-label::before {
+    content: '';
+    @apply block h-px w-6 bg-brass;
+  }
+  .on-dark .section-label,
+  .section-label.on-dark { @apply text-brass; }
+
+  .prose-cap { @apply max-w-[680px]; }
+
+  .h-display { @apply font-serif font-semibold text-slate leading-[1.04] tracking-[-0.015em]; }
+  .h-section { @apply font-serif font-semibold text-slate leading-[1.15] tracking-[-0.01em] text-3xl md:text-[2.6rem]; }
+  .accent    { @apply font-serif italic font-normal text-clay; }
+  .on-dark .accent { color: #D9A68E; }
+
+  .lede { @apply text-xl leading-relaxed text-ink/85; }
+
+  .card {
+    @apply bg-paper border border-stone/80 rounded-xl transition-all duration-300;
+  }
+  .card-lift:hover {
+    @apply -translate-y-1 border-brass/60 shadow-[0_18px_40px_-24px_rgba(43,76,111,0.45)];
   }
 
-  .prose-cap {
-    @apply max-w-[720px];
+  .brass-rule { @apply block h-px w-14 bg-brass; }
+
+  .phase-rule { @apply flex items-center gap-4 mb-8; }
+}
+
+/* Scroll reveal. Content is fully visible without JavaScript; the script
+   only hides elements that start below the fold, then fades them in. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal].will-reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 700ms ease, transform 700ms cubic-bezier(.2,.7,.2,1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  [data-reveal].will-reveal.is-visible {
+    opacity: 1;
+    transform: none;
   }
 
-  .phase-rule {
-    @apply flex items-center gap-4 mb-8;
+  .will-reveal .draw-arch path {
+    stroke-dasharray: 600;
+    stroke-dashoffset: 600;
+    transition: stroke-dashoffset 2.4s cubic-bezier(.4,0,.2,1);
   }
+  .will-reveal.is-visible .draw-arch path { stroke-dashoffset: 0; }
 }

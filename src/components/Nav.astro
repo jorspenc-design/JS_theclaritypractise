@@ -1,11 +1,13 @@
 ---
+import Logo from './Logo.astro';
+
 interface Props {
   minimal?: boolean;
 }
 const { minimal = false } = Astro.props;
 
 const navLinks = [
-  { href: '/how-we-work', label: 'How We Work' },
+  { href: '/how-we-work', label: 'How we work' },
   { href: '/services',    label: 'Services' },
   { href: '/about',       label: 'About' },
   { href: '/speaking',    label: 'Speaking' },
@@ -14,47 +16,45 @@ const navLinks = [
 const path = Astro.url.pathname;
 ---
 
-<header class="sticky top-0 z-50 bg-ivory/95 backdrop-blur-sm border-b border-warm-grey/20">
-  <nav class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+<header id="site-header" class="sticky top-0 z-50 bg-ivory/90 backdrop-blur-md border-b border-transparent transition-[border-color,box-shadow] duration-300">
+  <nav class="max-w-6xl mx-auto px-6 h-[72px] flex items-center justify-between" aria-label="Main">
 
-    <!-- Brand -->
-    <a href="/" class="font-serif text-charcoal text-lg font-light tracking-tight hover:text-brass transition-colors duration-200">
-      The Clarity Practice
-    </a>
+    <Logo size="md" />
 
     {!minimal && (
       <>
-        <!-- Desktop links -->
         <div class="hidden md:flex items-center gap-8">
-          {navLinks.map(link => (
-            <a
-              href={link.href}
-              class={`text-sm font-sans transition-colors duration-200 ${
-                path.startsWith(link.href)
-                  ? 'text-charcoal font-medium'
-                  : 'text-slate hover:text-charcoal'
-              }`}
-            >
-              {link.label}
-            </a>
-          ))}
-          <a href="/book" class="btn-primary">
+          {navLinks.map(link => {
+            const active = path.startsWith(link.href);
+            return (
+              <a
+                href={link.href}
+                aria-current={active ? 'page' : undefined}
+                class={`relative text-[15px] font-sans transition-colors duration-200 py-2
+                  after:absolute after:left-0 after:-bottom-0.5 after:h-[1.5px] after:bg-brass after:transition-all after:duration-300
+                  ${active ? 'text-slate font-medium after:w-full' : 'text-ink/75 hover:text-slate after:w-0 hover:after:w-full'}`}
+              >
+                {link.label}
+              </a>
+            );
+          })}
+          <a href="/book" class="btn-primary !py-2.5 !px-5">
             Book a Clarity Call
           </a>
         </div>
 
-        <!-- Mobile toggle -->
         <button
           id="mobile-toggle"
-          class="md:hidden p-2 -mr-2 text-charcoal hover:text-brass transition-colors"
-          aria-label="Toggle navigation"
+          class="md:hidden p-2 -mr-2 text-slate"
+          aria-label="Open menu"
           aria-expanded="false"
+          aria-controls="mobile-menu"
         >
-          <svg id="icon-open" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          <svg id="icon-open" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h10" />
           </svg>
-          <svg id="icon-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          <svg id="icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" d="M6 18 18 6M6 6l12 12" />
           </svg>
         </button>
       </>
@@ -62,26 +62,19 @@ const path = Astro.url.pathname;
   </nav>
 
   {!minimal && (
-    <!-- Mobile drawer -->
-    <div id="mobile-menu" class="hidden md:hidden border-t border-warm-grey/20 bg-ivory">
-      <div class="max-w-6xl mx-auto px-6 py-6 flex flex-col gap-5">
+    <div id="mobile-menu" class="hidden md:hidden border-t border-stone bg-ivory">
+      <div class="max-w-6xl mx-auto px-6 py-6 flex flex-col gap-1">
         {navLinks.map(link => (
-          <a
-            href={link.href}
-            class="text-base font-sans text-charcoal hover:text-brass transition-colors duration-200"
-          >
-            {link.label}
-          </a>
+          <a href={link.href} class="font-serif text-2xl text-slate py-2">{link.label}</a>
         ))}
-        <a href="/book" class="btn-primary self-start mt-1">
-          Book a Clarity Call
-        </a>
+        <a href="/book" class="btn-primary self-start mt-4">Book a Clarity Call</a>
       </div>
     </div>
   )}
 </header>
 
 <script>
+  const header = document.getElementById('site-header');
   const toggle = document.getElementById('mobile-toggle');
   const menu   = document.getElementById('mobile-menu');
   const open   = document.getElementById('icon-open');
@@ -90,8 +83,18 @@ const path = Astro.url.pathname;
   toggle?.addEventListener('click', () => {
     const expanded = toggle.getAttribute('aria-expanded') === 'true';
     toggle.setAttribute('aria-expanded', String(!expanded));
+    toggle.setAttribute('aria-label', expanded ? 'Open menu' : 'Close menu');
     menu?.classList.toggle('hidden');
     open?.classList.toggle('hidden');
     close?.classList.toggle('hidden');
   });
+
+  // A hairline and soft shadow appear once the page scrolls under the header.
+  const onScroll = () => {
+    const scrolled = window.scrollY > 8;
+    header?.classList.toggle('border-stone', scrolled);
+    header?.classList.toggle('shadow-[0_6px_20px_-16px_rgba(43,76,111,0.5)]', scrolled);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 </script>

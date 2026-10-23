@@ -1,32 +1,34 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import ArchLine from '../components/ArchLine.astro';
+import CtaBand from '../components/CtaBand.astro';
 
 const topics = [
   {
     num:         '01',
     title:       'The Roman Road',
-    description: 'Why AI might be the providential infrastructure of our generation — and why that should make us careful, not excited.',
-    format:      '45–60 min keynote',
+    description: 'Why AI might be the providential infrastructure of our generation, and why that should make us careful rather than excited.',
+    format:      '45 to 60 minute keynote',
     bestFor:     'Conferences, denominational gatherings, leadership summits',
   },
   {
     num:         '02',
     title:       'The Quiet Pastor and the Loud Machine',
-    description: 'Resisting the formation pressure of AI without rejecting its usefulness — a pastoral approach to technology adoption.',
-    format:      '45 min keynote or 90 min workshop',
+    description: 'Resisting the formation pressure of AI without rejecting its usefulness. A pastoral approach to adopting technology.',
+    format:      '45 minute keynote or 90 minute workshop',
     bestFor:     'Pastor cohorts, staff retreats',
   },
   {
     num:         '03',
     title:       'Stewardship in a Digital Age',
-    description: 'Reframing how the local church thinks about adopting new tools — from anxiety and FOMO to wisdom and intentionality.',
+    description: 'Reframing how the local church thinks about new tools, moving from anxiety and fear of missing out toward wisdom and intention.',
     format:      'Keynote or 2-session teaching',
     bestFor:     'Church leadership teams, board retreats',
   },
   {
     num:         '04',
     title:       'Building Systems That Hold',
-    description: 'Practical operational wisdom for small ministry teams — how to build infrastructure that scales sustainably without losing the human heart of the work.',
+    description: 'Practical operational wisdom for small ministry teams. How to build infrastructure that grows sustainably without losing the human heart of the work.',
     format:      'Workshop or half-day intensive',
     bestFor:     'Staff trainings, executive team development',
   },
@@ -34,7 +36,7 @@ const topics = [
     num:         '05',
     title:       'AI for Ministry Teams: A Working Introduction',
     description: 'A practical, hands-on session for pastors and ministry staff who want to use AI well without being overwhelmed by it.',
-    format:      '2–3 hour workshop',
+    format:      '2 to 3 hour workshop',
     bestFor:     'Church staff trainings, denominational training events',
   },
 ];
@@ -45,44 +47,33 @@ const topics = [
   description="Bringing clarity to conferences, denominations, leadership retreats, and church teams navigating AI and ministry systems."
 >
 
-  <!-- ── PAGE HEADER ───────────────────────────────────────────────── -->
-  <section class="bg-ivory pt-24 pb-0 overflow-hidden">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="flex flex-col lg:flex-row lg:items-end lg:gap-16">
-
-        <!-- Text -->
-        <div class="flex-1 pb-16">
-          <span class="section-label mb-4">Speaking</span>
-          <h1 class="mt-4 text-5xl md:text-6xl font-serif font-light text-charcoal leading-[1.05] tracking-tight mb-6">
-            Speaking.
-          </h1>
-          <p class="text-xl text-slate font-light leading-relaxed max-w-[480px]">
-            Bringing clarity to conferences, denominations, leadership retreats, and church teams navigating AI and ministry systems.
-          </p>
-        </div>
-
-        <!-- Speaking photo -->
-        <div class="lg:w-[300px] lg:flex-shrink-0 -mx-6 lg:mx-0">
-          <img
-            src="/images/js-speaking.jpg"
-            alt="Joshua Spence speaking"
-            class="w-full lg:w-[300px] lg:rounded-t-lg object-cover object-top"
-            style="max-height: 420px;"
-          />
-        </div>
+  <!-- HEADER -->
+  <section class="relative overflow-hidden bg-gradient-to-b from-ivory to-[#F1EBE1] border-b border-stone/70">
+    <ArchLine class="pointer-events-none absolute -left-24 -bottom-28 w-[420px] text-slate/[0.07]" width={1.4} />
+    <div class="relative max-w-6xl mx-auto px-6 pt-20 md:pt-28 pb-16 grid gap-12 lg:grid-cols-[1.2fr_0.8fr] items-center">
+      <div>
+        <span class="section-label">Speaking</span>
+        <h1 class="h-display mt-6 text-5xl md:text-[4.25rem]">Bring clarity to <span class="accent">your gathering.</span></h1>
+        <p class="lede mt-7 max-w-[520px]">
+          Keynotes and workshops for conferences, denominations, leadership retreats, and church teams working through AI and ministry systems.
+        </p>
+      </div>
+      <div class="relative mx-auto w-full max-w-[340px]">
+        <div class="absolute -inset-3 rounded-2xl border border-brass/50 translate-x-4 translate-y-4" aria-hidden="true"></div>
+        <img src="/images/js-speaking.jpg" alt="Joshua Spence speaking" class="relative w-full aspect-[4/5] rounded-xl object-cover object-top shadow-[0_24px_50px_-30px_rgba(43,76,111,0.8)]" />
       </div>
     </div>
   </section>
 
-  <!-- ── INTRO ─────────────────────────────────────────────────────── -->
-  <section class="bg-white py-12">
+  <!-- INTRO -->
+  <section class="bg-paper py-16 md:py-20">
     <div class="max-w-6xl mx-auto px-6">
-      <div class="prose-cap space-y-4 text-lg text-slate leading-relaxed">
+      <div class="prose-cap space-y-5 text-lg leading-relaxed text-ink/85" data-reveal>
         <p>
-          I speak regularly at gatherings of pastors, ministry leaders, and Christian nonprofit teams — usually on the same set of questions: How do we steward this technology well? What does faithful growth look like? How do we lead without burning out? Where does AI belong in the life of the church, and where does it not?
+          I speak at gatherings of pastors, ministry leaders, and Christian nonprofit teams, usually on the same handful of questions. How do we steward this technology well? What does faithful growth look like? How do we lead without burning out? Where does AI belong in the life of the church, and where doesn’t it?
         </p>
         <p>
-          Sessions can be shaped as keynotes, workshops, multi-session teachings, or staff trainings — whatever serves your gathering best.
+          Sessions can be shaped as keynotes, workshops, multi-session teachings, or staff trainings, whatever serves your gathering best.
         </p>
       </div>
     </div>
@@ -91,24 +82,24 @@ const topics = [
   <!-- ── KEYNOTE TOPICS ────────────────────────────────────────────── -->
   <section class="bg-ivory py-16">
     <div class="max-w-6xl mx-auto px-6">
-      <span class="section-label mb-8 block">Keynote Topics</span>
-      <div class="space-y-5">
+      <span class="section-label mb-10" data-reveal>Keynote topics</span>
+      <div class="mt-10 space-y-5">
         {topics.map(t => (
-          <div class="bg-white border border-warm-grey/20 rounded-lg p-8 md:p-10">
+          <div class="group card card-lift p-8 md:p-10 border-l-4 border-l-transparent hover:border-l-brass" data-reveal>
             <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8">
               <div class="flex-1">
-                <span class="font-mono text-brass text-xs">{t.num}</span>
-                <h2 class="mt-2 text-2xl font-serif text-charcoal mb-3">{t.title}</h2>
-                <p class="text-slate leading-relaxed">{t.description}</p>
+                <span class="font-serif italic text-brass-ink text-sm">{t.num}</span>
+                <h2 class="mt-2 text-2xl md:text-[1.75rem] font-serif font-semibold text-slate mb-3">{t.title}</h2>
+                <p class="text-ink/85 leading-relaxed">{t.description}</p>
               </div>
               <div class="lg:min-w-[220px] space-y-4 lg:pt-7">
                 <div>
-                  <p class="text-xs uppercase tracking-widest text-warm-grey mb-1">Format</p>
-                  <p class="text-slate text-sm">{t.format}</p>
+                  <p class="text-xs uppercase tracking-[0.14em] text-brass-ink mb-1">Format</p>
+                  <p class="text-ink/85 text-sm">{t.format}</p>
                 </div>
                 <div>
-                  <p class="text-xs uppercase tracking-widest text-warm-grey mb-1">Best For</p>
-                  <p class="text-slate text-sm">{t.bestFor}</p>
+                  <p class="text-xs uppercase tracking-[0.14em] text-brass-ink mb-1">Best for</p>
+                  <p class="text-ink/85 text-sm">{t.bestFor}</p>
                 </div>
               </div>
             </div>
@@ -119,11 +110,11 @@ const topics = [
   </section>
 
   <!-- ── PAST VENUES ───────────────────────────────────────────────── -->
-  <section class="bg-white py-16 border-t border-warm-grey/20">
+  <section class="bg-paper py-16 border-t border-stone">
     <div class="max-w-6xl mx-auto px-6">
       <div class="prose-cap">
-        <h2 class="text-2xl font-serif text-charcoal mb-4">Past venues.</h2>
-        <p class="text-slate leading-relaxed italic text-warm-grey">
+        <h2 class="text-2xl font-serif font-semibold text-slate mb-4">Past venues</h2>
+        <p class="text-ink/85 leading-relaxed italic text-warm-grey">
           A growing list of churches, conferences, and ministries. Coming soon.
         </p>
       </div>
@@ -131,40 +122,19 @@ const topics = [
   </section>
 
   <!-- ── INVESTMENT ────────────────────────────────────────────────── -->
-  <section class="bg-ivory py-16 border-t border-warm-grey/20">
+  <section class="bg-ivory py-16 border-t border-stone">
     <div class="max-w-6xl mx-auto px-6">
       <div class="prose-cap">
-        <h2 class="text-2xl font-serif text-charcoal mb-4">Investment.</h2>
-        <p class="text-lg text-slate leading-relaxed">
-          Speaking investment starts at $1,500 (typical range $1,500–$3,500) plus travel. Discounts and pro bono availability for under-resourced ministries and denominations — please ask.
+        <h2 class="text-2xl font-serif font-semibold text-slate mb-4">Investment</h2>
+        <p class="text-lg text-ink/85 leading-relaxed">
+          Speaking starts at $1,500, with a typical range of $1,500 to $3,500, plus travel. Discounts and pro bono dates are available for under-resourced ministries and denominations. Please ask.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- ── CTA ───────────────────────────────────────────────────────── -->
-  <section class="bg-charcoal py-24">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="max-w-[560px]">
-        <h2 class="text-3xl md:text-4xl font-serif font-light text-ivory leading-snug mb-5">
-          Bring this to your gathering.
-        </h2>
-        <p class="text-lg text-ivory/70 leading-relaxed mb-10">
-          Tell us about your event — date, audience, format, and budget — and we'll let you know if we'd be a good fit.
-        </p>
-        <div class="flex flex-col sm:flex-row gap-4">
-          <a
-            href="mailto:joshuaspence@joshuaspence.org?subject=Speaking%20Inquiry%20%E2%80%94%20The%20Clarity%20Practice"
-            class="inline-flex items-center gap-1 px-8 py-4 bg-brass text-ivory font-sans font-medium rounded transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
-          >
-            Inquire about speaking →
-          </a>
-          <a href="/book" class="btn-outline-light">
-            Or book a Clarity Call →
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
+  <CtaBand title="Bring this to" accent="your gathering." body="Tell me about your event, including the date, audience, format, and budget, and I’ll let you know if we would be a good fit." cta="Inquire about speaking" href="mailto:joshuaspence@joshuaspence.org?subject=Speaking%20inquiry">
+    <a href="/book" class="btn-outline-light">Or book a Clarity Call <span class="btn-arrow">→</span></a>
+  </CtaBand>
 
 </Layout>

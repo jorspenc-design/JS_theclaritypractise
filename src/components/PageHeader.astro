@@ -1,0 +1,25 @@
+---
+import ArchLine from './ArchLine.astro';
+
+interface Props {
+  eyebrow: string;
+  /** Plain headline text. Use `accent` for an italic Clay phrase at the end. */
+  title: string;
+  accent?: string;
+  lede?: string;
+  narrow?: boolean;
+}
+const { eyebrow, title, accent, lede, narrow = false } = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-gradient-to-b from-ivory to-[#F1EBE1] border-b border-stone/70">
+  <ArchLine class="pointer-events-none absolute -right-16 -bottom-24 md:right-[4%] md:-bottom-16 w-[340px] md:w-[460px] text-slate/[0.09]" width={1.4} />
+  <div class={`relative mx-auto px-6 pt-20 pb-16 md:pt-28 md:pb-20 ${narrow ? 'max-w-4xl' : 'max-w-6xl'}`}>
+    <span class="section-label">{eyebrow}</span>
+    <h1 class="h-display mt-6 text-5xl md:text-[4.25rem] max-w-[760px]">
+      {title}{accent && <> <span class="accent">{accent}</span></>}
+    </h1>
+    {lede && <p class="lede mt-7 max-w-[600px]">{lede}</p>}
+    <slot />
+  </div>
+</section>
