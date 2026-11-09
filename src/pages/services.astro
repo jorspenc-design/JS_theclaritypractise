@@ -8,7 +8,7 @@ import CtaBand from '../components/CtaBand.astro';
 const plans = [
   {
     name:        'Counsel',
-    problem:     'For the pastor who can do the work but has no one to think it through with.',
+    problem:     'For the pastor or leader who wants to do the work but needs some coaching, and someone to help think it through along the way.',
     prices:      { small: '$600', standard: '$750', established: '$950' },
     first30:     "A written plan for your next 90 days, with what to fix first, what to leave alone for now, and who should own each piece.",
     by90:        "Your top priority is moving, and you've stopped carrying every decision by yourself.",
@@ -17,12 +17,13 @@ const plans = [
       'Messages between calls in your client portal',
       'A quarterly look at your systems and priorities',
     ],
-    term:        'Six month term',
+    term:        'Month to month. Stop at the end of any month.',
+    perk:        '',
     recommended: false,
   },
   {
     name:        'Steward',
-    problem:     'For the church where the pastor has become the operations department.',
+    problem:     "For the pastor who's in the weeds and needs a helping hand.",
     prices:      { small: '$2,000', standard: '$2,500', established: '$3,500' },
     first30:     'One system that costs you every week, like Sunday slides and announcements or volunteer scheduling, rebuilt and handed back to you working.',
     by90:        "Your AI policy is written and your staff is trained on it. We measure your week again, aiming for five to ten hours back.",
@@ -32,12 +33,13 @@ const plans = [
       'Your custom AI policy, with quarterly staff training and reviews',
       'Messages between sessions in your client portal',
     ],
-    term:        'Six month minimum. A twelve month term adds every foundation and a new website.',
+    term:        'Month to month. Stop at the end of any month.',
+    perk:        'Stay with Steward for twelve months and your new website is included.',
     recommended: true,
   },
   {
     name:        'Partner',
-    problem:     'For the growing church that needs someone to own operations week to week.',
+    problem:     'For the growing church that needs someone to own its AI operations week to week.',
     prices:      { small: '', standard: '$5,000', established: '$6,500' },
     first30:     'Your weekly operating rhythm is running, with a standing meeting, one shared list of what is open, and a name next to every item on it.',
     by90:        'Your first systems are rebuilt and roles on your team are clearer. We measure the week again, for you and for your staff.',
@@ -46,7 +48,8 @@ const plans = [
       'Staff coaching and help with team structure',
       'Everything in Steward, including your website',
     ],
-    term:        'Twelve month term. Limited to a few churches at a time.',
+    term:        'Three month term. Limited to a few churches at a time.',
+    perk:        '',
     recommended: false,
   },
 ];
@@ -101,6 +104,10 @@ const questions = [
   {
     q: 'Can we pay for the whole year?',
     a: 'Yes. Pay twelve months up front and save 10%.',
+  },
+  {
+    q: 'Do I have to sign a long contract?',
+    a: "No. Counsel and Steward are month to month, and you can stop at the end of any month. Partner asks for three months, because owning your operations takes a little time to set up. Staying longer comes with perks instead of penalties. Twelve months on Steward includes a new website, and paying a year up front saves 10%.",
   },
   {
     q: 'Who owns what you build?',
@@ -278,7 +285,10 @@ const faqSchema = {
               ))}
             </ul>
 
-            <p class={`mt-6 text-sm ${p.recommended ? 'text-ivory/60' : 'text-warm-grey'}`}>{p.term}</p>
+            {p.perk && (
+              <p class={`mt-6 border-l-2 border-brass pl-3 text-sm font-medium leading-relaxed ${p.recommended ? 'text-ivory' : 'text-slate'}`}>{p.perk}</p>
+            )}
+            <p class={`${p.perk ? 'mt-3' : 'mt-6'} text-sm ${p.recommended ? 'text-ivory/70' : 'text-warm-grey'}`}>{p.term}</p>
 
             <a
               href="/book"
