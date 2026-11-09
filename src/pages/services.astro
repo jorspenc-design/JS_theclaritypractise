@@ -56,7 +56,7 @@ const timeline = [
   {
     when:  'Day one',
     title: 'A real conversation',
-    body:  "About who you are, who your church is, what you're trying to accomplish, and where it hurts. No template.",
+    body:  "About who you are, who your church is, what you're trying to accomplish, and where it hurts. Your church isn't a copy of anyone else's, and your plan won't be either.",
     win:   false,
   },
   {
@@ -68,13 +68,13 @@ const timeline = [
   {
     when:  'Within 30 days',
     title: 'Your first win',
-    body:  "A first real process in place that wins something back, whether that's hours, money, or peace where there used to be confusion.",
+    body:  "A first real process in place that wins something back, whether that's hours, money, or peace where there used to be confusion. Where AI can carry part of the load, we build it in, with a person still in charge of it.",
     win:   true,
   },
   {
     when:  'Through day 90',
     title: 'The scope grows',
-    body:  'With the first win landed, we take on the next system and then the next, one at a time, each one built to last.',
+    body:  'With the first win landed, we take on the next system and then the next. Along the way your team learns to build and run its own AI tools, so the work keeps going without depending on me.',
     win:   false,
   },
 ];
@@ -85,6 +85,10 @@ const questions = [
   {
     q: 'Can you promise the hours?',
     a: "No, and I'd be careful with anyone who does. Every church is different, and some of what eats a pastor's week isn't a systems problem. What I can promise is that we'll measure your week at the start and again at day 90, so you'll know what changed in hours and not just in impressions.",
+  },
+  {
+    q: 'How do you use AI in this work?',
+    a: "AI does a lot of the heavy lifting in what I build, like first drafts of announcements and curriculum, meeting notes, scheduling, translation, and answers to routine questions. Your staff learns to build and run these tools themselves, inside a written AI policy that says what AI will do at your church and what stays human. Pastoral care, discernment, and decisions about people always stay with people.",
   },
   {
     q: 'Can I hire you for just a website or a single project?',
@@ -163,7 +167,7 @@ const faqSchema = {
         Real answers for <span class="accent">real problems.</span>
       </h2>
       <p class="mt-5 text-lg text-ink/85 leading-relaxed max-w-[640px]">
-        Through clarity and partnership, we win back more of your week and more of your church's budget, starting with the thing that costs you the most.
+        Through clarity, partnership, and careful use of AI, we win back more of your week and more of your church's budget, starting with the thing that costs you the most.
       </p>
 
       <div class="relative mt-12" data-reveal>
@@ -188,8 +192,7 @@ const faqSchema = {
 
         <!-- Scope grows: a widening band under the last stretch of the line -->
         <div class="mt-8 hidden md:grid md:grid-cols-4 md:gap-8" aria-hidden="true">
-          <div class="col-span-2"></div>
-          <div class="col-span-2 relative h-14">
+          <div class="col-span-4 relative h-14">
             <div class="absolute inset-0 bg-stone/70 [clip-path:polygon(0_100%,100%_0,100%_100%)]"></div>
             <p class="absolute bottom-2 right-3 text-xs uppercase tracking-[0.14em] font-medium text-slate">Scope grows</p>
           </div>
