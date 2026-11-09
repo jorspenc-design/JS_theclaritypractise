@@ -51,37 +51,37 @@ const plans = [
   },
 ];
 
-// The first 90 days, the same on every plan.
-const firstNinety = [
+// The next 90 days, shown as a left-to-right timeline. Same process on every plan.
+const timeline = [
   {
-    when:  'Week one',
-    title: 'We measure',
-    body:  'You track where your hours go for one normal week, and together we name the first win we are aiming for. Then we both know what success looks like.',
+    when:  'Day one',
+    title: 'A real conversation',
+    body:  "About who you are, who your church is, what you're trying to accomplish, and where it hurts. No template.",
+    win:   false,
   },
   {
-    when:  'By day 30',
+    when:  'The first weeks',
+    title: 'Real problems, and a goalpost',
+    body:  "We name what's actually breaking and write down what success looks like for your church, so we both know what we're aiming at.",
+    win:   false,
+  },
+  {
+    when:  'Within 30 days',
     title: 'Your first win',
-    body:  "Something you'll notice on an ordinary Tuesday. A process that used to eat your afternoon now runs without you, or a decision that kept stalling has a plan and an owner.",
+    body:  "A first real process in place that wins something back, whether that's hours, money, or peace where there used to be confusion.",
+    win:   true,
   },
   {
-    when:  'By day 90',
-    title: 'We measure again',
-    body:  'We look at your week the same way we did at the start. On Steward and Partner, the aim is five to ten hours a week back in your hands.',
-  },
-  {
-    when:  'After that',
-    title: 'The next system',
-    body:  'We keep going one system at a time, in the order that gives you the most relief, until the structure carries the load and you are not the one holding it up.',
+    when:  'Through day 90',
+    title: 'The scope grows',
+    body:  'With the first win landed, we take on the next system and then the next, one at a time, each one built to last.',
+    win:   false,
   },
 ];
 
 const conversationPrices = { small: '$1,000', standard: '$1,250', established: '$1,250' };
 
 const questions = [
-  {
-    q: 'How does the free month work?',
-    a: "In the first week we name your first win together and write it down. If it isn't delivered by day 30, you won't be billed for your second month. You don't have to ask for it.",
-  },
   {
     q: 'Can you promise the hours?',
     a: "No, and I'd be careful with anyone who does. Every church is different, and some of what eats a pastor's week isn't a systems problem. What I can promise is that we'll measure your week at the start and again at day 90, so you'll know what changed in hours and not just in impressions.",
@@ -130,7 +130,7 @@ const faqSchema = {
 
 <Layout
   title="Services & Investment"
-  description="Monthly plans with every price published. A first win within 30 days, or your second month is free. Churches with a budget under $500,000 get 20% off."
+  description="Monthly plans built around your church's real problems, with a first win in 30 days and every price published. Churches with a budget under $500,000 get 20% off."
 >
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
 
@@ -150,40 +150,55 @@ const faqSchema = {
         Plans and <span class="accent">pricing.</span>
       </h1>
       <p class="mt-6 text-xl text-ink/85 leading-relaxed max-w-[600px]">
-        I work with churches month to month, one system at a time, so the help doesn't end the day a project ships. Every price is on this page, and churches with a budget under $500,000 get 20% off.
+        A real plan built around your real pain points, at a budget your church can afford.
       </p>
     </div>
   </section>
 
-  <!-- ── THE FIRST 90 DAYS ─────────────────────────────────────────── -->
+  <!-- ── THE NEXT 90 DAYS (timeline) ───────────────────────────────── -->
   <section class="bg-paper py-16 md:py-20">
     <div class="max-w-6xl mx-auto px-6">
-      <span class="section-label">The first 90 days</span>
-      <h2 class="mt-4 text-3xl md:text-4xl font-serif font-semibold text-slate leading-snug max-w-[720px]">
-        A real win in the first month, and <span class="accent">hours you can count</span> by the third.
+      <span class="section-label">The next 90 days</span>
+      <h2 class="mt-4 text-3xl md:text-4xl font-serif font-semibold text-slate leading-snug max-w-[760px]">
+        Real answers for <span class="accent">real problems.</span>
       </h2>
       <p class="mt-5 text-lg text-ink/85 leading-relaxed max-w-[640px]">
-        Every plan starts the same way. We find the thing that costs you the most each week and fix that first, before we talk about anything bigger.
+        Through clarity and partnership, we win back more of your week and more of your church's budget, starting with the thing that costs you the most.
       </p>
 
-      <ol class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {firstNinety.map(step => (
-          <li class="card p-7" data-reveal>
-            <p class="font-serif italic text-brass-ink text-sm">{step.when}</p>
-            <h3 class="mt-2 text-xl font-serif font-semibold text-slate">{step.title}</h3>
-            <p class="mt-2 text-ink/85 leading-relaxed">{step.body}</p>
-          </li>
-        ))}
-      </ol>
+      <div class="relative mt-12" data-reveal>
+        <!-- The line: vertical on phones, left to right on larger screens -->
+        <div class="absolute left-[7px] top-2 bottom-2 w-px bg-stone md:left-0 md:right-3 md:top-[7px] md:bottom-auto md:h-px md:w-auto" aria-hidden="true"></div>
+        <!-- Arrowhead at the end of the line (larger screens) -->
+        <div class="absolute right-0 top-[3px] hidden h-0 w-0 border-y-[5px] border-l-[9px] border-y-transparent border-l-stone md:block" aria-hidden="true"></div>
 
-      <div class="mt-8 rounded-xl border-l-2 border-brass bg-ivory px-6 py-5 md:px-8 max-w-[760px]" data-reveal>
-        <p class="font-serif text-xl text-slate leading-snug">
-          If your first win isn't delivered within 30 days, your second month is free.
-        </p>
-        <p class="mt-2 text-ink/85 leading-relaxed">
-          We name the win together in week one, so there's no guessing about what counts.
-        </p>
+        <ol class="relative grid gap-10 md:grid-cols-4 md:gap-8">
+          {timeline.map(step => (
+            <li class="relative pl-10 md:pl-0 md:pt-10 md:pr-4">
+              <span
+                class={`absolute left-0 top-1 h-[15px] w-[15px] rounded-full border-2 border-brass md:top-0 ${step.win ? 'bg-brass' : 'bg-paper'}`}
+                aria-hidden="true"
+              ></span>
+              <p class="text-xs uppercase tracking-[0.14em] font-medium text-brass-ink">{step.when}</p>
+              <h3 class="mt-2 text-xl font-serif font-semibold text-slate">{step.title}</h3>
+              <p class="mt-2 text-ink/85 leading-relaxed">{step.body}</p>
+            </li>
+          ))}
+        </ol>
+
+        <!-- Scope grows: a widening band under the last stretch of the line -->
+        <div class="mt-8 hidden md:grid md:grid-cols-4 md:gap-8" aria-hidden="true">
+          <div class="col-span-2"></div>
+          <div class="col-span-2 relative h-14">
+            <div class="absolute inset-0 bg-stone/70 [clip-path:polygon(0_100%,100%_0,100%_100%)]"></div>
+            <p class="absolute bottom-2 right-3 text-xs uppercase tracking-[0.14em] font-medium text-slate">Scope grows</p>
+          </div>
+        </div>
       </div>
+
+      <p class="mt-12 max-w-[680px] border-l-2 border-brass pl-5 font-serif text-xl text-slate leading-snug">
+        The pace looks a little different on Counsel, Steward, and Partner. The process stays the same. Real problems, found through real conversations, solved with real systems that produce real results.
+      </p>
     </div>
   </section>
 
