@@ -34,7 +34,7 @@ const plans = [
       'Messages between sessions in your client portal',
     ],
     term:        'Month to month. Stop at the end of any month.',
-    perk:        'Commit to six months and your website build fee is waived.',
+    perk:        'We can build it as part of your Steward work, one of the systems we take on together. On a month-to-month plan the build fee applies. Commit to six months and it is waived.',
     recommended: true,
   },
   {
@@ -72,7 +72,7 @@ const timeline = [
     when:  'Within 30 days',
     title: 'Your first win',
     body:  "A first real process in place that wins something back, whether that's hours, money, or peace where there used to be confusion. Where AI can carry part of the load, we build it in, with a person still in charge of it.",
-    win:   true,
+    win:   false,
   },
   {
     when:  'Through day 90',
@@ -210,45 +210,41 @@ const faqSchema = {
         </div>
       </div>
 
-      <div class="relative mt-12" data-reveal>
-        <!-- The line: vertical on phones, left to right on larger screens -->
-        <div class="absolute left-[7px] top-2 bottom-2 w-px bg-stone md:left-0 md:right-3 md:top-[7px] md:bottom-auto md:h-px md:w-auto" aria-hidden="true"></div>
-        <!-- Arrowhead at the end of the line (larger screens) -->
-        <div class="absolute right-0 top-[3px] hidden h-0 w-0 border-y-[5px] border-l-[9px] border-y-transparent border-l-stone md:block" aria-hidden="true"></div>
+      <p class="tl-hint mt-10 items-center gap-2 text-sm font-medium text-brass-ink">
+        <span class="inline-block h-1.5 w-1.5 rounded-full bg-brass" aria-hidden="true"></span>
+        <span class="lg:hidden">Tap each step to see what happens there.</span>
+        <span class="hidden lg:inline">Hover over each step to see what happens there.</span>
+      </p>
 
-        <ol class="relative grid gap-10 md:grid-cols-4 md:gap-8">
+      <div class="relative mt-6 md:mt-8" data-reveal>
+        <!-- The line: vertical on phones, left to right on larger screens -->
+        <div class="absolute left-[15px] top-4 bottom-4 w-px bg-stone md:left-0 md:right-3 md:top-[15px] md:bottom-auto md:h-px md:w-auto" aria-hidden="true"></div>
+        <!-- Arrowhead at the end of the line (larger screens) -->
+        <div class="absolute right-0 top-[11px] hidden h-0 w-0 border-y-[5px] border-l-[9px] border-y-transparent border-l-stone md:block" aria-hidden="true"></div>
+
+        <ol class="relative grid gap-8 md:grid-cols-4 md:gap-8">
           {timeline.map((step, i) => (
-            <li class="relative pl-10 md:pl-0 md:pt-10 md:pr-4">
-              <span
-                class={`tl-dot absolute left-0 top-1 h-[15px] w-[15px] rounded-full border-2 border-brass transition-transform duration-300 md:top-0 ${step.win ? 'bg-brass' : 'bg-paper'}`}
-                aria-hidden="true"
-              ></span>
+            <li class="relative pl-12 md:pl-0 md:pr-4">
               <button
                 type="button"
-                class="tl-step block w-full text-left rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass"
+                class="tl-step group block w-full text-left rounded-md md:pt-12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass"
                 data-step={i}
                 data-when={step.when}
                 data-title={step.title}
                 data-body={step.body}
               >
-                <span class="block text-xs uppercase tracking-[0.14em] font-medium text-brass-ink">{step.when}</span>
+                <span
+                  class="tl-dot absolute left-0 top-0 flex h-8 w-8 items-center justify-center rounded-full border-2 border-brass bg-paper font-serif text-sm font-semibold text-brass-ink transition-all duration-300"
+                  aria-hidden="true"
+                >{i + 1}</span>
+                <span class="block pt-1.5 md:pt-0 text-xs uppercase tracking-[0.14em] font-medium text-brass-ink">{step.when}</span>
                 <h3 class="tl-title mt-2 text-xl font-serif font-semibold text-slate transition-colors">{step.title}</h3>
               </button>
               <p class="tl-body mt-2 text-ink/85 leading-relaxed">{step.body}</p>
             </li>
           ))}
         </ol>
-
-        <!-- Scope grows: a widening band under the last stretch of the line -->
-        <div class="mt-8 hidden md:grid md:grid-cols-4 md:gap-8" aria-hidden="true">
-          <div class="col-span-4 relative h-14">
-            <div class="absolute inset-0 bg-stone/70 [clip-path:polygon(0_100%,100%_0,100%_100%)]"></div>
-            <p class="absolute bottom-2 right-3 text-xs uppercase tracking-[0.14em] font-medium text-slate">Scope grows</p>
-          </div>
-        </div>
       </div>
-
-      <p class="tl-hint mt-6 text-sm text-warm-grey">Hover over or tap a step to see what happens there.</p>
 
       <p class="mt-12 max-w-[680px] border-l-2 border-brass pl-5 font-serif text-xl text-slate leading-snug">
         The pace looks a little different on Counsel, Steward, and Partner. The process stays the same. Real problems, found through real conversations, solved with real systems that produce real results.
@@ -308,10 +304,7 @@ const faqSchema = {
               <p class={`text-xs mt-1 ${p.recommended ? 'text-ivory/60' : 'text-warm-grey'}`} data-rate-label>{p.prices.small ? 'Small church rate' : 'Not offered at this size'}</p>
             </div>
 
-            {p.perk && (
-              <p class={`mt-6 border-l-2 border-brass pl-3 text-sm font-medium leading-relaxed ${p.recommended ? 'text-ivory' : 'text-slate'}`}>{p.perk}</p>
-            )}
-            <p class={`${p.perk ? 'mt-3' : 'mt-6'} text-sm lg:min-h-[2.5rem] ${p.recommended ? 'text-ivory/70' : 'text-warm-grey'}`}>{p.term}</p>
+            <p class={`mt-6 text-sm lg:min-h-[2.5rem] ${p.recommended ? 'text-ivory/70' : 'text-warm-grey'}`}>{p.term}</p>
 
             <a
               href="/book"
@@ -349,6 +342,12 @@ const faqSchema = {
                     </ul>
                   </dd>
                 </div>
+                {p.perk && (
+                  <div>
+                    <dt class={`text-xs uppercase tracking-[0.14em] font-medium ${p.recommended ? 'text-brass' : 'text-brass-ink'}`}>Need a new website?</dt>
+                    <dd class={`mt-1.5 border-l-2 border-brass pl-3 leading-relaxed ${p.recommended ? 'text-ivory' : 'text-ink'}`}>{p.perk}</dd>
+                  </div>
+                )}
               </dl>
             </details>
           </div>
@@ -424,19 +423,24 @@ const faqSchema = {
 </Layout>
 
 <style>
-  /* Without JavaScript, or below large screens, every step shows its details inline. */
+  /* Without JavaScript every step shows its details inline and the panel and hint stay hidden. */
   .tl-panel, .tl-hint { display: none; }
-  /* Phones and tablets: one step open at a time, tap to switch. */
-  [data-timeline].tl-live .tl-hint { display: block; }
-  [data-timeline].tl-live li:not(.is-active) .tl-body { display: none; }
+  [data-timeline].tl-live .tl-hint { display: flex; }
   [data-timeline].tl-live .tl-step { cursor: pointer; }
-  [data-timeline].tl-live li.is-active .tl-title { color: #8A6A3B; }
+
+  /* Dots read as buttons: they lift on hover and fill in when their step is showing. */
+  [data-timeline].tl-live li:not(.is-active) .tl-step:hover .tl-dot { transform: scale(1.12); background: #F7F3ED; box-shadow: 0 0 0 6px rgba(176, 141, 87, 0.18); }
+  [data-timeline].tl-live .tl-step:hover .tl-title { color: #8A6A3B; }
+  [data-timeline].tl-live li.is-active .tl-dot { background: #2B4C6F; border-color: #2B4C6F; color: #F7F3ED; box-shadow: 0 0 0 6px rgba(43, 76, 111, 0.12); }
+  [data-timeline].tl-live li.is-active .tl-title { color: #2B4C6F; }
+
+  /* Phones and tablets: one step open at a time, tap to switch. */
+  [data-timeline].tl-live li:not(.is-active) .tl-body { display: none; }
+
+  /* Large screens: details live in the panel top right. */
   @media (min-width: 1024px) {
     [data-timeline].tl-live .tl-panel { display: block; }
     [data-timeline].tl-live .tl-body  { display: none; }
-    [data-timeline].tl-live .tl-step:hover .tl-title,
-    [data-timeline].tl-live .tl-step[aria-pressed="true"] .tl-title { color: #8A6A3B; }
-    [data-timeline].tl-live li:has(.tl-step[aria-pressed="true"]) .tl-dot { transform: scale(1.35); }
   }
 </style>
 
