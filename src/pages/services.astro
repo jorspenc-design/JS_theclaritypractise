@@ -34,7 +34,7 @@ const plans = [
       'Messages between sessions in your client portal',
     ],
     term:        'Month to month. Stop at the end of any month.',
-    perk:        'Need a new website? We build it as part of your plan. Commit to six months and the build fee is waived.',
+    perk:        'Commit to six months and your website build fee is waived.',
     recommended: true,
   },
   {
@@ -170,19 +170,45 @@ const faqSchema = {
       <p class="mt-6 text-xl text-ink/85 leading-relaxed max-w-[600px]">
         A real plan built around your real pain points, at a budget your church can afford.
       </p>
+
+      <!-- Quick prices: the starting price for each plan, with a jump to the full plans -->
+      <ul class="mt-10 grid gap-3 sm:grid-cols-3 max-w-[760px]">
+        {plans.map(p => (
+          <li>
+            <a href="#plans" class={`group flex h-full flex-col rounded-xl px-5 py-4 transition-all duration-300 hover:-translate-y-0.5 ${p.recommended ? 'bg-slate text-ivory' : 'bg-paper/90 border border-stone hover:border-brass/60'}`}>
+              <span class={`font-serif text-lg font-semibold ${p.recommended ? 'text-ivory' : 'text-slate'}`}>{p.name}</span>
+              <span class={`mt-1 text-sm ${p.recommended ? 'text-ivory/70' : 'text-warm-grey'}`}>
+                from <span class={`font-serif text-2xl font-semibold ${p.recommended ? 'text-ivory' : 'text-slate'}`}>{p.prices.small || p.prices.standard}</span>/mo
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <a href="#plans" class="btn-primary mt-6">See the plans <span class="btn-arrow" aria-hidden="true">↓</span></a>
     </div>
   </section>
 
   <!-- ── THE NEXT 90 DAYS (timeline) ───────────────────────────────── -->
   <section class="bg-paper py-16 md:py-20">
-    <div class="max-w-6xl mx-auto px-6">
-      <span class="section-label">The next 90 days</span>
-      <h2 class="mt-4 text-3xl md:text-4xl font-serif font-semibold text-slate leading-snug max-w-[760px]">
-        Real answers for <span class="accent">real problems.</span>
-      </h2>
-      <p class="mt-5 text-lg text-ink/85 leading-relaxed max-w-[640px]">
-        Through clarity, partnership, and careful use of AI, we win back more of your week and more of your church's budget, starting with the thing that costs you the most.
-      </p>
+    <div class="max-w-6xl mx-auto px-6" data-timeline>
+      <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-12">
+        <div>
+          <span class="section-label">The next 90 days</span>
+          <h2 class="mt-4 text-3xl md:text-4xl font-serif font-semibold text-slate leading-snug max-w-[760px]">
+            Real answers for <span class="accent">real problems.</span>
+          </h2>
+          <p class="mt-5 text-lg text-ink/85 leading-relaxed max-w-[640px]">
+            Through clarity, partnership, and careful use of AI, we win back more of your week and more of your church's budget, starting with the thing that costs you the most.
+          </p>
+        </div>
+
+        <!-- Detail panel: sits in the open space top right on large screens once JavaScript runs -->
+        <div class="tl-panel self-start min-h-[250px] rounded-xl border-l-2 border-brass bg-ivory px-6 py-5 shadow-[0_18px_40px_-28px_rgba(43,76,111,0.5)]" aria-live="polite">
+          <p class="text-xs uppercase tracking-[0.14em] font-medium text-brass-ink" data-tl-when>{timeline[0].when}</p>
+          <p class="mt-2 text-xl font-serif font-semibold text-slate" data-tl-title>{timeline[0].title}</p>
+          <p class="mt-2 text-ink/85 leading-relaxed" data-tl-body>{timeline[0].body}</p>
+        </div>
+      </div>
 
       <div class="relative mt-12" data-reveal>
         <!-- The line: vertical on phones, left to right on larger screens -->
@@ -191,15 +217,24 @@ const faqSchema = {
         <div class="absolute right-0 top-[3px] hidden h-0 w-0 border-y-[5px] border-l-[9px] border-y-transparent border-l-stone md:block" aria-hidden="true"></div>
 
         <ol class="relative grid gap-10 md:grid-cols-4 md:gap-8">
-          {timeline.map(step => (
+          {timeline.map((step, i) => (
             <li class="relative pl-10 md:pl-0 md:pt-10 md:pr-4">
               <span
-                class={`absolute left-0 top-1 h-[15px] w-[15px] rounded-full border-2 border-brass md:top-0 ${step.win ? 'bg-brass' : 'bg-paper'}`}
+                class={`tl-dot absolute left-0 top-1 h-[15px] w-[15px] rounded-full border-2 border-brass transition-transform duration-300 md:top-0 ${step.win ? 'bg-brass' : 'bg-paper'}`}
                 aria-hidden="true"
               ></span>
-              <p class="text-xs uppercase tracking-[0.14em] font-medium text-brass-ink">{step.when}</p>
-              <h3 class="mt-2 text-xl font-serif font-semibold text-slate">{step.title}</h3>
-              <p class="mt-2 text-ink/85 leading-relaxed">{step.body}</p>
+              <button
+                type="button"
+                class="tl-step block w-full text-left rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass"
+                data-step={i}
+                data-when={step.when}
+                data-title={step.title}
+                data-body={step.body}
+              >
+                <span class="block text-xs uppercase tracking-[0.14em] font-medium text-brass-ink">{step.when}</span>
+                <h3 class="tl-title mt-2 text-xl font-serif font-semibold text-slate transition-colors">{step.title}</h3>
+              </button>
+              <p class="tl-body mt-2 text-ink/85 leading-relaxed">{step.body}</p>
             </li>
           ))}
         </ol>
@@ -213,6 +248,8 @@ const faqSchema = {
         </div>
       </div>
 
+      <p class="tl-hint mt-6 text-sm text-warm-grey">Hover over or tap a step to see what happens there.</p>
+
       <p class="mt-12 max-w-[680px] border-l-2 border-brass pl-5 font-serif text-xl text-slate leading-snug">
         The pace looks a little different on Counsel, Steward, and Partner. The process stays the same. Real problems, found through real conversations, solved with real systems that produce real results.
       </p>
@@ -220,7 +257,7 @@ const faqSchema = {
   </section>
 
   <!-- ── PLANS ─────────────────────────────────────────────────────── -->
-  <section class="bg-ivory pt-16 pb-20 md:pt-20">
+  <section id="plans" class="bg-ivory pt-16 pb-20 md:pt-20 scroll-mt-20">
     <div class="max-w-6xl mx-auto px-6">
       <span class="section-label">The plans</span>
       <h2 class="mt-4 mb-8 text-3xl md:text-4xl font-serif font-semibold text-slate leading-snug">
@@ -250,12 +287,12 @@ const faqSchema = {
       </div>
 
       <!-- Plan cards -->
-      <div class="mt-8 grid gap-6 lg:grid-cols-3 items-stretch">
+      <div class="mt-8 grid gap-6 lg:grid-cols-3 items-start">
         {plans.map(p => (
           <div data-reveal class={`relative flex flex-col rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 ${p.recommended ? 'bg-slate text-ivory shadow-[0_24px_50px_-28px_rgba(43,76,111,0.9)] on-dark' : 'bg-paper border border-stone hover:border-brass/60 hover:shadow-[0_18px_40px_-24px_rgba(43,76,111,0.45)]'}`}>
             <p class="text-xs uppercase tracking-[0.14em] h-4 text-brass">{p.recommended ? 'Recommended' : ''}</p>
             <h3 class={`mt-2 text-3xl font-serif font-semibold ${p.recommended ? 'text-ivory' : 'text-slate'}`}>{p.name}</h3>
-            <p class={`mt-2 font-serif italic leading-snug ${p.recommended ? 'text-ivory/85' : 'text-ink/85'}`}>{p.problem}</p>
+            <p class={`mt-2 font-serif italic leading-snug lg:min-h-[6.5rem] ${p.recommended ? 'text-ivory/85' : 'text-ink/85'}`}>{p.problem}</p>
 
             <div
               class={`mt-6 border-b pb-6 min-h-[84px] ${p.recommended ? 'border-ivory/15' : 'border-stone'}`}
@@ -271,31 +308,10 @@ const faqSchema = {
               <p class={`text-xs mt-1 ${p.recommended ? 'text-ivory/60' : 'text-warm-grey'}`} data-rate-label>{p.prices.small ? 'Small church rate' : 'Not offered at this size'}</p>
             </div>
 
-            <dl class="mt-6 space-y-4">
-              <div>
-                <dt class={`text-xs uppercase tracking-[0.14em] font-medium ${p.recommended ? 'text-brass' : 'text-brass-ink'}`}>First 30 days</dt>
-                <dd class={`mt-1.5 leading-relaxed ${p.recommended ? 'text-ivory' : 'text-ink'}`}>{p.first30}</dd>
-              </div>
-              <div>
-                <dt class={`text-xs uppercase tracking-[0.14em] font-medium ${p.recommended ? 'text-brass' : 'text-brass-ink'}`}>By day 90</dt>
-                <dd class={`mt-1.5 leading-relaxed ${p.recommended ? 'text-ivory' : 'text-ink'}`}>{p.by90}</dd>
-              </div>
-            </dl>
-
-            <p class={`mt-7 pt-6 border-t text-xs uppercase tracking-[0.14em] font-medium ${p.recommended ? 'border-ivory/15 text-ivory/60' : 'border-stone text-warm-grey'}`}>What's included</p>
-            <ul class="mt-3 space-y-3 flex-1">
-              {p.includes.map(item => (
-                <li class={`flex gap-3 leading-relaxed ${p.recommended ? 'text-ivory/85' : 'text-ink/85'}`}>
-                  <span class="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brass"></span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-
             {p.perk && (
               <p class={`mt-6 border-l-2 border-brass pl-3 text-sm font-medium leading-relaxed ${p.recommended ? 'text-ivory' : 'text-slate'}`}>{p.perk}</p>
             )}
-            <p class={`${p.perk ? 'mt-3' : 'mt-6'} text-sm ${p.recommended ? 'text-ivory/70' : 'text-warm-grey'}`}>{p.term}</p>
+            <p class={`${p.perk ? 'mt-3' : 'mt-6'} text-sm lg:min-h-[2.5rem] ${p.recommended ? 'text-ivory/70' : 'text-warm-grey'}`}>{p.term}</p>
 
             <a
               href="/book"
@@ -305,6 +321,36 @@ const faqSchema = {
             >
               Start with a free call →
             </a>
+
+            <details class={`group mt-6 border-t pt-4 ${p.recommended ? 'border-ivory/15' : 'border-stone'}`}>
+              <summary class={`flex cursor-pointer list-none [&::-webkit-details-marker]:hidden items-center justify-between gap-3 text-sm font-medium ${p.recommended ? 'text-ivory' : 'text-slate'}`}>
+                What this looks like
+                <span class={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border text-lg leading-none transition-transform duration-300 group-open:rotate-45 ${p.recommended ? 'border-ivory/30 text-brass' : 'border-stone text-brass-ink'}`} aria-hidden="true">+</span>
+              </summary>
+              <dl class="mt-5 space-y-4">
+                <div>
+                  <dt class={`text-xs uppercase tracking-[0.14em] font-medium ${p.recommended ? 'text-brass' : 'text-brass-ink'}`}>First 30 days</dt>
+                  <dd class={`mt-1.5 leading-relaxed ${p.recommended ? 'text-ivory' : 'text-ink'}`}>{p.first30}</dd>
+                </div>
+                <div>
+                  <dt class={`text-xs uppercase tracking-[0.14em] font-medium ${p.recommended ? 'text-brass' : 'text-brass-ink'}`}>By day 90</dt>
+                  <dd class={`mt-1.5 leading-relaxed ${p.recommended ? 'text-ivory' : 'text-ink'}`}>{p.by90}</dd>
+                </div>
+                <div>
+                  <dt class={`text-xs uppercase tracking-[0.14em] font-medium ${p.recommended ? 'text-brass' : 'text-brass-ink'}`}>What's included</dt>
+                  <dd>
+                    <ul class="mt-2 space-y-2.5">
+                      {p.includes.map(item => (
+                        <li class={`flex gap-3 leading-relaxed ${p.recommended ? 'text-ivory/85' : 'text-ink/85'}`}>
+                          <span class="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brass"></span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </dd>
+                </div>
+              </dl>
+            </details>
           </div>
         ))}
       </div>
@@ -376,6 +422,50 @@ const faqSchema = {
   <CtaBand title="Every engagement starts" accent="the same way." body="With a free 30 minute conversation about where you are and what you’re working on." />
 
 </Layout>
+
+<style>
+  /* Without JavaScript, or below large screens, every step shows its details inline. */
+  .tl-panel, .tl-hint { display: none; }
+  /* Phones and tablets: one step open at a time, tap to switch. */
+  [data-timeline].tl-live .tl-hint { display: block; }
+  [data-timeline].tl-live li:not(.is-active) .tl-body { display: none; }
+  [data-timeline].tl-live .tl-step { cursor: pointer; }
+  [data-timeline].tl-live li.is-active .tl-title { color: #8A6A3B; }
+  @media (min-width: 1024px) {
+    [data-timeline].tl-live .tl-panel { display: block; }
+    [data-timeline].tl-live .tl-body  { display: none; }
+    [data-timeline].tl-live .tl-step:hover .tl-title,
+    [data-timeline].tl-live .tl-step[aria-pressed="true"] .tl-title { color: #8A6A3B; }
+    [data-timeline].tl-live li:has(.tl-step[aria-pressed="true"]) .tl-dot { transform: scale(1.35); }
+  }
+</style>
+
+<script>
+  // Living timeline: hover, focus, or tap a step to show its details in the panel.
+  const timeline = document.querySelector<HTMLElement>('[data-timeline]');
+  if (timeline) {
+    const steps = Array.from(timeline.querySelectorAll<HTMLButtonElement>('.tl-step'));
+    const when  = timeline.querySelector('[data-tl-when]');
+    const title = timeline.querySelector('[data-tl-title]');
+    const body  = timeline.querySelector('[data-tl-body]');
+    const show = (step: HTMLButtonElement) => {
+      steps.forEach(s => {
+        s.setAttribute('aria-pressed', String(s === step));
+        s.closest('li')?.classList.toggle('is-active', s === step);
+      });
+      if (when)  when.textContent  = step.dataset.when ?? '';
+      if (title) title.textContent = step.dataset.title ?? '';
+      if (body)  body.textContent  = step.dataset.body ?? '';
+    };
+    steps.forEach(step => {
+      step.addEventListener('mouseenter', () => show(step));
+      step.addEventListener('focus', () => show(step));
+      step.addEventListener('click', () => show(step));
+    });
+    if (steps[0]) show(steps[0]);
+    timeline.classList.add('tl-live');
+  }
+</script>
 
 <script>
   const bands = [
