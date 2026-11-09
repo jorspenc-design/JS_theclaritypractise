@@ -2,12 +2,16 @@
 import Layout from '../layouts/Layout.astro';
 import CtaBand from '../components/CtaBand.astro';
 
-// Prices by budget band. An empty string means the item isn't offered at that size.
+// Prices by budget band. An empty string means the plan isn't offered at that size.
+// Each plan leads with the problem it answers and the result it aims for,
+// then lists what's included.
 const plans = [
   {
     name:        'Counsel',
-    tagline:     'A steady thinking partner for the lead pastor.',
+    problem:     'For the pastor who can do the work but has no one to think it through with.',
     prices:      { small: '$600', standard: '$750', established: '$950' },
+    first30:     "A written plan for your next 90 days, with what to fix first, what to leave alone for now, and who should own each piece.",
+    by90:        "Your top priority is moving, and you've stopped carrying every decision by yourself.",
     includes: [
       'Two phone calls a month to talk things through',
       'Messages between calls in your client portal',
@@ -18,20 +22,25 @@ const plans = [
   },
   {
     name:        'Steward',
-    tagline:     "Hands-on help for a church that's stretched thin.",
+    problem:     'For the church where the pastor has become the operations department.',
     prices:      { small: '$2,000', standard: '$2,500', established: '$3,500' },
+    first30:     'One system that costs you every week, like Sunday slides and announcements or volunteer scheduling, rebuilt and handed back to you working.',
+    by90:        "Your AI policy is written and your staff is trained on it. We measure your week again, aiming for five to ten hours back.",
     includes: [
       'Two 90 minute working sessions a month',
       'Build work I do between sessions, one system at a time',
-      'Your custom AI policy in the first 90 days, plus quarterly staff training and reviews',
+      'Your custom AI policy, with quarterly staff training and reviews',
+      'Messages between sessions in your client portal',
     ],
     term:        'Six month minimum. A twelve month term adds every foundation and a new website.',
     recommended: true,
   },
   {
     name:        'Partner',
-    tagline:     'Operations leadership for a growing church.',
+    problem:     'For the growing church that needs someone to own operations week to week.',
     prices:      { small: '', standard: '$5,000', established: '$6,500' },
+    first30:     'Your weekly operating rhythm is running, with a standing meeting, one shared list of what is open, and a name next to every item on it.',
+    by90:        'Your first systems are rebuilt and roles on your team are clearer. We measure the week again, for you and for your staff.',
     includes: [
       'A weekly meeting and ownership of your operating rhythm',
       'Staff coaching and help with team structure',
@@ -42,19 +51,45 @@ const plans = [
   },
 ];
 
-const addOns = [
-  { name: 'Custom AI policy',             note: 'Written for your church, with a training session for your staff', prices: { small: '$1,200',  standard: '$1,500',  established: '$1,500' } },
-  { name: 'New church website',           note: 'Built to be found on Google and in AI search tools',              prices: { small: '$2,000',  standard: '$2,500',  established: '$2,500' } },
-  { name: 'Website care plan',            note: 'Hosting, updates, and ongoing search upkeep',                      prices: { small: '$150/mo', standard: '$200/mo', established: '$250/mo' } },
-  { name: 'Governance Review',            note: 'Checks that your church runs the way your bylaws say it does',     prices: { small: '$950',    standard: '$1,200',  established: '$1,200' } },
-  { name: 'Financial Stewardship Review', note: 'Readies your books so outside accounting costs less',              prices: { small: '$1,200',  standard: '$1,500',  established: '$1,500' } },
-  { name: 'Both reviews, every quarter',  note: 'Ongoing peace of mind for your board',                             prices: { small: '$300/mo', standard: '$350/mo', established: '$350/mo' } },
-  { name: 'Hourly help',                  note: 'Any work that falls outside the above, billed by the half hour. Phone calls are always free.', prices: { small: '$120/hr', standard: '$150/hr', established: '$175/hr' } },
+// The first 90 days, the same on every plan.
+const firstNinety = [
+  {
+    when:  'Week one',
+    title: 'We measure',
+    body:  'You track where your hours go for one normal week, and together we name the first win we are aiming for. Then we both know what success looks like.',
+  },
+  {
+    when:  'By day 30',
+    title: 'Your first win',
+    body:  "Something you'll notice on an ordinary Tuesday. A process that used to eat your afternoon now runs without you, or a decision that kept stalling has a plan and an owner.",
+  },
+  {
+    when:  'By day 90',
+    title: 'We measure again',
+    body:  'We look at your week the same way we did at the start. On Steward and Partner, the aim is five to ten hours a week back in your hands.',
+  },
+  {
+    when:  'After that',
+    title: 'The next system',
+    body:  'We keep going one system at a time, in the order that gives you the most relief, until the structure carries the load and you are not the one holding it up.',
+  },
 ];
 
 const conversationPrices = { small: '$1,000', standard: '$1,250', established: '$1,250' };
 
 const questions = [
+  {
+    q: 'How does the free month work?',
+    a: "In the first week we name your first win together and write it down. If it isn't delivered by day 30, you won't be billed for your second month. You don't have to ask for it.",
+  },
+  {
+    q: 'Can you promise the hours?',
+    a: "No, and I'd be careful with anyone who does. Every church is different, and some of what eats a pastor's week isn't a systems problem. What I can promise is that we'll measure your week at the start and again at day 90, so you'll know what changed in hours and not just in impressions.",
+  },
+  {
+    q: 'Can I hire you for just a website or a single project?',
+    a: "Sometimes. I take on a few single projects a year, scoped and priced one at a time. Most churches get more from a plan, because the website, the AI policy, and the systems behind them get built together and someone stays with you after launch. Ask about it on the call.",
+  },
   {
     q: 'How do I know which size my church is?',
     a: "Use last year's total operating budget. If you're not sure, pick your best guess and we'll confirm it together on the Clarity Call.",
@@ -72,10 +107,6 @@ const questions = [
     a: "I hold a couple of scholarship spots each quarter at half the usual rate for churches in real need. Just say so when you book a call. There's no shame in asking and no extra forms.",
   },
   {
-    q: 'Are the reviews an audit?',
-    a: "No. They aren't a CPA audit or legal advice. They prepare your church so that outside help, if you need it, is simpler and less expensive.",
-  },
-  {
     q: 'Is there a way to learn alongside other churches?',
     a: "Yes. The Clarity Cohort is a free monthly Q&A where pastors and church staff learn alongside other churches. Mention it when you book a call and I'll make sure you're invited.",
   },
@@ -84,12 +115,24 @@ const questions = [
     a: 'I do. Keynotes and workshops start at $1,500 plus travel. You can see my topics on the <a href="/speaking" class="text-brass-ink underline underline-offset-4">speaking page</a>.',
   },
 ];
+
+// FAQ structured data, built from the same questions people see on the page.
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: questions.map(item => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a.replace(/<[^>]+>/g, '') },
+  })),
+};
 ---
 
 <Layout
   title="Services & Investment"
-  description="Every plan and price, published openly. Churches with a budget under $500,000 get 20% off."
+  description="Monthly plans with every price published. A first win within 30 days, or your second month is free. Churches with a budget under $500,000 get 20% off."
 >
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
 
   <!-- ── HEADER ────────────────────────────────────────────────────── -->
   <section class="relative overflow-hidden bg-ivory pt-24 pb-14 md:pt-32">
@@ -106,15 +149,51 @@ const questions = [
       <h1 class="mt-4 text-5xl md:text-6xl font-serif font-semibold text-slate leading-[1.04] tracking-[-0.015em]">
         Plans and <span class="accent">pricing.</span>
       </h1>
-      <p class="mt-6 text-xl text-ink/85 leading-relaxed max-w-[560px]">
-        Every price is on this page. Churches with a budget under $500,000 get 20% off.
+      <p class="mt-6 text-xl text-ink/85 leading-relaxed max-w-[600px]">
+        I work with churches month to month, one system at a time, so the help doesn't end the day a project ships. Every price is on this page, and churches with a budget under $500,000 get 20% off.
       </p>
     </div>
   </section>
 
-  <!-- ── PLANS ─────────────────────────────────────────────────────── -->
-  <section class="bg-ivory pb-20">
+  <!-- ── THE FIRST 90 DAYS ─────────────────────────────────────────── -->
+  <section class="bg-paper py-16 md:py-20">
     <div class="max-w-6xl mx-auto px-6">
+      <span class="section-label">The first 90 days</span>
+      <h2 class="mt-4 text-3xl md:text-4xl font-serif font-semibold text-slate leading-snug max-w-[720px]">
+        A real win in the first month, and <span class="accent">hours you can count</span> by the third.
+      </h2>
+      <p class="mt-5 text-lg text-ink/85 leading-relaxed max-w-[640px]">
+        Every plan starts the same way. We find the thing that costs you the most each week and fix that first, before we talk about anything bigger.
+      </p>
+
+      <ol class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {firstNinety.map(step => (
+          <li class="card p-7" data-reveal>
+            <p class="font-serif italic text-brass-ink text-sm">{step.when}</p>
+            <h3 class="mt-2 text-xl font-serif font-semibold text-slate">{step.title}</h3>
+            <p class="mt-2 text-ink/85 leading-relaxed">{step.body}</p>
+          </li>
+        ))}
+      </ol>
+
+      <div class="mt-8 rounded-xl border-l-2 border-brass bg-ivory px-6 py-5 md:px-8 max-w-[760px]" data-reveal>
+        <p class="font-serif text-xl text-slate leading-snug">
+          If your first win isn't delivered within 30 days, your second month is free.
+        </p>
+        <p class="mt-2 text-ink/85 leading-relaxed">
+          We name the win together in week one, so there's no guessing about what counts.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PLANS ─────────────────────────────────────────────────────── -->
+  <section class="bg-ivory pt-16 pb-20 md:pt-20">
+    <div class="max-w-6xl mx-auto px-6">
+      <span class="section-label">The plans</span>
+      <h2 class="mt-4 mb-8 text-3xl md:text-4xl font-serif font-semibold text-slate leading-snug">
+        Choose by what you're <span class="accent">carrying.</span>
+      </h2>
 
       <!-- Church size selector -->
       <p id="church-size-label" class="text-xs uppercase tracking-widest text-warm-grey mb-3">Your church's annual budget</p>
@@ -143,8 +222,8 @@ const questions = [
         {plans.map(p => (
           <div data-reveal class={`relative flex flex-col rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 ${p.recommended ? 'bg-slate text-ivory shadow-[0_24px_50px_-28px_rgba(43,76,111,0.9)] on-dark' : 'bg-paper border border-stone hover:border-brass/60 hover:shadow-[0_18px_40px_-24px_rgba(43,76,111,0.45)]'}`}>
             <p class="text-xs uppercase tracking-[0.14em] h-4 text-brass">{p.recommended ? 'Recommended' : ''}</p>
-            <h2 class={`mt-2 text-3xl font-serif font-semibold ${p.recommended ? 'text-ivory' : 'text-slate'}`}>{p.name}</h2>
-            <p class={`mt-2 font-serif italic ${p.recommended ? 'text-ivory/80' : 'text-ink/80'}`}>{p.tagline}</p>
+            <h3 class={`mt-2 text-3xl font-serif font-semibold ${p.recommended ? 'text-ivory' : 'text-slate'}`}>{p.name}</h3>
+            <p class={`mt-2 font-serif italic leading-snug ${p.recommended ? 'text-ivory/85' : 'text-ink/85'}`}>{p.problem}</p>
 
             <div
               class={`mt-6 border-b pb-6 min-h-[84px] ${p.recommended ? 'border-ivory/15' : 'border-stone'}`}
@@ -160,7 +239,19 @@ const questions = [
               <p class={`text-xs mt-1 ${p.recommended ? 'text-ivory/60' : 'text-warm-grey'}`} data-rate-label>{p.prices.small ? 'Small church rate' : 'Not offered at this size'}</p>
             </div>
 
-            <ul class="mt-6 space-y-3 flex-1">
+            <dl class="mt-6 space-y-4">
+              <div>
+                <dt class={`text-xs uppercase tracking-[0.14em] font-medium ${p.recommended ? 'text-brass' : 'text-brass-ink'}`}>First 30 days</dt>
+                <dd class={`mt-1.5 leading-relaxed ${p.recommended ? 'text-ivory' : 'text-ink'}`}>{p.first30}</dd>
+              </div>
+              <div>
+                <dt class={`text-xs uppercase tracking-[0.14em] font-medium ${p.recommended ? 'text-brass' : 'text-brass-ink'}`}>By day 90</dt>
+                <dd class={`mt-1.5 leading-relaxed ${p.recommended ? 'text-ivory' : 'text-ink'}`}>{p.by90}</dd>
+              </div>
+            </dl>
+
+            <p class={`mt-7 pt-6 border-t text-xs uppercase tracking-[0.14em] font-medium ${p.recommended ? 'border-ivory/15 text-ivory/60' : 'border-stone text-warm-grey'}`}>What's included</p>
+            <ul class="mt-3 space-y-3 flex-1">
               {p.includes.map(item => (
                 <li class={`flex gap-3 leading-relaxed ${p.recommended ? 'text-ivory/85' : 'text-ink/85'}`}>
                   <span class="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brass"></span>
@@ -182,6 +273,10 @@ const questions = [
           </div>
         ))}
       </div>
+
+      <p class="mt-10 text-ink/85 leading-relaxed max-w-[640px]">
+        Looking for a single project, like a new website? Ask about it on the call. I take on a few each year, scoped and priced one at a time.
+      </p>
     </div>
   </section>
 
@@ -218,36 +313,8 @@ const questions = [
     </div>
   </section>
 
-  <!-- ── ADD-ONS ───────────────────────────────────────────────────── -->
-  <section class="bg-ivory bg-ashlar py-20">
-    <div class="max-w-6xl mx-auto px-6">
-      <span class="section-label">Built for your church</span>
-      <h2 class="mt-4 text-3xl font-serif font-semibold text-slate leading-snug">
-        On its own, or inside a plan.
-      </h2>
-
-      <div class="mt-8 card divide-y divide-stone overflow-hidden" data-reveal>
-        {addOns.map(item => (
-          <div class="flex items-start justify-between gap-6 px-6 md:px-8 py-5 transition-colors hover:bg-ivory/70">
-            <div>
-              <p class="text-slate font-medium">{item.name}</p>
-              <p class="text-sm text-ink/85 mt-1">{item.note}</p>
-            </div>
-            <p
-              class="shrink-0 font-serif font-semibold text-lg text-slate"
-              data-swap
-              data-small={item.prices.small}
-              data-standard={item.prices.standard}
-              data-established={item.prices.established}
-            >{item.prices.small}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
   <!-- ── QUESTIONS ─────────────────────────────────────────────────── -->
-  <section class="bg-paper py-16">
+  <section class="bg-ivory py-16">
     <div class="max-w-6xl mx-auto px-6">
       <span class="section-label">Questions</span>
       <div class="mt-8 max-w-[720px] divide-y divide-stone border-y border-stone">
