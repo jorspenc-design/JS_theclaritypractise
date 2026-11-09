@@ -1,0 +1,39 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CtaBand from '../../components/CtaBand.astro';
+---
+
+<Layout
+  title="Check your inbox"
+  description="Your copy of A Pastor's Guide to AI is on its way."
+  hideGuidePrompt={true}
+  noindex={true}
+>
+  <section class="bg-ivory pt-24 pb-20 md:pt-32 md:pb-24">
+    <div class="max-w-3xl mx-auto px-6">
+      <span class="section-label">A Pastor's Guide to AI</span>
+      <h1 class="mt-4 text-5xl md:text-6xl font-serif font-semibold text-slate leading-[1.04] tracking-[-0.015em]">
+        Check your <span class="accent">inbox.</span>
+      </h1>
+      <p class="mt-6 text-xl text-ink/85 leading-relaxed max-w-[600px]">
+        I just sent the guide to your email. Click the button in that email and it downloads right away.
+      </p>
+      <p class="mt-4 text-lg text-ink/85 leading-relaxed max-w-[600px]">
+        If it isn't there in a few minutes, look in your spam or promotions folder. Moving it to your main inbox helps the next note find you too.
+      </p>
+      <p class="mt-8 text-ink/85 leading-relaxed max-w-[600px]">
+        Start with the self-check on page four. It takes about five minutes and tells you where to begin.
+      </p>
+    </div>
+  </section>
+
+  <CtaBand
+    title="Want a guide"
+    accent="for the journey?"
+    body="AI can feel like a lot right now, and you don't have to figure it out alone. Book a free 30 minute Clarity Call and we'll find one good next step together."
+  />
+</Layout>
+
+<script>
+  try { localStorage.setItem('guide-signed-up', '1'); } catch {}
+</script>

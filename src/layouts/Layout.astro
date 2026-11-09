@@ -1,19 +1,26 @@
 ---
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import GuidePrompt from '../components/GuidePrompt.astro';
 import '../styles/global.css';
 
 interface Props {
   title: string;
   description?: string;
   minimalNav?: boolean;
+  hideGuidePrompt?: boolean;
+  noindex?: boolean;
 }
 
 const {
   title,
   description = 'I help pastors and ministry leaders build simple systems and use AI wisely, so their time and money go further and more of their God-given mission gets done.',
   minimalNav = false,
+  hideGuidePrompt = false,
+  noindex = false,
 } = Astro.props;
+// The booking page stays focused on booking, so the guide prompt never shows there.
+const showGuidePrompt = !hideGuidePrompt && !minimalNav;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const fullTitle = title === 'Home' ? 'The Clarity Practice · Joshua Spence' : `${title} · The Clarity Practice`;
@@ -28,6 +35,7 @@ const ogImage = new URL('/og-image.png', Astro.site);
     <meta name="description" content={description} />
     <meta name="theme-color" content="#2B4C6F" />
     <link rel="canonical" href={canonicalURL} />
+    {noindex && <meta name="robots" content="noindex" />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -60,6 +68,7 @@ const ogImage = new URL('/og-image.png', Astro.site);
       <slot />
     </main>
     <Footer />
+    {showGuidePrompt && <GuidePrompt />}
   </body>
 </html>
 

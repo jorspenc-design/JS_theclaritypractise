@@ -1,0 +1,102 @@
+---
+import Layout from '../layouts/Layout.astro';
+import GuideForm from '../components/GuideForm.astro';
+
+const inside = [
+  'A five-minute self-check that tells you which chapters to read first',
+  "Why you're not behind, no matter what your feed says",
+  'Five honest lessons from inside ministry work',
+  'Four things AI will never replace, and how to keep from handing them over anyway',
+  'A 30-day plan: one tool, one small win, about fifteen minutes three times a week',
+  'Five prompts you can copy for announcements, follow-up, and the rest of a normal week',
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Book',
+  name: "A Pastor's Guide to AI",
+  alternativeHeadline: 'How to use it wisely without losing what matters most',
+  description:
+    'A free field guide for pastors and ministry leaders on using AI wisely: a self-check, honest lessons from ministry, what AI will never replace, a 30-day starter plan, and five prompts to copy.',
+  author: { '@type': 'Person', name: 'Joshua R. Spence', url: 'https://joshuaspence.co/about' },
+  bookFormat: 'https://schema.org/EBook',
+  inLanguage: 'en',
+  isAccessibleForFree: true,
+  image: 'https://joshuaspence.co/images/guide-cover.jpg',
+  url: 'https://joshuaspence.co/guide',
+};
+---
+
+<Layout
+  title="A Pastor's Guide to AI (free)"
+  description="A free field guide for pastors and ministry leaders: how to use AI wisely without losing what matters most. A self-check, a 30-day plan, and five prompts to copy."
+  hideGuidePrompt={true}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+  <section class="bg-ivory pt-24 pb-20 md:pt-32 md:pb-28">
+    <div class="max-w-6xl mx-auto px-6 grid gap-12 lg:grid-cols-[minmax(0,1fr)_420px] lg:gap-16 items-start">
+
+      <div>
+        <span class="section-label">Free field guide for pastors</span>
+        <h1 class="mt-4 text-5xl md:text-6xl font-serif font-semibold text-slate leading-[1.04] tracking-[-0.015em]">
+          A Pastor's Guide <span class="accent">to AI.</span>
+        </h1>
+        <p class="mt-6 text-xl text-ink/85 leading-relaxed max-w-[580px]">
+          How to use it wisely without losing what matters most.
+        </p>
+        <p class="mt-5 text-lg text-ink/85 leading-relaxed max-w-[580px]">
+          I was afraid AI would take the one message I've given my life to. This guide is what I've learned since, written for the busy pastor who is tired of the noise but still wonders whether any of this could help his people.
+        </p>
+
+        <img
+          src="/images/guide-cover.jpg"
+          alt="Cover of A Pastor's Guide to AI by Joshua Spence"
+          width="900"
+          height="1165"
+          class="mt-10 w-[220px] rounded-md shadow-[0_24px_50px_-28px_rgba(43,76,111,0.7)] lg:hidden"
+        />
+
+        <h2 class="mt-12 text-xs uppercase tracking-[0.14em] font-medium text-brass-ink">What's inside</h2>
+        <ul class="mt-4 space-y-3 max-w-[580px]">
+          {inside.map(item => (
+            <li class="flex gap-3 leading-relaxed text-ink/85">
+              <span class="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brass" aria-hidden="true"></span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+        <p class="mt-6 text-sm text-warm-grey">22 pages · PDF · by Joshua R. Spence</p>
+      </div>
+
+      <div id="get-the-guide" class="scroll-mt-24 lg:sticky lg:top-28">
+        <img
+          src="/images/guide-cover.jpg"
+          alt=""
+          aria-hidden="true"
+          width="900"
+          height="1165"
+          class="hidden lg:block mx-auto w-[230px] -mb-10 relative z-10 rounded-md shadow-[0_24px_50px_-28px_rgba(43,76,111,0.7)]"
+        />
+        <div class="card p-7 md:p-8 lg:pt-16">
+          <h2 class="font-serif text-2xl font-semibold text-slate">Get the guide</h2>
+          <p class="mt-2 text-ink/85 leading-relaxed">Tell me where to send it. It's free.</p>
+          <p class="hidden mt-4 rounded-md border-l-2 border-clay bg-ivory px-4 py-3 text-sm text-ink" data-error-banner role="alert">
+            Something went wrong sending your signup. Please try again.
+          </p>
+          <div class="mt-6">
+            <GuideForm idPrefix="guide-page" />
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // Show the error banner when the no-JavaScript form post comes back with ?error=1.
+  if (new URLSearchParams(window.location.search).has('error')) {
+    document.querySelector('[data-error-banner]')?.classList.remove('hidden');
+  }
+</script>

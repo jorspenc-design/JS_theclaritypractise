@@ -1,0 +1,101 @@
+---
+// Signup form for "A Pastor's Guide to AI". Used on /guide and in the guide prompt.
+// Posts to the /api/guide function. Works without JavaScript; with it, the
+// submit happens in place and errors show without a page reload.
+interface Props {
+  idPrefix: string;
+  compact?: boolean;
+  dark?: boolean;
+}
+const { idPrefix, compact = false, dark = false } = Astro.props;
+const label = dark ? 'text-ivory/80' : 'text-ink/85';
+const field = dark
+  ? 'bg-ivory/95 border-ivory/30 text-ink placeholder:text-warm-grey'
+  : 'bg-paper border-stone text-ink placeholder:text-warm-grey';
+---
+
+<form action="/api/guide" method="POST" data-guide-form class={`relative ${compact ? 'space-y-3' : 'space-y-4'}`} novalidate>
+  <div>
+    <label for={`${idPrefix}-first-name`} class={`block text-sm font-medium ${label}`}>First name</label>
+    <input
+      id={`${idPrefix}-first-name`}
+      name="first_name"
+      type="text"
+      autocomplete="given-name"
+      maxlength="60"
+      class={`mt-1.5 w-full rounded-md border px-4 ${compact ? 'py-2.5' : 'py-3'} text-base focus:outline-none focus:ring-2 focus:ring-brass ${field}`}
+    />
+  </div>
+  <div>
+    <label for={`${idPrefix}-email`} class={`block text-sm font-medium ${label}`}>Email address</label>
+    <input
+      id={`${idPrefix}-email`}
+      name="email"
+      type="email"
+      autocomplete="email"
+      inputmode="email"
+      required
+      maxlength="254"
+      class={`mt-1.5 w-full rounded-md border px-4 ${compact ? 'py-2.5' : 'py-3'} text-base focus:outline-none focus:ring-2 focus:ring-brass ${field}`}
+    />
+  </div>
+
+  <!-- Honeypot for bots. Hidden from people and from screen readers. -->
+  <div class="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+    <label for={`${idPrefix}-company`}>Company</label>
+    <input id={`${idPrefix}-company`} name="company" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <p class="hidden text-sm font-medium text-clay" data-guide-error role="alert"></p>
+
+  <button type="submit" class={`${dark ? 'btn-light' : 'btn-primary'} w-full justify-center ${compact ? '!py-3' : '!py-3.5'}`} data-guide-submit>
+    Send me the guide
+  </button>
+  <p class={`text-xs leading-relaxed ${dark ? 'text-ivory/60' : 'text-warm-grey'}`}>
+    The guide comes by email. After that I'll send an occasional note, and you can unsubscribe anytime.
+  </p>
+</form>
+
+<script>
+  const SIGNED_UP = 'guide-signed-up';
+  document.querySelectorAll<HTMLFormElement>('form[data-guide-form]').forEach((form) => {
+    if (form.dataset.enhanced) return;
+    form.dataset.enhanced = 'true';
+    const error = form.querySelector<HTMLElement>('[data-guide-error]');
+    const button = form.querySelector<HTMLButtonElement>('[data-guide-submit]');
+    const showError = (message: string) => {
+      if (!error) return;
+      error.textContent = message;
+      error.classList.remove('hidden');
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const email = form.querySelector<HTMLInputElement>('input[name="email"]');
+      if (email && !email.checkValidity()) {
+        showError('Please enter a valid email address.');
+        email.focus();
+        return;
+      }
+      error?.classList.add('hidden');
+      if (button) { button.disabled = true; button.textContent = 'Sending…'; }
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form),
+        });
+        const data = await res.json().catch(() => ({ ok: false }));
+        if (res.ok && data.ok) {
+          try { localStorage.setItem(SIGNED_UP, '1'); } catch {}
+          window.location.href = '/guide/thanks';
+          return;
+        }
+        showError(data.message || 'Something went wrong. Please try again.');
+      } catch {
+        showError('Something went wrong. Please check your connection and try again.');
+      }
+      if (button) { button.disabled = false; button.textContent = 'Send me the guide'; }
+    });
+  });
+</script>

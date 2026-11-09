@@ -1,0 +1,100 @@
+---
+// A quiet invitation to the free guide, shown once after 30 seconds on a page.
+// Larger screens: a small card slides in at the bottom right with the form.
+// Phones: a slim bar at the bottom that links to /guide, so nothing covers the page.
+// Closing it hides it for 30 days. Anyone who already signed up never sees it.
+import GuideForm from './GuideForm.astro';
+---
+
+<div data-guide-prompt hidden>
+  <!-- Larger screens -->
+  <section
+    class="guide-card fixed bottom-6 right-6 z-50 hidden w-[360px] rounded-xl bg-slate p-6 text-ivory shadow-[0_30px_60px_-30px_rgba(16,25,21,0.8)] md:block"
+    role="dialog"
+    aria-modal="false"
+    aria-labelledby="guide-prompt-title"
+  >
+    <button
+      type="button"
+      class="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full text-ivory/70 hover:bg-ivory/10 hover:text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-brass"
+      data-guide-close
+      aria-label="Close"
+    >
+      <span aria-hidden="true" class="text-xl leading-none">×</span>
+    </button>
+    <div class="flex gap-4 pr-6">
+      <img src="/images/guide-cover-sm.jpg" alt="" aria-hidden="true" width="240" height="311" class="w-16 shrink-0 self-start rounded-sm" />
+      <div>
+        <p class="text-[11px] uppercase tracking-[0.14em] font-medium text-brass">Free for pastors</p>
+        <h2 id="guide-prompt-title" class="mt-1 font-serif text-xl font-semibold leading-snug text-ivory">A Pastor's Guide to AI</h2>
+        <p class="mt-1 text-sm leading-relaxed text-ivory/75">How to use it wisely without losing what matters most.</p>
+      </div>
+    </div>
+    <div class="mt-5">
+      <GuideForm idPrefix="guide-prompt" compact dark />
+    </div>
+  </section>
+
+  <!-- Phones -->
+  <section
+    class="guide-bar fixed inset-x-0 bottom-0 z-50 flex items-center gap-3 bg-slate px-4 py-3 text-ivory shadow-[0_-12px_30px_-20px_rgba(16,25,21,0.8)] md:hidden"
+    aria-label="Free guide for pastors"
+  >
+    <img src="/images/guide-cover-sm.jpg" alt="" aria-hidden="true" width="240" height="311" class="w-9 shrink-0 rounded-sm" />
+    <p class="flex-1 text-sm leading-snug">
+      <span class="block text-[11px] uppercase tracking-[0.14em] text-brass">Free for pastors</span>
+      A Pastor's Guide to AI
+    </p>
+    <a href="/guide" class="shrink-0 rounded-md bg-ivory px-4 py-2 text-sm font-medium text-slate">Get it</a>
+    <button
+      type="button"
+      class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-ivory/70 hover:bg-ivory/10"
+      data-guide-close
+      aria-label="Close"
+    >
+      <span aria-hidden="true" class="text-xl leading-none">×</span>
+    </button>
+  </section>
+</div>
+
+<style>
+  @media (prefers-reduced-motion: no-preference) {
+    [data-guide-prompt].is-open .guide-card { animation: guide-in 0.45s ease-out both; }
+    [data-guide-prompt].is-open .guide-bar  { animation: guide-up 0.35s ease-out both; }
+  }
+  @keyframes guide-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+  @keyframes guide-up { from { transform: translateY(100%); } to { transform: none; } }
+</style>
+
+<script>
+  const prompt = document.querySelector<HTMLElement>('[data-guide-prompt]');
+  const SIGNED_UP = 'guide-signed-up';
+  const DISMISSED = 'guide-dismissed-at';
+  const DELAY_MS = 30_000;
+  const QUIET_DAYS = 30;
+
+  const read = (key: string) => { try { return localStorage.getItem(key); } catch { return null; } };
+  const write = (key: string, value: string) => { try { localStorage.setItem(key, value); } catch {} };
+
+  const dismissedAt = Number(read(DISMISSED) || 0);
+  const recentlyDismissed = Date.now() - dismissedAt < QUIET_DAYS * 24 * 60 * 60 * 1000;
+
+  if (prompt && !read(SIGNED_UP) && !recentlyDismissed) {
+    const close = () => {
+      prompt.hidden = true;
+      prompt.classList.remove('is-open');
+      write(DISMISSED, String(Date.now()));
+      document.removeEventListener('keydown', onKey);
+    };
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') close(); };
+
+    prompt.querySelectorAll('[data-guide-close]').forEach((b) => b.addEventListener('click', close));
+
+    window.setTimeout(() => {
+      if (read(SIGNED_UP)) return;
+      prompt.hidden = false;
+      prompt.classList.add('is-open');
+      document.addEventListener('keydown', onKey);
+    }, DELAY_MS);
+  }
+</script>
