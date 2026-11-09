@@ -1,7 +1,11 @@
 ---
 // Signup form for "A Pastor's Guide to AI". Used on /guide and in the guide prompt.
-// Posts to the /api/guide function. Works without JavaScript; with it, the
-// submit happens in place and errors show without a page reload.
+// The visitor's browser sends the signup straight to Kit's public form endpoint,
+// the same way Kit's own embedded forms work, so no API key or secret is involved.
+// Kit then emails the confirmation, and its button downloads the PDF.
+// Without JavaScript the form posts to Kit directly and Kit redirects to /guide/thanks.
+// If Kit wants to confirm a visitor is human, it sends them to a short check first.
+const KIT_FORM_URL = 'https://app.kit.com/forms/10167665/subscriptions';
 interface Props {
   idPrefix: string;
   compact?: boolean;
@@ -14,12 +18,12 @@ const field = dark
   : 'bg-paper border-stone text-ink placeholder:text-warm-grey';
 ---
 
-<form action="/api/guide" method="POST" data-guide-form class={`relative ${compact ? 'space-y-3' : 'space-y-4'}`} novalidate>
+<form action={KIT_FORM_URL} method="POST" data-guide-form class={`relative ${compact ? 'space-y-3' : 'space-y-4'}`} novalidate>
   <div>
     <label for={`${idPrefix}-first-name`} class={`block text-sm font-medium ${label}`}>First name</label>
     <input
       id={`${idPrefix}-first-name`}
-      name="first_name"
+      name="fields[first_name]"
       type="text"
       autocomplete="given-name"
       maxlength="60"
@@ -30,7 +34,7 @@ const field = dark
     <label for={`${idPrefix}-email`} class={`block text-sm font-medium ${label}`}>Email address</label>
     <input
       id={`${idPrefix}-email`}
-      name="email"
+      name="email_address"
       type="email"
       autocomplete="email"
       inputmode="email"
@@ -71,7 +75,10 @@ const field = dark
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
-      const email = form.querySelector<HTMLInputElement>('input[name="email"]');
+      const email = form.querySelector<HTMLInputElement>('input[name="email_address"]');
+      const trap = form.querySelector<HTMLInputElement>('input[name="company"]');
+      // A filled honeypot means a bot. Act as if it worked and send nothing.
+      if (trap && trap.value) { window.location.href = '/guide/thanks'; return; }
       if (email && !email.checkValidity()) {
         showError('Please enter a valid email address.');
         email.focus();
@@ -80,18 +87,27 @@ const field = dark
       error?.classList.add('hidden');
       if (button) { button.disabled = true; button.textContent = 'Sending…'; }
       try {
+        const body = new FormData(form);
+        body.delete('company');
         const res = await fetch(form.action, {
           method: 'POST',
           headers: { Accept: 'application/json' },
-          body: new FormData(form),
+          body,
         });
-        const data = await res.json().catch(() => ({ ok: false }));
-        if (res.ok && data.ok) {
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.status === 'success') {
           try { localStorage.setItem(SIGNED_UP, '1'); } catch {}
           window.location.href = '/guide/thanks';
           return;
         }
-        showError(data.message || 'Something went wrong. Please try again.');
+        // Kit wants a quick human check first. Send the visitor there; Kit
+        // finishes the signup and brings them back to the thank-you page.
+        if (res.ok && data.status === 'quarantined' && typeof data.url === 'string' && data.url.startsWith('https://app.kit.com/')) {
+          try { localStorage.setItem(SIGNED_UP, '1'); } catch {}
+          window.location.href = data.url;
+          return;
+        }
+        showError('Something went wrong. Please try again in a minute.');
       } catch {
         showError('Something went wrong. Please check your connection and try again.');
       }

@@ -81,9 +81,6 @@ const schema = {
         <div class="card p-7 md:p-8 lg:pt-16">
           <h2 class="font-serif text-2xl font-semibold text-slate">Get the guide</h2>
           <p class="mt-2 text-ink/85 leading-relaxed">Tell me where to send it. It's free.</p>
-          <p class="hidden mt-4 rounded-md border-l-2 border-clay bg-ivory px-4 py-3 text-sm text-ink" data-error-banner role="alert">
-            Something went wrong sending your signup. Please try again.
-          </p>
           <div class="mt-6">
             <GuideForm idPrefix="guide-page" />
           </div>
@@ -94,9 +91,3 @@ const schema = {
   </section>
 </Layout>
 
-<script>
-  // Show the error banner when the no-JavaScript form post comes back with ?error=1.
-  if (new URLSearchParams(window.location.search).has('error')) {
-    document.querySelector('[data-error-banner]')?.classList.remove('hidden');
-  }
-</script>
