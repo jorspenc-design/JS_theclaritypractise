@@ -34,7 +34,7 @@ const plans = [
       'Messages between sessions in your client portal',
     ],
     term:        'Month to month. Stop at the end of any month.',
-    perk:        'Stay with Steward for twelve months and your new website is included.',
+    perk:        'Need a new website? We build it as part of your plan. Commit to six months and the build fee is waived.',
     recommended: true,
   },
   {
@@ -82,6 +82,9 @@ const timeline = [
   },
 ];
 
+// One website build fee everywhere it appears.
+const buildFee = { small: '$2,000', standard: '$2,500', established: '$2,500' };
+
 const conversationPrices = { small: '$1,000', standard: '$1,250', established: '$1,250' };
 
 const questions = [
@@ -94,8 +97,8 @@ const questions = [
     a: "AI does a lot of the heavy lifting in what I build, like first drafts of announcements and curriculum, meeting notes, scheduling, translation, and answers to routine questions. Your staff learns to build and run these tools themselves, inside a written AI policy that says what AI will do at your church and what stays human. Pastoral care, discernment, and decisions about people always stay with people.",
   },
   {
-    q: 'Can I hire you for just a website or a single project?',
-    a: "Sometimes. I take on a few single projects a year, scoped and priced one at a time. Most churches get more from a plan, because the website, the AI policy, and the systems behind them get built together and someone stays with you after launch. Ask about it on the call.",
+    q: 'Can I hire you for just a website?',
+    a: "Yes. Every website comes with three months of Counsel, because a website is only as good as the people and systems behind it. You pay the build fee ($2,000 at the small church rate, $2,500 otherwise) plus Counsel for the build, the launch, and the weeks after. Then you choose. Stay on Counsel, move up to Steward with no build fee, or stop and keep everything. For other single projects, ask on the call. I take on a few each year.",
   },
   {
     q: 'How do I know which size my church is?',
@@ -106,8 +109,12 @@ const questions = [
     a: 'Yes. Pay twelve months up front and save 10%.',
   },
   {
+    q: 'Our budget is already set for the year. Can we make this fit?',
+    a: "Yes. Most church budgets are set ahead of time by a board or elders, and I'd rather work within yours than ask you to break it. We can start your plan where it fits the budget you have now and plan the next stretch into the budget you build next.",
+  },
+  {
     q: 'Do I have to sign a long contract?',
-    a: "No. Counsel and Steward are month to month, and you can stop at the end of any month. Partner asks for three months, because owning your operations takes a little time to set up. Staying longer comes with perks instead of penalties. Twelve months on Steward includes a new website, and paying a year up front saves 10%.",
+    a: "No. Counsel and Steward are month to month, and you can stop at the end of any month. Partner asks for three months, because owning your operations takes a little time to set up. Staying longer comes with perks instead of penalties. Six months on Steward waives your website build fee, and paying a year up front saves 10%.",
   },
   {
     q: 'Who owns what you build?',
@@ -303,7 +310,14 @@ const faqSchema = {
       </div>
 
       <p class="mt-10 text-ink/85 leading-relaxed max-w-[640px]">
-        Looking for a single project, like a new website? Ask about it on the call. I take on a few each year, scoped and priced one at a time.
+        <span class="font-medium text-slate">Coming to me for a website?</span> Most churches do. Every site I build comes with three months of Counsel, so you have someone with you through the build, the launch, and the weeks after it. The build fee is
+        <span
+          class="font-medium text-slate"
+          data-swap
+          data-small={buildFee.small}
+          data-standard={buildFee.standard}
+          data-established={buildFee.established}
+        >{buildFee.small}</span>, plus Counsel for those three months. For any other single project, ask on the call.
       </p>
     </div>
   </section>
