@@ -250,77 +250,68 @@
   }
 </style>
 
-<script is:inline>
-(function () {
-  var wrapper = document.getElementById('guideWrapper');
-  var handle  = document.getElementById('guideHandle');
-  var close   = document.getElementById('guideClose');
-  var form    = document.getElementById('guideForm');
-  var panel   = document.getElementById('guidePanel');
-  var formWrap = document.getElementById('guideFormWrap');
-  var success  = document.getElementById('guideSuccess');
-  if (!wrapper || !handle) return;
+<script>
+const wrapper  = document.getElementById('guideWrapper');
+const handle   = document.getElementById('guideHandle');
+const closeBtn = document.getElementById('guideClose');
+const form     = document.getElementById('guideForm');
+const panel    = document.getElementById('guidePanel');
+const formWrap = document.getElementById('guideFormWrap');
+const success  = document.getElementById('guideSuccess');
 
+if (wrapper && handle) {
   function openPanel() {
     wrapper.classList.add('is-open');
     handle.setAttribute('aria-expanded', 'true');
-    panel.setAttribute('aria-hidden', 'false');
-    var emailInput = document.getElementById('guideEmail');
-    if (emailInput) setTimeout(function () { emailInput.focus(); }, 340);
+    panel?.setAttribute('aria-hidden', 'false');
+    setTimeout(() => (document.getElementById('guideEmail') as HTMLInputElement | null)?.focus(), 340);
   }
 
   function closePanel() {
     wrapper.classList.remove('is-open');
     handle.setAttribute('aria-expanded', 'false');
-    panel.setAttribute('aria-hidden', 'true');
+    panel?.setAttribute('aria-hidden', 'true');
   }
 
-  handle.addEventListener('click', function () {
-    wrapper.classList.contains('is-open') ? closePanel() : openPanel();
-  });
+  handle.addEventListener('click', () =>
+    wrapper.classList.contains('is-open') ? closePanel() : openPanel()
+  );
 
-  close.addEventListener('click', closePanel);
+  closeBtn?.addEventListener('click', closePanel);
 
-  document.addEventListener('keydown', function (e) {
+  document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && wrapper.classList.contains('is-open')) closePanel();
   });
 
-  if (form) {
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var emailVal = document.getElementById('guideEmail').value.trim();
-      if (!emailVal) return;
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const emailInput = document.getElementById('guideEmail') as HTMLInputElement | null;
+    const emailVal = emailInput?.value.trim() ?? '';
+    if (!emailVal) return;
 
-      var submitBtn = document.getElementById('guideSubmit');
-      submitBtn.textContent = 'Sending…';
-      submitBtn.disabled = true;
+    const submitBtn = document.getElementById('guideSubmit') as HTMLButtonElement | null;
+    if (submitBtn) { submitBtn.textContent = 'Sending…'; submitBtn.disabled = true; }
 
-      var body = new URLSearchParams();
-      body.append('email_address', emailVal);
+    const body = new URLSearchParams({ email_address: emailVal });
 
-      fetch('https://app.kit.com/forms/10167665/subscriptions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Accept': 'application/json'
-        },
-        body: body.toString()
+    fetch('https://app.kit.com/forms/10167665/subscriptions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' },
+      body: body.toString(),
+    })
+      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+      .then(() => {
+        formWrap?.classList.add('hide');
+        success?.classList.add('show');
       })
-      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-      .then(function () {
-        if (formWrap) formWrap.classList.add('hide');
-        if (success)  success.classList.add('show');
-      })
-      .catch(function () {
-        // CORS fallback: open Kit form in new tab
+      .catch(() => {
         window.open(
           'https://app.kit.com/forms/10167665/subscriptions?email_address=' + encodeURIComponent(emailVal),
-          '_blank', 'noopener'
+          '_blank', 'noopener',
         );
-        if (formWrap) formWrap.classList.add('hide');
-        if (success)  success.classList.add('show');
+        formWrap?.classList.add('hide');
+        success?.classList.add('show');
       });
-    });
-  }
-})();
+  });
+}
 </script>
