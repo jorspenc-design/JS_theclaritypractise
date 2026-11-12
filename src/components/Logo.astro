@@ -1,0 +1,24 @@
+---
+/**
+ * Horizontal lockup: keystone arch + "Joshua Spence" wordmark.
+ * The arch and the Clarity Practice sub-mark never share a lockup.
+ */
+import ArchMark from './ArchMark.astro';
+
+interface Props {
+  /** 'light' for use on Ivory, 'dark' for use on Deep Slate or Deep Olive */
+  tone?: 'light' | 'dark';
+  size?: 'sm' | 'md' | 'lg';
+  href?: string;
+}
+const { tone = 'light', size = 'md', href = '/' } = Astro.props;
+
+const color = tone === 'dark' ? 'text-ivory' : 'text-slate';
+const mark = { sm: 'h-6', md: 'h-8', lg: 'h-12' }[size];
+const word = { sm: 'text-lg', md: 'text-[1.4rem]', lg: 'text-3xl' }[size];
+---
+
+<a href={href} class={`group inline-flex items-center gap-3 ${color}`} aria-label="Joshua Spence, home">
+  <ArchMark class={`${mark} w-auto transition-transform duration-300 group-hover:-translate-y-0.5`} />
+  <span class={`font-serif font-semibold tracking-[-0.01em] leading-none ${word}`}>Joshua Spence</span>
+</a>

@@ -1,0 +1,117 @@
+---
+// Signup form for "A Pastor's Guide to AI". Used on /guide and in the guide prompt.
+// The visitor's browser sends the signup straight to Kit's public form endpoint,
+// the same way Kit's own embedded forms work, so no API key or secret is involved.
+// Kit then emails the confirmation, and its button downloads the PDF.
+// Without JavaScript the form posts to Kit directly and Kit redirects to /guide/thanks.
+// If Kit wants to confirm a visitor is human, it sends them to a short check first.
+const KIT_FORM_URL = 'https://app.kit.com/forms/10167665/subscriptions';
+interface Props {
+  idPrefix: string;
+  compact?: boolean;
+  dark?: boolean;
+}
+const { idPrefix, compact = false, dark = false } = Astro.props;
+const label = dark ? 'text-ivory/80' : 'text-ink/85';
+const field = dark
+  ? 'bg-ivory/95 border-ivory/30 text-ink placeholder:text-warm-grey'
+  : 'bg-paper border-stone text-ink placeholder:text-warm-grey';
+---
+
+<form action={KIT_FORM_URL} method="POST" data-guide-form class={`relative ${compact ? 'space-y-3' : 'space-y-4'}`} novalidate>
+  <div>
+    <label for={`${idPrefix}-first-name`} class={`block text-sm font-medium ${label}`}>First name</label>
+    <input
+      id={`${idPrefix}-first-name`}
+      name="fields[first_name]"
+      type="text"
+      autocomplete="given-name"
+      maxlength="60"
+      class={`mt-1.5 w-full rounded-md border px-4 ${compact ? 'py-2.5' : 'py-3'} text-base focus:outline-none focus:ring-2 focus:ring-brass ${field}`}
+    />
+  </div>
+  <div>
+    <label for={`${idPrefix}-email`} class={`block text-sm font-medium ${label}`}>Email address</label>
+    <input
+      id={`${idPrefix}-email`}
+      name="email_address"
+      type="email"
+      autocomplete="email"
+      inputmode="email"
+      required
+      maxlength="254"
+      class={`mt-1.5 w-full rounded-md border px-4 ${compact ? 'py-2.5' : 'py-3'} text-base focus:outline-none focus:ring-2 focus:ring-brass ${field}`}
+    />
+  </div>
+
+  <!-- Honeypot for bots. Hidden from people and from screen readers. -->
+  <div class="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+    <label for={`${idPrefix}-company`}>Company</label>
+    <input id={`${idPrefix}-company`} name="company" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <p class="hidden text-sm font-medium text-clay" data-guide-error role="alert"></p>
+
+  <button type="submit" class={`${dark ? 'btn-light' : 'btn-primary'} w-full justify-center ${compact ? '!py-3' : '!py-3.5'}`} data-guide-submit>
+    Send me the guide
+  </button>
+  <p class={`text-xs leading-relaxed ${dark ? 'text-ivory/60' : 'text-warm-grey'}`}>
+    The guide comes by email. After that I'll send an occasional note, and you can unsubscribe anytime.
+  </p>
+</form>
+
+<script>
+  const SIGNED_UP = 'guide-signed-up';
+  document.querySelectorAll<HTMLFormElement>('form[data-guide-form]').forEach((form) => {
+    if (form.dataset.enhanced) return;
+    form.dataset.enhanced = 'true';
+    const error = form.querySelector<HTMLElement>('[data-guide-error]');
+    const button = form.querySelector<HTMLButtonElement>('[data-guide-submit]');
+    const showError = (message: string) => {
+      if (!error) return;
+      error.textContent = message;
+      error.classList.remove('hidden');
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const email = form.querySelector<HTMLInputElement>('input[name="email_address"]');
+      const trap = form.querySelector<HTMLInputElement>('input[name="company"]');
+      // A filled honeypot means a bot. Act as if it worked and send nothing.
+      if (trap && trap.value) { window.location.href = '/guide/thanks'; return; }
+      if (email && !email.checkValidity()) {
+        showError('Please enter a valid email address.');
+        email.focus();
+        return;
+      }
+      error?.classList.add('hidden');
+      if (button) { button.disabled = true; button.textContent = 'Sending…'; }
+      try {
+        const body = new FormData(form);
+        body.delete('company');
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body,
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.status === 'success') {
+          try { localStorage.setItem(SIGNED_UP, '1'); } catch {}
+          window.location.href = '/guide/thanks';
+          return;
+        }
+        // Kit wants a quick human check first. Send the visitor there; Kit
+        // finishes the signup and brings them back to the thank-you page.
+        if (res.ok && data.status === 'quarantined' && typeof data.url === 'string' && data.url.startsWith('https://app.kit.com/')) {
+          try { localStorage.setItem(SIGNED_UP, '1'); } catch {}
+          window.location.href = data.url;
+          return;
+        }
+        showError('Something went wrong. Please try again in a minute.');
+      } catch {
+        showError('Something went wrong. Please check your connection and try again.');
+      }
+      if (button) { button.disabled = false; button.textContent = 'Send me the guide'; }
+    });
+  });
+</script>

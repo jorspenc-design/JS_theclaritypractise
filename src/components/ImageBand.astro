@@ -1,0 +1,61 @@
+---
+/**
+ * Full-width photo band to break up long pages.
+ * Photos sit under a brand-colored overlay so text stays readable
+ * and every image feels like part of the same palette.
+ */
+interface Props {
+  src: string;
+  alt?: string;
+  /** CSS object-position for the photo, e.g. 'center 40%' */
+  position?: string;
+  overlay?: 'slate' | 'olive' | 'light' | 'none';
+  height?: 'sm' | 'md' | 'lg';
+  eyebrow?: string;
+  quote?: string;
+  attribution?: string;
+}
+const {
+  src, alt = '', position = 'center', overlay = 'slate', height = 'md',
+  eyebrow, quote, attribution,
+} = Astro.props;
+
+const h = { sm: 'min-h-[260px] md:min-h-[320px]', md: 'min-h-[380px] md:min-h-[460px]', lg: 'min-h-[460px] md:min-h-[560px]' }[height];
+const shade = {
+  slate: 'bg-gradient-to-t from-slate/90 via-slate/60 to-slate/35',
+  olive: 'bg-gradient-to-t from-olive/90 via-olive/60 to-olive/30',
+  light: 'bg-gradient-to-t from-ivory/70 via-ivory/20 to-transparent',
+  none:  '',
+}[overlay];
+---
+
+<section class={`on-dark relative overflow-hidden flex items-end ${h}`}>
+  <img
+    src={src}
+    alt={alt}
+    loading="lazy"
+    decoding="async"
+    class="absolute inset-0 h-full w-full object-cover scale-[1.04] transition-transform duration-[2500ms] ease-out band-img"
+    style={`object-position:${position};`}
+    aria-hidden={alt ? undefined : 'true'}
+  />
+  {overlay !== 'none' && <div class={`absolute inset-0 ${shade}`} aria-hidden="true"></div>}
+  {(quote || eyebrow) && (
+    <div class="relative w-full max-w-6xl mx-auto px-6 pb-14 md:pb-20 pt-24" data-reveal>
+      {eyebrow && <span class="section-label">{eyebrow}</span>}
+      {quote && (
+        <p class="mt-5 max-w-[760px] font-serif italic text-3xl md:text-[2.75rem] leading-[1.2] text-ivory">
+          {quote}
+        </p>
+      )}
+      {attribution && <p class="mt-5 text-sm text-ivory/70">{attribution}</p>}
+    </div>
+  )}
+  <slot />
+</section>
+
+<style>
+  /* The photo settles gently into place as the band scrolls in. */
+  section:has(.is-visible) .band-img { transform: scale(1); }
+  @media (prefers-reduced-motion: reduce) { .band-img { transform: none !important; } }
+</style>

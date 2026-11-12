@@ -3,5 +3,5 @@ import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
   integrations: [tailwind()],
-  site: 'https://theclaritypractice.com',
+  site: 'https://joshuaspence.co',
 });

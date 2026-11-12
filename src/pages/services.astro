@@ -1,161 +1,524 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import CtaBand from '../components/CtaBand.astro';
 
-const services = [
+// Prices by budget band. An empty string means the plan isn't offered at that size.
+// Each plan leads with the problem it answers and the result it aims for,
+// then lists what's included.
+const plans = [
   {
-    num:         '01',
-    name:        'Clarity Call',
-    description: "A free, 30-minute conversation to talk about where you are, what you're working on, and whether we'd be a good fit. No pitch, no pressure.",
-    investment:  'Free',
-    format:      '30 minutes, video call',
-    bestFor:     'First-time conversations',
-    cta:         { label: 'Book a Clarity Call →', href: '/book' },
+    name:        'Counsel',
+    problem:     'For the pastor or leader who wants to do the work but needs some coaching, and someone to help think it through along the way.',
+    prices:      { small: '$600', standard: '$750', established: '$950' },
+    first30:     "A written plan for your next 90 days, with what to fix first, what to leave alone for now, and who should own each piece.",
+    by90:        "Your top priority is moving, and you've stopped carrying every decision by yourself.",
+    includes: [
+      'Two phone calls a month to talk things through',
+      'Messages between calls in your client portal',
+      'A quarterly look at your systems and priorities',
+    ],
+    term:        'Month to month. Stop at the end of any month.',
+    perk:        '',
+    recommended: false,
   },
   {
-    num:         '02',
-    name:        'The Clarity Conversation',
-    description: 'A 90-minute paid diagnostic built around the four-phase framework. Includes a written summary of pain points, priorities, and recommended next steps.',
-    investment:  'Starts at $750 (typically $750–$1,250)',
-    format:      '90-minute video call + written summary',
-    bestFor:     'Leaders who need a clear-eyed assessment before committing to a larger engagement',
-    cta:         { label: 'Start with a Clarity Call →', href: '/book' },
+    name:        'Steward',
+    problem:     "For the pastor who's in the weeds and needs a helping hand.",
+    prices:      { small: '$2,000', standard: '$2,500', established: '$3,500' },
+    first30:     'One system that costs you every week, like Sunday slides and announcements or volunteer scheduling, rebuilt and handed back to you working.',
+    by90:        "Your AI policy is written and your staff is trained on it. We measure your week again, aiming for five to ten hours back.",
+    includes: [
+      'Two 90 minute working sessions a month',
+      'Build work I do between sessions, one system at a time',
+      'Your custom AI policy, with quarterly staff training and reviews',
+      'Messages between sessions in your client portal',
+    ],
+    term:        'Month to month. Stop at the end of any month.',
+    perk:        'We can build it as part of your Steward work, one of the systems we take on together. On a month-to-month plan the build fee applies. Commit to six months and it is waived.',
+    recommended: true,
   },
   {
-    num:         '03',
-    name:        'Project Work',
-    description: 'Defined-scope engagements — building systems, implementing AI workflows, drafting communications strategy, documenting operations, structuring donor systems, designing onboarding, and more.',
-    investment:  'Starts at $3,500 (typical range $3,500–$7,500 depending on scope)',
-    format:      'Defined deliverables over 4–12 weeks',
-    bestFor:     'Ministries with a specific problem they need solved well',
-    cta:         { label: 'Start with a Clarity Call →', href: '/book' },
-  },
-  {
-    num:         '04',
-    name:        'Steward Retainer',
-    description: "Ongoing monthly partnership for ministries that want a thought partner, not just a project. Includes regular check-ins, strategic counsel, and priority access for questions and quick projects.",
-    investment:  'Starts at $1,500/month (typical range $1,500–$2,500/mo)',
-    format:      'Monthly retainer, 3-month minimum',
-    bestFor:     'Leaders who want sustained, relational counsel as they grow',
-    cta:         { label: 'Inquire about a retainer →', href: '/book' },
-  },
-  {
-    num:         '05',
-    name:        'Speaking',
-    description: 'Keynotes, workshops, and teaching sessions for conferences, denominational gatherings, leadership retreats, and church staff trainings.',
-    investment:  'Starts at $1,500 (typical range $1,500–$3,500 plus travel)',
-    format:      'Custom — keynote, workshop, or multi-session',
-    bestFor:     'Events seeking a thoughtful voice on AI and ministry',
-    cta:         { label: 'See speaking topics →', href: '/speaking' },
-  },
-  {
-    num:         '06',
-    name:        'Coaching',
-    description: 'One-on-one monthly coaching for pastors, executive directors, and ministry founders navigating leadership, systems, and personal sustainability.',
-    investment:  '$300–$500/month',
-    format:      'Monthly 1-hour video call, 6-month minimum',
-    bestFor:     'Leaders who need a steady, trusted thinking partner',
-    cta:         { label: 'Inquire about coaching →', href: '/book' },
+    name:        'Partner',
+    problem:     'For the growing church that needs someone to own its AI operations week to week.',
+    prices:      { small: '', standard: '$5,000', established: '$6,500' },
+    first30:     'Your weekly operating rhythm is running, with a standing meeting, one shared list of what is open, and a name next to every item on it.',
+    by90:        'Your first systems are rebuilt and roles on your team are clearer. We measure the week again, for you and for your staff.',
+    includes: [
+      'A weekly meeting and ownership of your operating rhythm',
+      'Staff coaching and help with team structure',
+      'Everything in Steward, including your website',
+    ],
+    term:        'Three month term. Limited to a few churches at a time.',
+    perk:        '',
+    recommended: false,
   },
 ];
+
+// The next 90 days, shown as a left-to-right timeline. Same process on every plan.
+const timeline = [
+  {
+    when:  'Day one',
+    title: 'A real conversation',
+    body:  "About who you are, who your church is, what you're trying to accomplish, and where it hurts. Your church isn't a copy of anyone else's, and your plan won't be either.",
+    win:   false,
+  },
+  {
+    when:  'The first weeks',
+    title: 'Real problems, and a goalpost',
+    body:  "We name what's actually breaking and write down what success looks like for your church, so we both know what we're aiming at.",
+    win:   false,
+  },
+  {
+    when:  'Within 30 days',
+    title: 'Your first win',
+    body:  "A first real process in place that wins something back, whether that's hours, money, or peace where there used to be confusion. Where AI can carry part of the load, we build it in, with a person still in charge of it.",
+    win:   false,
+  },
+  {
+    when:  'Through day 90',
+    title: 'The scope grows',
+    body:  'With the first win landed, we take on the next system and then the next. Along the way your team learns to build and run its own AI tools, so the work keeps going without depending on me.',
+    win:   false,
+  },
+];
+
+// One website build fee everywhere it appears.
+const buildFee = { small: '$2,000', standard: '$2,500', established: '$2,500' };
+
+const conversationPrices = { small: '$1,000', standard: '$1,250', established: '$1,250' };
+
+const questions = [
+  {
+    q: 'Can you promise the hours?',
+    a: "No, and I'd be careful with anyone who does. Every church is different, and some of what eats a pastor's week isn't a systems problem. What I can promise is that we'll measure your week at the start and again at day 90, so you'll know what changed in hours and not just in impressions.",
+  },
+  {
+    q: 'How do you use AI in this work?',
+    a: "AI does a lot of the heavy lifting in what I build, like first drafts of announcements and curriculum, meeting notes, scheduling, translation, and answers to routine questions. Your staff learns to build and run these tools themselves, inside a written AI policy that says what AI will do at your church and what stays human. Pastoral care, discernment, and decisions about people always stay with people.",
+  },
+  {
+    q: 'Can I hire you for just a website?',
+    a: "Yes. Every website comes with three months of Counsel, because a website is only as good as the people and systems behind it. You pay the build fee ($2,000 at the small church rate, $2,500 otherwise) plus Counsel for the build, the launch, and the weeks after. Then you choose. Stay on Counsel, move up to Steward with no build fee, or stop and keep everything. For other single projects, ask on the call. I take on a few each year.",
+  },
+  {
+    q: 'How do I know which size my church is?',
+    a: "Use last year's total operating budget. If you're not sure, pick your best guess and we'll confirm it together on the Clarity Call.",
+  },
+  {
+    q: 'Can we pay for the whole year?',
+    a: 'Yes. Pay twelve months up front and save 10%.',
+  },
+  {
+    q: 'Our budget is already set for the year. Can we make this fit?',
+    a: "Yes. Most church budgets are set ahead of time by a board or elders, and I'd rather work within yours than ask you to break it. We can start your plan where it fits the budget you have now and plan the next stretch into the budget you build next.",
+  },
+  {
+    q: 'Do I have to sign a long contract?',
+    a: "No. Counsel and Steward are month to month, and you can stop at the end of any month. Partner asks for three months, because owning your operations takes a little time to set up. Staying longer comes with perks instead of penalties. Six months on Steward waives your website build fee, and paying a year up front saves 10%.",
+  },
+  {
+    q: 'Who owns what you build?',
+    a: 'Your church does. Your website, domains, accounts, and documents belong to you, always.',
+  },
+  {
+    q: "What if we can't afford this right now?",
+    a: "I hold a couple of scholarship spots each quarter at half the usual rate for churches in real need. Just say so when you book a call. There's no shame in asking and no extra forms.",
+  },
+  {
+    q: 'Is there a way to learn alongside other churches?',
+    a: "Yes. The Clarity Cohort is a free monthly Q&A where pastors and church staff learn alongside other churches. Mention it when you book a call and I'll make sure you're invited.",
+  },
+  {
+    q: 'Do you speak at events?',
+    a: 'I do. Keynotes and workshops start at $1,500 plus travel. You can see my topics on the <a href="/speaking" class="text-brass-ink underline underline-offset-4">speaking page</a>.',
+  },
+];
+
+// FAQ structured data, built from the same questions people see on the page.
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: questions.map(item => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a.replace(/<[^>]+>/g, '') },
+  })),
+};
 ---
 
 <Layout
   title="Services & Investment"
-  description="Every offer with honest, transparent pricing. Because clarity should start before the engagement does."
+  description="Monthly plans built around your church's real problems, with a first win in 30 days and every price published. Churches with a budget under $500,000 get 20% off."
 >
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
 
-  <!-- ── PAGE HEADER ───────────────────────────────────────────────── -->
-  <section class="bg-ivory pt-24 pb-16">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="prose-cap">
-        <span class="section-label mb-4">Offerings</span>
-        <h1 class="mt-4 text-5xl md:text-6xl font-serif font-light text-charcoal leading-[1.05] tracking-tight mb-6">
-          Services &amp;<br />investment.
-        </h1>
-        <p class="text-xl text-slate font-light leading-relaxed max-w-[560px]">
-          Everything we offer, with honest pricing. Because clarity should start before the engagement does.
-        </p>
-      </div>
+  <!-- ── HEADER ────────────────────────────────────────────────────── -->
+  <section class="relative overflow-hidden bg-ivory pt-24 pb-14 md:pt-32">
+    <!-- Faded background photo: a small group around a table with coffee and an open Bible -->
+    <img
+      src="/images/services-table.jpg"
+      alt=""
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-0 h-full w-full object-cover object-center opacity-[0.5] saturate-[0.85]"
+    />
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-ivory/40 via-ivory/55 to-ivory" aria-hidden="true"></div>
+    <div class="relative max-w-6xl mx-auto px-6">
+      <span class="section-label">Services and pricing</span>
+      <h1 class="mt-4 text-5xl md:text-6xl font-serif font-semibold text-slate leading-[1.04] tracking-[-0.015em]">
+        Plans and <span class="accent">pricing.</span>
+      </h1>
+      <p class="mt-6 text-xl text-ink/85 leading-relaxed max-w-[600px]">
+        A real plan built around your real pain points, at a budget your church can afford.
+      </p>
+
+      <!-- Quick prices: the starting price for each plan, with a jump to the full plans -->
+      <ul class="mt-10 grid gap-3 sm:grid-cols-3 max-w-[760px]">
+        {plans.map(p => (
+          <li>
+            <a href="#plans" class={`group flex h-full flex-col rounded-xl px-5 py-4 transition-all duration-300 hover:-translate-y-0.5 ${p.recommended ? 'bg-slate text-ivory' : 'bg-paper/90 border border-stone hover:border-brass/60'}`}>
+              <span class={`font-serif text-lg font-semibold ${p.recommended ? 'text-ivory' : 'text-slate'}`}>{p.name}</span>
+              <span class={`mt-1 text-sm ${p.recommended ? 'text-ivory/70' : 'text-warm-grey'}`}>
+                from <span class={`font-serif text-2xl font-semibold ${p.recommended ? 'text-ivory' : 'text-slate'}`}>{p.prices.small || p.prices.standard}</span>/mo
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <a href="#plans" class="btn-primary mt-6">See the plans <span class="btn-arrow" aria-hidden="true">↓</span></a>
     </div>
   </section>
 
-  <!-- ── INTRO ─────────────────────────────────────────────────────── -->
-  <section class="bg-white py-12">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="prose-cap space-y-4 text-lg text-slate leading-relaxed">
-        <p>
-          Most consulting websites bury their pricing. We don't. If you're a ministry leader trying to figure out if this fits your budget, you should be able to find out in 30 seconds — not after three discovery calls.
-        </p>
-        <p>
-          All engagements begin with a free 30-minute Clarity Call to make sure we're a good fit. From there, here's what working together looks like.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── SERVICE CARDS ─────────────────────────────────────────────── -->
-  <section class="bg-ivory py-16">
-    <div class="max-w-6xl mx-auto px-6 space-y-6">
-      {services.map(s => (
-        <div class="bg-white border border-warm-grey/20 rounded-lg p-8 md:p-10">
-          <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8">
-
-            <!-- Left: description -->
-            <div class="flex-1 max-w-[560px]">
-              <span class="font-mono text-brass text-xs">{s.num}</span>
-              <h2 class="mt-2 text-2xl font-serif text-charcoal mb-4">{s.name}</h2>
-              <p class="text-slate leading-relaxed mb-6">{s.description}</p>
-              <a href={s.cta.href} class="btn-primary">{s.cta.label}</a>
-            </div>
-
-            <!-- Right: meta -->
-            <div class="lg:min-w-[240px] space-y-4 lg:pt-7">
-              <div>
-                <p class="text-xs uppercase tracking-widest text-warm-grey mb-1">Investment</p>
-                <p class="text-charcoal font-medium text-sm">{s.investment}</p>
-              </div>
-              <div>
-                <p class="text-xs uppercase tracking-widest text-warm-grey mb-1">Format</p>
-                <p class="text-slate text-sm">{s.format}</p>
-              </div>
-              <div>
-                <p class="text-xs uppercase tracking-widest text-warm-grey mb-1">Best For</p>
-                <p class="text-slate text-sm">{s.bestFor}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  </section>
-
-  <!-- ── SCHOLARSHIP ───────────────────────────────────────────────── -->
-  <section class="bg-white py-16">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="prose-cap">
-        <div class="border-l-4 border-clay pl-7 py-1">
-          <h2 class="text-xl font-serif text-charcoal mb-3">A note on access.</h2>
-          <p class="text-slate leading-relaxed">
-            One to two scholarship slots per quarter are reserved at 50% off — or, where the need is significant, pro bono — for under-resourced ministries. If that's you, please say so when you book a Clarity Call. There's no shame in asking, and no extra forms to fill out.
+  <!-- ── THE NEXT 90 DAYS (timeline) ───────────────────────────────── -->
+  <section class="bg-paper py-16 md:py-20">
+    <div class="max-w-6xl mx-auto px-6" data-timeline>
+      <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-12">
+        <div>
+          <span class="section-label">The next 90 days</span>
+          <h2 class="mt-4 text-3xl md:text-4xl font-serif font-semibold text-slate leading-snug max-w-[760px]">
+            Real answers for <span class="accent">real problems.</span>
+          </h2>
+          <p class="mt-5 text-lg text-ink/85 leading-relaxed max-w-[640px]">
+            Through clarity, partnership, and careful use of AI, we win back more of your week and more of your church's budget, starting with the thing that costs you the most.
           </p>
         </div>
+
+        <!-- Detail panel: sits in the open space top right on large screens once JavaScript runs -->
+        <div class="tl-panel self-start min-h-[250px] rounded-xl border-l-2 border-brass bg-ivory px-6 py-5 shadow-[0_18px_40px_-28px_rgba(43,76,111,0.5)]" aria-live="polite">
+          <p class="text-xs uppercase tracking-[0.14em] font-medium text-brass-ink" data-tl-when>{timeline[0].when}</p>
+          <p class="mt-2 text-xl font-serif font-semibold text-slate" data-tl-title>{timeline[0].title}</p>
+          <p class="mt-2 text-ink/85 leading-relaxed" data-tl-body>{timeline[0].body}</p>
+        </div>
+      </div>
+
+      <p class="tl-hint mt-10 items-center gap-2 text-sm font-medium text-brass-ink">
+        <span class="inline-block h-1.5 w-1.5 rounded-full bg-brass" aria-hidden="true"></span>
+        <span class="lg:hidden">Tap each step to see what happens there.</span>
+        <span class="hidden lg:inline">Hover over each step to see what happens there.</span>
+      </p>
+
+      <div class="relative mt-6 md:mt-8" data-reveal>
+        <!-- The line: vertical on phones, left to right on larger screens -->
+        <div class="absolute left-[15px] top-4 bottom-4 w-px bg-stone md:left-0 md:right-3 md:top-[15px] md:bottom-auto md:h-px md:w-auto" aria-hidden="true"></div>
+        <!-- Arrowhead at the end of the line (larger screens) -->
+        <div class="absolute right-0 top-[11px] hidden h-0 w-0 border-y-[5px] border-l-[9px] border-y-transparent border-l-stone md:block" aria-hidden="true"></div>
+
+        <ol class="relative grid gap-8 md:grid-cols-4 md:gap-8">
+          {timeline.map((step, i) => (
+            <li class="relative pl-12 md:pl-0 md:pr-4">
+              <button
+                type="button"
+                class="tl-step group block w-full text-left rounded-md md:pt-12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass"
+                data-step={i}
+                data-when={step.when}
+                data-title={step.title}
+                data-body={step.body}
+              >
+                <span
+                  class="tl-dot absolute left-0 top-0 flex h-8 w-8 items-center justify-center rounded-full border-2 border-brass bg-paper font-serif text-sm font-semibold text-brass-ink transition-all duration-300"
+                  aria-hidden="true"
+                >{i + 1}</span>
+                <span class="block pt-1.5 md:pt-0 text-xs uppercase tracking-[0.14em] font-medium text-brass-ink">{step.when}</span>
+                <h3 class="tl-title mt-2 text-xl font-serif font-semibold text-slate transition-colors">{step.title}</h3>
+              </button>
+              <p class="tl-body mt-2 text-ink/85 leading-relaxed">{step.body}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <p class="mt-12 max-w-[680px] border-l-2 border-brass pl-5 font-serif text-xl text-slate leading-snug">
+        The pace looks a little different on Counsel, Steward, and Partner. The process stays the same. Real problems, found through real conversations, solved with real systems that produce real results.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── PLANS ─────────────────────────────────────────────────────── -->
+  <section id="plans" class="bg-ivory pt-16 pb-20 md:pt-20 scroll-mt-20">
+    <div class="max-w-6xl mx-auto px-6">
+      <span class="section-label">The plans</span>
+      <h2 class="mt-4 mb-8 text-3xl md:text-4xl font-serif font-semibold text-slate leading-snug">
+        Choose by what you're <span class="accent">carrying.</span>
+      </h2>
+
+      <!-- Church size selector -->
+      <p id="church-size-label" class="text-xs uppercase tracking-widest text-warm-grey mb-3">Your church's annual budget</p>
+      <div
+        role="radiogroup"
+        aria-labelledby="church-size-label"
+        class="inline-flex flex-wrap rounded-xl border border-stone bg-paper p-1.5 gap-1 shadow-sm"
+      >
+        <button type="button" role="radio" aria-checked="true" data-band="0"
+          class="band-option rounded-md px-4 py-2 text-sm font-medium transition-colors bg-slate text-ivory">
+          Under $500K
+          <span class="ml-1.5 inline-block rounded-full bg-clay px-2 py-0.5 text-xs font-medium text-ivory align-middle">20% off</span>
+        </button>
+        <button type="button" role="radio" aria-checked="false" data-band="1"
+          class="band-option rounded-md px-4 py-2 text-sm font-medium transition-colors text-ink/85 hover:bg-ivory">
+          $500K to $1.5M
+        </button>
+        <button type="button" role="radio" aria-checked="false" data-band="2"
+          class="band-option rounded-md px-4 py-2 text-sm font-medium transition-colors text-ink/85 hover:bg-ivory">
+          Over $1.5M
+        </button>
+      </div>
+
+      <!-- Plan cards -->
+      <div class="mt-8 grid gap-6 lg:grid-cols-3 items-start">
+        {plans.map(p => (
+          <div data-reveal class={`relative flex flex-col rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 ${p.recommended ? 'bg-slate text-ivory shadow-[0_24px_50px_-28px_rgba(43,76,111,0.9)] on-dark' : 'bg-paper border border-stone hover:border-brass/60 hover:shadow-[0_18px_40px_-24px_rgba(43,76,111,0.45)]'}`}>
+            <p class="text-xs uppercase tracking-[0.14em] h-4 text-brass">{p.recommended ? 'Recommended' : ''}</p>
+            <h3 class={`mt-2 text-3xl font-serif font-semibold ${p.recommended ? 'text-ivory' : 'text-slate'}`}>{p.name}</h3>
+            <p class={`mt-2 font-serif italic leading-snug lg:min-h-[6.5rem] ${p.recommended ? 'text-ivory/85' : 'text-ink/85'}`}>{p.problem}</p>
+
+            <div
+              class={`mt-6 border-b pb-6 min-h-[84px] ${p.recommended ? 'border-ivory/15' : 'border-stone'}`}
+              data-price
+              data-small={p.prices.small}
+              data-standard={p.prices.standard}
+              data-established={p.prices.established}
+            >
+              <p class={`text-4xl font-serif font-semibold ${p.recommended ? 'text-ivory' : 'text-slate'} ${p.prices.small ? '' : 'hidden'}`} data-amount-row>
+                <span data-amount>{p.prices.small || p.prices.standard}</span><span class={`text-sm font-sans font-normal ${p.recommended ? 'text-ivory/60' : 'text-warm-grey'}`}>/mo</span>
+              </p>
+              <p class={`font-serif text-lg ${p.recommended ? 'text-ivory/80' : 'text-ink/80'} ${p.prices.small ? 'hidden' : ''}`} data-unavailable>For churches over $500K</p>
+              <p class={`text-xs mt-1 ${p.recommended ? 'text-ivory/60' : 'text-warm-grey'}`} data-rate-label>{p.prices.small ? 'Small church rate' : 'Not offered at this size'}</p>
+            </div>
+
+            <p class={`mt-6 text-sm lg:min-h-[2.5rem] ${p.recommended ? 'text-ivory/70' : 'text-warm-grey'}`}>{p.term}</p>
+
+            <a
+              href="/book"
+              class={p.recommended
+                ? 'btn-light mt-6 justify-center !py-3'
+                : 'btn-primary mt-6 justify-center'}
+            >
+              Start with a free call →
+            </a>
+
+            <details class={`group mt-6 border-t pt-4 ${p.recommended ? 'border-ivory/15' : 'border-stone'}`}>
+              <summary class={`flex cursor-pointer list-none [&::-webkit-details-marker]:hidden items-center justify-between gap-3 text-sm font-medium ${p.recommended ? 'text-ivory' : 'text-slate'}`}>
+                What this looks like
+                <span class={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border text-lg leading-none transition-transform duration-300 group-open:rotate-45 ${p.recommended ? 'border-ivory/30 text-brass' : 'border-stone text-brass-ink'}`} aria-hidden="true">+</span>
+              </summary>
+              <dl class="mt-5 space-y-4">
+                <div>
+                  <dt class={`text-xs uppercase tracking-[0.14em] font-medium ${p.recommended ? 'text-brass' : 'text-brass-ink'}`}>First 30 days</dt>
+                  <dd class={`mt-1.5 leading-relaxed ${p.recommended ? 'text-ivory' : 'text-ink'}`}>{p.first30}</dd>
+                </div>
+                <div>
+                  <dt class={`text-xs uppercase tracking-[0.14em] font-medium ${p.recommended ? 'text-brass' : 'text-brass-ink'}`}>By day 90</dt>
+                  <dd class={`mt-1.5 leading-relaxed ${p.recommended ? 'text-ivory' : 'text-ink'}`}>{p.by90}</dd>
+                </div>
+                <div>
+                  <dt class={`text-xs uppercase tracking-[0.14em] font-medium ${p.recommended ? 'text-brass' : 'text-brass-ink'}`}>What's included</dt>
+                  <dd>
+                    <ul class="mt-2 space-y-2.5">
+                      {p.includes.map(item => (
+                        <li class={`flex gap-3 leading-relaxed ${p.recommended ? 'text-ivory/85' : 'text-ink/85'}`}>
+                          <span class="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brass"></span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </dd>
+                </div>
+                {p.perk && (
+                  <div>
+                    <dt class={`text-xs uppercase tracking-[0.14em] font-medium ${p.recommended ? 'text-brass' : 'text-brass-ink'}`}>Need a new website?</dt>
+                    <dd class={`mt-1.5 border-l-2 border-brass pl-3 leading-relaxed ${p.recommended ? 'text-ivory' : 'text-ink'}`}>{p.perk}</dd>
+                  </div>
+                )}
+              </dl>
+            </details>
+          </div>
+        ))}
+      </div>
+
+      <p class="mt-10 text-ink/85 leading-relaxed max-w-[640px]">
+        <span class="font-medium text-slate">Coming to me for a website?</span> Most churches do. Every site I build comes with three months of Counsel, so you have someone with you through the build, the launch, and the weeks after it. The build fee is
+        <span
+          class="font-medium text-slate"
+          data-swap
+          data-small={buildFee.small}
+          data-standard={buildFee.standard}
+          data-established={buildFee.established}
+        >{buildFee.small}</span>, plus Counsel for those three months. For any other single project, ask on the call.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── HOW IT STARTS ─────────────────────────────────────────────── -->
+  <section class="bg-paper py-16">
+    <div class="max-w-6xl mx-auto px-6">
+      <span class="section-label">How it starts</span>
+      <ol class="mt-8 grid gap-6 md:grid-cols-3">
+        <li class="card card-lift p-7" data-reveal>
+          <span class="font-serif italic text-brass-ink text-sm">01</span>
+          <h3 class="mt-2 text-xl font-serif font-semibold text-slate">Free Clarity Call</h3>
+          <p class="mt-2 text-ink/85 leading-relaxed">A 30 minute video call about where you are and what you're carrying. No pitch.</p>
+        </li>
+        <li class="card card-lift p-7" data-reveal>
+          <span class="font-serif italic text-brass-ink text-sm">02</span>
+          <h3 class="mt-2 text-xl font-serif font-semibold text-slate">
+            Clarity Conversation
+            <span
+              class="ml-1 font-sans text-base text-brass-ink font-medium"
+              data-swap
+              data-small={conversationPrices.small}
+              data-standard={conversationPrices.standard}
+              data-established={conversationPrices.established}
+            >{conversationPrices.small}</span>
+          </h3>
+          <p class="mt-2 text-ink/85 leading-relaxed">A 90 minute working session, then a written summary within 48 hours with a clear recommended path.</p>
+        </li>
+        <li class="card card-lift p-7" data-reveal>
+          <span class="font-serif italic text-brass-ink text-sm">03</span>
+          <h3 class="mt-2 text-xl font-serif font-semibold text-slate">Choose a plan</h3>
+          <p class="mt-2 text-ink/85 leading-relaxed">Begin within 30 days and the full Conversation fee comes off your first month.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ── QUESTIONS ─────────────────────────────────────────────────── -->
+  <section class="bg-ivory py-16">
+    <div class="max-w-6xl mx-auto px-6">
+      <span class="section-label">Questions</span>
+      <div class="mt-8 max-w-[720px] divide-y divide-stone border-y border-stone">
+        {questions.map(item => (
+          <details class="group py-5">
+            <summary class="flex cursor-pointer list-none [&::-webkit-details-marker]:hidden items-center justify-between gap-4 text-lg font-serif text-slate">
+              {item.q}
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-stone text-brass-ink text-xl leading-none transition-all duration-300 group-open:rotate-45 group-open:bg-slate group-open:text-ivory group-open:border-slate">+</span>
+            </summary>
+            <p class="mt-3 text-ink/85 leading-relaxed" set:html={item.a} />
+          </details>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- ── CLOSING CTA ───────────────────────────────────────────────── -->
-  <section class="bg-charcoal py-24">
-    <div class="max-w-6xl mx-auto px-6 text-center">
-      <h2 class="text-3xl md:text-4xl font-serif font-light text-ivory leading-snug mb-5">
-        Every engagement starts the same way.
-      </h2>
-      <p class="text-lg text-ivory/70 leading-relaxed mb-10 max-w-[460px] mx-auto">
-        With a free 30-minute conversation about where you are and what you're working on.
-      </p>
-      <a href="/book" class="inline-flex items-center gap-1 px-8 py-4 bg-brass text-ivory font-sans font-medium rounded transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg">
-        Book a free Clarity Call →
-      </a>
-    </div>
-  </section>
+  <CtaBand title="Every engagement starts" accent="the same way." body="With a free 30 minute conversation about where you are and what you’re working on." />
 
 </Layout>
+
+<style>
+  /* Without JavaScript every step shows its details inline and the panel and hint stay hidden. */
+  .tl-panel, .tl-hint { display: none; }
+  [data-timeline].tl-live .tl-hint { display: flex; }
+  [data-timeline].tl-live .tl-step { cursor: pointer; }
+
+  /* Dots read as buttons: they lift on hover and fill in when their step is showing. */
+  [data-timeline].tl-live li:not(.is-active) .tl-step:hover .tl-dot { transform: scale(1.12); background: #F7F3ED; box-shadow: 0 0 0 6px rgba(176, 141, 87, 0.18); }
+  [data-timeline].tl-live .tl-step:hover .tl-title { color: #8A6A3B; }
+  [data-timeline].tl-live li.is-active .tl-dot { background: #2B4C6F; border-color: #2B4C6F; color: #F7F3ED; box-shadow: 0 0 0 6px rgba(43, 76, 111, 0.12); }
+  [data-timeline].tl-live li.is-active .tl-title { color: #2B4C6F; }
+
+  /* Phones and tablets: one step open at a time, tap to switch. */
+  [data-timeline].tl-live li:not(.is-active) .tl-body { display: none; }
+
+  /* Large screens: details live in the panel top right. */
+  @media (min-width: 1024px) {
+    [data-timeline].tl-live .tl-panel { display: block; }
+    [data-timeline].tl-live .tl-body  { display: none; }
+  }
+</style>
+
+<script>
+  // Living timeline: hover, focus, or tap a step to show its details in the panel.
+  const timeline = document.querySelector<HTMLElement>('[data-timeline]');
+  if (timeline) {
+    const steps = Array.from(timeline.querySelectorAll<HTMLButtonElement>('.tl-step'));
+    const when  = timeline.querySelector('[data-tl-when]');
+    const title = timeline.querySelector('[data-tl-title]');
+    const body  = timeline.querySelector('[data-tl-body]');
+    const show = (step: HTMLButtonElement) => {
+      steps.forEach(s => {
+        s.setAttribute('aria-pressed', String(s === step));
+        s.closest('li')?.classList.toggle('is-active', s === step);
+      });
+      if (when)  when.textContent  = step.dataset.when ?? '';
+      if (title) title.textContent = step.dataset.title ?? '';
+      if (body)  body.textContent  = step.dataset.body ?? '';
+    };
+    steps.forEach(step => {
+      step.addEventListener('mouseenter', () => show(step));
+      step.addEventListener('focus', () => show(step));
+      step.addEventListener('click', () => show(step));
+    });
+    if (steps[0]) show(steps[0]);
+    timeline.classList.add('tl-live');
+  }
+</script>
+
+<script>
+  const bands = [
+    { key: 'small',       label: 'Small church rate' },
+    { key: 'standard',    label: 'Standard rate' },
+    { key: 'established', label: 'Established church rate' },
+  ];
+  const options = Array.from(document.querySelectorAll<HTMLButtonElement>('.band-option'));
+  const selected = ['bg-slate', 'text-ivory'];
+  const unselected = ['text-ink/85', 'hover:bg-ivory'];
+
+  function render(index: number) {
+    const band = bands[index];
+
+    options.forEach((option, i) => {
+      const on = i === index;
+      option.setAttribute('aria-checked', String(on));
+      option.tabIndex = on ? 0 : -1;
+      selected.forEach(c => option.classList.toggle(c, on));
+      unselected.forEach(c => option.classList.toggle(c, !on));
+    });
+
+    // Plan cards: price, label, or "not offered" note
+    document.querySelectorAll<HTMLElement>('[data-price]').forEach(card => {
+      const price = card.dataset[band.key] ?? '';
+      const available = price !== '';
+      card.querySelector('[data-amount-row]')?.classList.toggle('hidden', !available);
+      card.querySelector('[data-unavailable]')?.classList.toggle('hidden', available);
+      const amount = card.querySelector('[data-amount]');
+      if (amount && available) amount.textContent = price;
+      const label = card.querySelector('[data-rate-label]');
+      if (label) label.textContent = available ? band.label : 'Not offered at this size';
+    });
+
+    // Simple prices elsewhere on the page
+    document.querySelectorAll<HTMLElement>('[data-swap]').forEach(el => {
+      el.textContent = el.dataset[band.key] ?? '';
+    });
+  }
+
+  options.forEach((option, i) => {
+    option.tabIndex = i === 0 ? 0 : -1;
+    option.addEventListener('click', () => render(i));
+    option.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      e.preventDefault();
+      const next = (i + (e.key === 'ArrowRight' ? 1 : options.length - 1)) % options.length;
+      render(next);
+      options[next].focus();
+    });
+  });
+</script>

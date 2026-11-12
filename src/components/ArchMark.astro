@@ -1,0 +1,33 @@
+---
+/**
+ * The keystone arch, the Joshua Spence logo mark.
+ * Stones take `currentColor`; the keystone is always Antique Brass.
+ * Geometry matches the master logo files exactly. Do not redraw.
+ */
+interface Props {
+  class?: string;
+  title?: string;
+  /** Simplified five-stone version for very small sizes. */
+  small?: boolean;
+}
+const { class: className = 'h-8 w-auto', title, small = false } = Astro.props;
+
+const stones = small
+  ? 'M36.00 104.00 A64.0 64.0 0 0 1 46.52 68.85 L67.59 84.16 A38.0 38.0 0 0 0 62.00 104.00 Z M50.04 64.00 A64.0 64.0 0 0 1 77.39 44.13 L85.44 68.90 A38.0 38.0 0 0 0 71.12 79.31 Z M122.61 44.13 A64.0 64.0 0 0 1 149.96 64.00 L128.88 79.31 A38.0 38.0 0 0 0 114.56 68.90 Z M153.48 68.85 A64.0 64.0 0 0 1 164.00 104.00 L138.00 104.00 A38.0 38.0 0 0 0 132.41 84.16 Z M36.00 110.00 h26.0 V158.0 h-26.0 Z M138.00 110.00 h26.0 V158.0 h-26.0 Z'
+  : 'M36.00 104.00 A64.0 64.0 0 0 1 41.46 78.14 L64.90 89.43 A38.0 38.0 0 0 0 62.00 104.00 Z M43.28 74.35 A64.0 64.0 0 0 1 58.48 55.30 L74.70 75.65 A38.0 38.0 0 0 0 66.73 85.65 Z M61.76 52.68 A64.0 64.0 0 0 1 83.72 42.11 L89.51 67.48 A38.0 38.0 0 0 0 77.99 73.03 Z M116.28 42.11 A64.0 64.0 0 0 1 138.24 52.68 L122.01 73.03 A38.0 38.0 0 0 0 110.49 67.48 Z M141.52 55.30 A64.0 64.0 0 0 1 156.72 74.35 L133.27 85.65 A38.0 38.0 0 0 0 125.30 75.65 Z M158.54 78.14 A64.0 64.0 0 0 1 164.00 104.00 L138.00 104.00 A38.0 38.0 0 0 0 135.10 89.43 Z M33.50 108.20 h31.00 v6.0 h-31.00 Z M36.00 118.40 h26.0 V158.0 h-26.0 Z M135.50 108.20 h31.00 v6.0 h-31.00 Z M138.00 118.40 h26.0 V158.0 h-26.0 Z';
+const key = small
+  ? 'M81.86 38.46 L118.14 38.46 L107.92 69.91 L92.08 69.91 Z'
+  : 'M86.92 37.27 L113.08 37.27 L105.73 69.47 L94.27 69.47 Z';
+---
+
+<svg
+  class={className}
+  viewBox="33.5 36 133 122"
+  xmlns="http://www.w3.org/2000/svg"
+  role={title ? 'img' : undefined}
+  aria-hidden={title ? undefined : 'true'}
+>
+  {title && <title>{title}</title>}
+  <path fill="currentColor" d={stones} />
+  <path fill="#B08D57" d={key} />
+</svg>
